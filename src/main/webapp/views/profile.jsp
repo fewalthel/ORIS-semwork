@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/WEB-INF/views/_header_for_authorized_user.jsp" %>
+<%@include file="/views/_header_for_authorized_user.jsp" %>
 
 
 <main class="content">

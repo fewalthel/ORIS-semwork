@@ -12,7 +12,7 @@ public class ProfileServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/views/profile.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/views/profile.jsp").forward(req, resp);
     }
 
 }

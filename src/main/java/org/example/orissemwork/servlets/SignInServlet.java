@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
-
 @WebServlet("/signin")
 public class SignInServlet extends HttpServlet{
 
@@ -33,7 +31,4 @@ public class SignInServlet extends HttpServlet{
         req.setAttribute("email", req.getParameter("email"));
         getServletContext().getRequestDispatcher("/WEB-INF/views/signin.jsp").forward(req, resp);
     }
-
-
-
 }

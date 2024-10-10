@@ -34,6 +34,10 @@ body {
     cursor: pointer;
 }
 
+.sidebar:hover {
+    box-shadow: 0 0 10px #c6eee0;
+}
+
 .sidebar ul li:hover {
     background-color: #c6eee0;
     color:#333;

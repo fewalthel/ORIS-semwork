@@ -10,7 +10,7 @@
     <title>Account</title>
 </head>
 <style>
-    <%@include file="/WEB-INF/styles/profile.css"%>
+    <%@include file="/styles/profile.css"%>
 </style>
 <body>
 <header class="header">

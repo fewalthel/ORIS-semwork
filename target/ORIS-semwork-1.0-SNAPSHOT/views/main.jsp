@@ -1,14 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/WEB-INF/views/_header_for_main.jsp" %>
-<%--
-
-<h1>Welcome to my site!</h1>
-${email}
-<%@include file="/WEB-INF/views/_footer.jsp" %>
-
-
-
---%>
+<%@include file="/views/_header_for_main.jsp" %>
 
 <main>
     <div id="head-container">
@@ -17,17 +8,18 @@ ${email}
             <h3>space to help each other with their studies</h3>
         </section>
 
-        <img src="/WEB-INF/pics/pic.png">
+        <img src="http://localhost:8080/ORIS_semwork_war_exploded/pics/pic.png">
+
     </div>
     <section id="features">
         <div class="feature-card">
-            <h3>Experience fast responses to your questions</h3>
+            <h4>Experience fast responses to your questions</h4>
         </div>
         <div class="feature-card">
-            <h3>Earn rewards for helping others</h3>
+            <h4>Earn rewards for helping others</h4>
         </div>
         <div class="feature-card">
-            <h3>Join to the friendly community</h3>
+            <h4>Join to the friendly community</h4>
         </div>
     </section>
 </main>

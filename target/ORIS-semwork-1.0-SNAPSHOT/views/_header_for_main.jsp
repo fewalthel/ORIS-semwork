@@ -8,7 +8,7 @@
     <title>Teach Your Friend</title>
 </head>
 <style>
-    <%@include file="/WEB-INF/styles/main.css"%>
+    <%@include file="/styles/main.css"%>
 </style>
 <body>
 <header>
@@ -23,4 +23,5 @@
             <li><a class="button" href="<c:url value="/signout"/>">Sign Out</a></li>
         </c:if>
     </ul></nav>
+
 </header>

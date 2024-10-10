@@ -13,7 +13,7 @@ public class MainServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("email", req.getSession().getAttribute("email"));
-        getServletContext().getRequestDispatcher("/WEB-INF/views/main.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/views/main.jsp").forward(req, resp);
     }
 
 }
