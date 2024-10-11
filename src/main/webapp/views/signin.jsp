@@ -8,7 +8,7 @@
     <title>Authorization</title>
 </head>
 <style>
-    <%@include file="/WEB-INF/styles/signin.css"%>
+    <%@include file="/styles/signin.css"%>
 </style>
 <body>
 <div class="auth-form">
@@ -25,7 +25,7 @@
     </form>
 </div>
 <script>
-    <%@include file="/WEB-INF/js/script.js"%>
+    <%@include file="/js/script.js"%>
 </script>
 </body>
 </html>

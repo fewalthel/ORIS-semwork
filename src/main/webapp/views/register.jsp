@@ -9,7 +9,7 @@
   <title>Register</title>
 </head>
 <style>
-  <%@include file="/WEB-INF/styles/register.css"%>
+  <%@include file="/styles/register.css"%>
 </style>
 <body>
 <div class="register-form">
@@ -25,7 +25,7 @@
 </div>
 <script src="script.js"></script>
 <script>
-  <%@include file="/WEB-INF/js/script.js"%>
+  <%@include file="/js/script.js"%>
 </script>
 </body>
 </html>

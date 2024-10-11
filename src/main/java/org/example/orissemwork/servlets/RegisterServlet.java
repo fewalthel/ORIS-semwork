@@ -1,5 +1,6 @@
 package org.example.orissemwork.servlets;
 
+import org.example.orissemwork.model.User;
 import org.example.orissemwork.services.RegisterService;
 
 import javax.servlet.ServletException;
@@ -14,36 +15,25 @@ public class RegisterServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/views/register.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //тут должна быть логика авторизации
-
         String username = req.getParameter("username");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String confirmPassword = req.getParameter("confirm_password");
 
-       /* if (RegisterService.usernameExist()) {
-            req.setAttribute("error", "Пользователь с таким username уже зарегестрирован");
-        } else if (RegisterService.emailExist()) {
-            req.setAttribute("error", "Пользователь с таким email уже зарегестрирован");
-        }*/
+        User account = new User(username, email, password);
 
+        if (RegisterService.register(account, req, confirmPassword)) {
+            //TODO: добавить всплывающее окошко в случае успешной регистрации
+            resp.sendRedirect(getServletContext().getContextPath() + "/signin");
+        } else {
+            req.getRequestDispatcher("/view/register.jsp").forward(req, resp);
 
-
-/*        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-
-        if(email != null && password != null){
-            if(SecurityService.signIn(req, email, password)){
-                resp.sendRedirect(getServletContext().getContextPath() + "/profile");
-                return;
-            }
         }
-        req.setAttribute("email", req.getParameter("email"));
-        getServletContext().getRequestDispatcher("/WEB-INF/views/signin.jsp").forward(req, resp);*/
+
     }
 }

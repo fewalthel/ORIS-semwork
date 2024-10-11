@@ -47,11 +47,10 @@ h3 {
 }
 
 img {
-    flex-basis: 45%;
+    flex-basis: 55%;
     min-width: 100px;
-    max-width: 250px;
+    max-width: 500px;
 }
-
 
 #head-container {
     display: flex;

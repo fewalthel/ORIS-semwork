@@ -18,11 +18,10 @@ public class SecurityService {
         return null;
     }
 
-    public static boolean isSigned(HttpServletRequest req) {
-        return req.getSession().getAttribute("email") != null;
-    }
+    public static boolean isSigned(HttpServletRequest req) { return req.getSession().getAttribute("email") != null; }
 
     public static boolean signIn(HttpServletRequest req, String email, String password) {
+        //TODO: прописать запросы к бд который проверяют есть ли пользователь с такой почтой и паролем
         if (email.equals(EMAIL) && password.equals(PASSWORD)) {
             req.getSession().setAttribute("email", email);
             return true;
@@ -30,7 +29,5 @@ public class SecurityService {
         return false;
     }
 
-    public static void signOut(HttpServletRequest req) {
-        req.getSession().removeAttribute("email");
-    }
+    public static void signOut(HttpServletRequest req) { req.getSession().removeAttribute("email"); }
 }
