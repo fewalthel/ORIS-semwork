@@ -3,6 +3,9 @@ package org.example.orissemwork.services;
 import org.example.orissemwork.model.User;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 
 public class RegisterService {
 
@@ -35,5 +38,7 @@ public class RegisterService {
     public static void save(User account) {
         //тут должна быть загрузка данных в бд
     }
+
+
 
 }

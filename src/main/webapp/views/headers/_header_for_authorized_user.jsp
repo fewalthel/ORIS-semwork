@@ -22,9 +22,9 @@
 
 <nav class="sidebar">
     <ul>
-        <li><a href="#all-questions">All questions</a></li>
-        <li><a href="#my-questions">My questions</a></li>
-        <li><a href="#settings">Settings</a></li>
+        <li><a href="<c:url value="/all_questions"/>">All questions</a></li>
+        <li><a href="<c:url value="/my_questions"/>">My questions</a></li>
+        <li><a href="<c:url value="/settings"/>">Settings</a></li>
         <li><a href="<c:url value="/main"/>">Go to main</a></li>
     </ul>
 </nav>
