@@ -23,9 +23,5 @@
     <div id="container-for-buttons"><button type="submit" id="register">Register</button></div>
   </form>
 </div>
-<script src="script.js"></script>
-<script>
-  <%@include file="/js/script.js"%>
-</script>
-</body>
-</html>
+<script><%@include file="/js/hide_password_func.js"%>
+<%@include file="/views/footers/_footer.jsp"%>

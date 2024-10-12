@@ -9,8 +9,8 @@
         </section>
 
         <img src="http://localhost:8080/ORIS_semwork_war_exploded/pics/pic.png" alt="logo of this site">
-
     </div>
+
     <section id="features">
         <div class="feature-card">
             <h4>Experience fast responses to your questions</h4>

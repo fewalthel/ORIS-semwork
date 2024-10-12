@@ -16,7 +16,8 @@ public class RegisterService {
     }
 
     public static boolean register(User account, HttpServletRequest req, String repeatPassword) {
-        if (usernameExist(account)) {
+        return true;
+        /*if (usernameExist(account)) {
             req.setAttribute("error", "Пользователь с таким username уже зарегестрирован");
             return false;
         } else if (emailExist(account)) {
@@ -28,7 +29,7 @@ public class RegisterService {
         } else {
             save(account);
             return true;
-        }
+        }*/
     }
 
     public static void save(User account) {

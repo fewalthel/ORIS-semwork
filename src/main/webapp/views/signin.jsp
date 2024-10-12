@@ -20,12 +20,9 @@
         <button type="button" class="toggle-password"><span>show password</span></button>
         <div id="container-for-buttons">
             <button type="submit" class="button" id="sign-in">Sign In</button>
-            <a href="register.html" class="button">I am a new user</a>
+            <a href="<c:url value="/register"/>" class="button">I am a new user</a>
         </div>
     </form>
 </div>
-<script>
-    <%@include file="/js/script.js"%>
-</script>
-</body>
-</html>
+<script><%@include file="/js/hide_password_func.js"%>
+<%@include file="/views/footers/_footer.jsp"%>
