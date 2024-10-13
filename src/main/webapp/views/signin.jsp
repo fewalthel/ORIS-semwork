@@ -24,5 +24,5 @@
         </div>
     </form>
 </div>
-<script><%@include file="/js/hide_password_func.js"%>
+<script><%@include file="/js/hide_password_func.js"%></script>
 <%@include file="/views/footers/_footer.jsp"%>

@@ -16,12 +16,13 @@
 <header class="header">
     <div class="user-info">
         <span class="username"><h3>You are loginned as ${email}</h3></span>
-        <a class="logout" href="<c:url value="/signout"/>">Sign Out</a>
+        <a id="logout" href="<c:url value="/signout"/>">Sign Out</a>
     </div>
 </header>
 
 <nav class="sidebar">
     <ul>
+        <li><a href="<c:url value="/profile"/>">About me</a></li>
         <li><a href="<c:url value="/all_questions"/>">All questions</a></li>
         <li><a href="<c:url value="/my_questions"/>">My questions</a></li>
         <li><a href="<c:url value="/settings"/>">Settings</a></li>

@@ -2,3 +2,6 @@
 <%@include file="/views/headers/_header_for_authorized_user.jsp" %>
 
 <%--страница со всеми вопросами--%>
+
+
+<%@include file="/views/footers/_footer.jsp" %>

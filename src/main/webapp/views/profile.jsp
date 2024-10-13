@@ -1,8 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/views/headers/_header_for_authorized_user.jsp" %>
 
-<main class="content">
-    <div id="container-for-statistics">
+<main>
+    <div id="container">
         <section id="questions" class="statistics-card">
             <h2>Questions</h2>
             <p>Total: <span>123</span></p>
@@ -20,5 +20,4 @@
         </section>
     </div>
 </main>
-</body>
-</html>
+<%@include file="/views/footers/_footer.jsp" %>

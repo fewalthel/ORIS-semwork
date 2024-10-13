@@ -15,4 +15,8 @@ public class MyQuestionsServlet extends HttpServlet{
         getServletContext().getRequestDispatcher("/views/my_questions.jsp").forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //TODO: добавить функцию для отправки вопроса
+    }
 }

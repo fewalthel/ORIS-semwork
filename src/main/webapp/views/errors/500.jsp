@@ -3,17 +3,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>404</title>
+    <title>500</title>
 </head>
 <style>
     <%@include file="/styles/errors.css"%>
 </style>
 <body>
-    <div>
-        <h1>404</h1>
-        <img src="http://localhost:8080/ORIS_semwork_war_exploded/pics/sad.png">
-    </div>
-        <p>page not found</p>
+<div>
+    <h1>500</h1>
+    <img src="http://localhost:8080/ORIS_semwork_war_exploded/pics/rest.png">
+</div>
+<p>site needs a rest</p>
 </body>
 </html>
-

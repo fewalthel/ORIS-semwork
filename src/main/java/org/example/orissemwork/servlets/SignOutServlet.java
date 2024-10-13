@@ -1,7 +1,6 @@
 package org.example.orissemwork.servlets;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +11,8 @@ import org.example.orissemwork.services.SecurityService;
 public class SignOutServlet extends HttpServlet{
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         SecurityService.signOut(req);
         resp.sendRedirect(getServletContext().getContextPath() + "/");
     }
-
-
 }

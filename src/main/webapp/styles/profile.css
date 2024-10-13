@@ -31,7 +31,6 @@ body {
 
 .sidebar ul {
     list-style-type: none;
-    cursor: pointer;
 }
 
 .sidebar:hover {
@@ -65,13 +64,13 @@ body {
     align-items: center;
 }
 
-#container-for-statistics {
+#container {
     padding-top: 90px;
     margin: 0 auto;
     padding-left: 20%;
 }
 
-.statistics-card, .question-card{
+.statistics-card, .question-card, .form-to-send-question{
     margin: 15px;
     padding: 35px;
     border-radius: 30px;
@@ -79,7 +78,33 @@ body {
     background-color: #ffffff84;
 }
 
-.logout {
+#description, #title {
+    width: calc(100% - 10px);
+    box-sizing: border-box;
+    margin-top: 15px;
+    padding: 15px;
+    border: none;
+    border-radius: 30px;
+}
+
+#description:focus, #title:focus {
+    outline-color: #c6eee0;
+}
+
+#title {
+    max-width: 500px;
+}
+
+#description {
+    height: 20vh;
+    width: 100%;
+    resize: none;
+}
+
+label {
+    font-weight: bolder;
+}
+#logout, #ask-question {
     border: none;
     text-align: center;
     text-decoration: none;
@@ -93,7 +118,7 @@ body {
     color: #333;
 }
 
-.logout:hover {
+#logout:hover, #ask-question:hover {
     background-color: #333;
     transition: 0.5s;
     color: #fff;

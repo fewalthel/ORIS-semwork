@@ -24,8 +24,4 @@
     </section>
 </main>
 
-<footer>
-    Help your peers right now
-</footer>
-</body>
-</html>
+<%@include file="/views/footers/_footer.jsp" %>
