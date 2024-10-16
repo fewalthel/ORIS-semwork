@@ -71,6 +71,22 @@
             <version>1.2.6</version>
             <scope>compile</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version> <!-- Убедитесь, что используете последнюю версию -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.23</version> <!-- Убедитесь, что используете актуальную версию -->
+        </dependency>
+
+
+
     </dependencies>
 
     <build>
