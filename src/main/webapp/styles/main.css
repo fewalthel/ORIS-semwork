@@ -137,5 +137,5 @@ footer {
 
 #hero h1:hover {
     transition: 0.7s;
-    filter: drop-shadow(0 0 15px #00ffa6);
+    filter: drop-shadow(0 0 15px #66f4c1);
 }

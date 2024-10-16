@@ -64,7 +64,7 @@ body {
     align-items: center;
 }
 
-#container {
+#container-for-content {
     padding-top: 90px;
     margin: 0 auto;
     padding-left: 20%;
@@ -104,6 +104,7 @@ body {
 label {
     font-weight: bolder;
 }
+
 #logout, #ask-question {
     border: none;
     text-align: center;
@@ -122,4 +123,16 @@ label {
     background-color: #333;
     transition: 0.5s;
     color: #fff;
+}
+
+#author {
+    display: flex;
+    justify-content: flex-end;
+    /*text-decoration: #c6eee0 underline;*/
+    opacity: 0.75;
+}
+
+#author, #description {
+    font-weight: bolder;
+    word-break: keep-all;
 }

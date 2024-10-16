@@ -14,8 +14,8 @@
 <header>
     <nav><ul>
         <li><a class="button" href="#about-us">About Us</a></li>
-        <c:if test="${empty user}"><li>
-            <a class="button" href="<c:url value="/signin"/>">Sign In</a></li>
+        <c:if test="${empty user}">
+            <li><a class="button" href="<c:url value="/signin"/>">Sign In</a></li>
         </c:if>
 
         <c:if test="${not empty user}">

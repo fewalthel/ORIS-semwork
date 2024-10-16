@@ -1,9 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/views/headers/_header_for_authorized_user.jsp" %>
 
-<%--страница должна принимать на вход данные об авторизированном пользователе
-и отображать только вопросы под его авторством--%>
-<div id="container">
+<%@include file="/views/headers/_header_for_profile.jsp" %>
+
+<%--форма для отправки вопроса--%>
+<div id="container-for-content">
 <section class="form-to-send-question">
     <h2>Ask your question to other peers here</h2><br>
     <form action="" method="POST">
@@ -19,5 +19,8 @@
     </form>
 </section>
 </div>
+
+<%--страница должна принимать данные об авторизированном пользователе
+и отображать только вопросы под его авторством--%>
 
 <%@include file="/views/footers/_footer.jsp" %>

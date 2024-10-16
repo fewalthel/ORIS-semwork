@@ -1,8 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/views/headers/_header_for_authorized_user.jsp" %>
+<%@include file="/views/headers/_header_for_profile.jsp" %>
 
 <main>
-    <div id="container">
+    <div id="container-for-content">
         <section id="questions" class="statistics-card">
             <h2>Questions</h2>
             <p>Total: <span>123</span></p>

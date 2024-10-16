@@ -6,15 +6,13 @@
 
     <welcome-file-list>
         <welcome-file>main</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
-        <welcome-file>index.htm</welcome-file>
-        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
     <error-page>
         <error-code>404</error-code>
         <location>/views/errors/404.jsp</location>
     </error-page>
+
     <error-page>
         <error-code>500</error-code>
         <location>/views/errors/500.jsp</location>

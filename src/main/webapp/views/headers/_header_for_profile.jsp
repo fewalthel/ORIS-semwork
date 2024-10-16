@@ -3,14 +3,12 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <title>Account</title>
 </head>
 <style>
-    <%@include file="/styles/profile.css"%>
+    <%@include file="/styles/header_for_profile.css"%>
 </style>
 <body>
 <header class="header">
