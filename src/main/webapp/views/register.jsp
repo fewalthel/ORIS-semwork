@@ -13,6 +13,9 @@
 </style>
 <body>
 <div class="register-form">
+  <div class="error-message">
+    <p>${error}</p>
+  </div>
   <h2>Tell us about yourself</h2>
   <form action="<c:url value="register"/>" method="POST">
     <input type="text" id="username" name="username" placeholder="username" required>

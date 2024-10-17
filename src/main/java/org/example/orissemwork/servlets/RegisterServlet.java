@@ -21,21 +21,18 @@ public class RegisterServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
         String email = req.getParameter("email");
+        String username = req.getParameter("username");
         String password = req.getParameter("password");
         String confirmPassword = req.getParameter("confirm_password");
 
-        User account = new User(username, email, password);
+        User account = new User(email, username, password);
 
         if (RegisterService.register(account, req, confirmPassword)) {
             //TODO: добавить всплывающее окошко в случае успешной регистрации
-
             resp.sendRedirect(getServletContext().getContextPath() + "/signin");
         } else {
             req.getRequestDispatcher("/view/register.jsp").forward(req, resp);
-
         }
-
     }
 }
