@@ -13,21 +13,6 @@ public class WorkWithDB {
     public static final String USER = "postgres";
     public static final String PASSWORD = "postgres";
 
-/*
-    public static void main(String[] args) {
-*/
-/*        User user = new User("nagibator", "nagibator", "nagibator");
-        saveUserToDB(user);*//*
-
-        if (getUserByUsername("ronnicon") != null) {
-            System.out.println("User already exists");
-        } else {
-            System.out.println("User don't exist");
-        }
-    }
-*/
-
-
     public static User getUserByEmail(String email) {
         String selectSQL = "SELECT * FROM users WHERE email = ?";
         User user = null;
