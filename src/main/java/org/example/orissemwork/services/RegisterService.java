@@ -5,11 +5,8 @@ import org.example.orissemwork.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 
-
-
 public class RegisterService {
 
-    //тут должны быть запросы в бд которые проверяют, существует ли пользователь с таким юзернеймом и почтой
     public static boolean usernameExist( User account ) {
         return WorkWithDB.getUserByUsername(account.getUsername()) != null;
     }

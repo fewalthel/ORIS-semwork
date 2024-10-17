@@ -13,9 +13,46 @@ public class WorkWithDB {
     public static final String USER = "postgres";
     public static final String PASSWORD = "postgres";
 
+    public static boolean findUserByEmailAndPassword(String email, String password) {
+        String sql = "SELECT email, password FROM users WHERE email = ? AND password = ?";
+        User user = null;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String foundEmail = resultSet.getString("email");
+                String foundPassword = resultSet.getString("password");
+                user = new User(foundEmail, null, foundPassword);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return user != null;
+    }
+
     public static User getUserByEmail(String email) {
         String selectSQL = "SELECT * FROM users WHERE email = ?";
         User user = null;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
@@ -41,6 +78,12 @@ public class WorkWithDB {
     public static User getUserByUsername(String username) {
         String selectSQL = "SELECT * FROM users WHERE username = ?";
         User user = null;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {

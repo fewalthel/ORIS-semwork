@@ -75,10 +75,8 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.23</version> <!-- Убедитесь, что используете актуальную версию -->
+            <version>42.5.0</version>
         </dependency>
-
-
 
     </dependencies>
 

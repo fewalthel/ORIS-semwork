@@ -1,14 +1,12 @@
 package org.example.orissemwork.services;
 
+import org.example.orissemwork.db.WorkWithDB;
+
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 public class SecurityService {
-
-    private static final String EMAIL = "example@email.com";
-    private static final String PASSWORD = "123";
-
     public static Map<String, Object> getUser(HttpServletRequest req) {
         if(isSigned(req)){
             Map<String, Object> user = new HashMap<>();
@@ -21,12 +19,14 @@ public class SecurityService {
     public static boolean isSigned(HttpServletRequest req) { return req.getSession().getAttribute("email") != null; }
 
     public static boolean signIn(HttpServletRequest req, String email, String password) {
-        //TODO: прописать запросы к бд который проверяют есть ли пользователь с такой почтой и паролем
-        if (email.equals(EMAIL) && password.equals(PASSWORD)) {
+        if (WorkWithDB.findUserByEmailAndPassword(email, password)) {
             req.getSession().setAttribute("email", email);
             return true;
+        } else {
+            req.setAttribute("error", "Неверный email или password");
+            System.out.println("Неверный email или password");
+            return false;
         }
-        return false;
     }
 
     public static void signOut(HttpServletRequest req) { req.getSession().removeAttribute("email"); }
