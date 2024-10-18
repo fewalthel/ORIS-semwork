@@ -1,6 +1,6 @@
 package org.example.orissemwork.services;
 
-import org.example.orissemwork.db.WorkWithDB;
+import org.example.orissemwork.db.WorkWithDBForUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class SecurityService {
     public static boolean isSigned(HttpServletRequest req) { return req.getSession().getAttribute("email") != null; }
 
     public static boolean signIn(HttpServletRequest req, String email, String password) {
-        if (WorkWithDB.findUserByEmailAndPassword(email, password)) {
+        if (WorkWithDBForUser.findUserByEmailAndPassword(email, password)) {
             req.getSession().setAttribute("email", email);
             return true;
         } else {

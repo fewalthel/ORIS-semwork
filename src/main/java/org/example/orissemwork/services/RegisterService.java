@@ -1,6 +1,6 @@
 package org.example.orissemwork.services;
 
-import org.example.orissemwork.db.WorkWithDB;
+import org.example.orissemwork.db.WorkWithDBForUser;
 import org.example.orissemwork.model.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,11 +11,11 @@ public class RegisterService {
     private static final String PWD_REG = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+-{};':|,.<>/?]).{8,}$";
 
     public static boolean usernameExist( User account ) {
-        return WorkWithDB.getUserByUsername(account.getUsername()) != null;
+        return WorkWithDBForUser.getUserByUsername(account.getUsername()) != null;
     }
 
     public static boolean emailExist( User account ) {
-        return WorkWithDB.getUserByEmail(account.getEmail()) != null;
+        return WorkWithDBForUser.getUserByEmail(account.getEmail()) != null;
     }
 
     public static boolean register(User account, HttpServletRequest req, String repeatPassword) {
@@ -43,7 +43,7 @@ public class RegisterService {
     }
 
     public static void save(User account) {
-        WorkWithDB.saveUserToDB(account);
+        WorkWithDBForUser.saveUserToDB(account);
     }
 
     public static boolean check(User account, HttpServletRequest req) {

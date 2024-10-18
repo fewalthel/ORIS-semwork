@@ -8,13 +8,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class WorkWithDB {
-    public static final String URL = "jdbc:postgresql://localhost:5432/postgres";
-    public static final String USER = "postgres";
-    public static final String PASSWORD = "postgres";
+public class WorkWithDBForUser {
+    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "postgres";
 
     public static boolean findUserByEmailAndPassword(String email, String password) {
-        String sql = "SELECT email, password FROM users WHERE email = ? AND password = ?";
+        String query = "SELECT email, password FROM users WHERE email = ? AND password = ?";
         User user = null;
 
         try {
@@ -24,7 +24,7 @@ public class WorkWithDB {
         }
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
@@ -45,7 +45,7 @@ public class WorkWithDB {
     }
 
     public static User getUserByEmail(String email) {
-        String selectSQL = "SELECT * FROM users WHERE email = ?";
+        String query = "SELECT * FROM users WHERE email = ?";
         User user = null;
 
         try {
@@ -55,7 +55,7 @@ public class WorkWithDB {
         }
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -76,7 +76,7 @@ public class WorkWithDB {
     }
 
     public static User getUserByUsername(String username) {
-        String selectSQL = "SELECT * FROM users WHERE username = ?";
+        String query = "SELECT * FROM users WHERE username = ?";
         User user = null;
 
         try {
@@ -86,7 +86,7 @@ public class WorkWithDB {
         }
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -107,10 +107,10 @@ public class WorkWithDB {
     }
 
     public static void saveUserToDB(User user) {
-        String insertSQL = "INSERT INTO users (email, username, password) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (email, username, password) VALUES (?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getUsername());

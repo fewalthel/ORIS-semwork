@@ -4,9 +4,13 @@
 
 <%--форма для отправки вопроса--%>
 <div id="container-for-content">
+    <div class="error-message">
+        <p>${error}</p>
+    </div>
+
 <section class="form-to-send-question">
     <h2>Ask your question to other peers here</h2><br>
-    <form action="" method="POST">
+    <form action="<c:url value="my_questions"/>" method="POST">
         <div class="form-group">
             <label for="title">Title:</label><br>
             <input type="text" id="title" name="title" required>

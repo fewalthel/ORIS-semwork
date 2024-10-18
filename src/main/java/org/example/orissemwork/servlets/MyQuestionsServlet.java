@@ -1,5 +1,10 @@
 package org.example.orissemwork.servlets;
 
+import org.example.orissemwork.model.Question;
+import org.example.orissemwork.model.User;
+import org.example.orissemwork.services.AskAQuestionService;
+import org.example.orissemwork.services.RegisterService;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +22,15 @@ public class MyQuestionsServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //TODO: добавить функцию для отправки вопроса
+        String title = req.getParameter("title");
+        String description = req.getParameter("description");
+
+        Question question = new Question(title, description, null);
+
+        if (AskAQuestionService.questionIsAsked(question, req)) {
+            resp.sendRedirect(getServletContext().getContextPath() + "/my_questions");
+        } else {
+            req.getRequestDispatcher("/view/my_questions.jsp").forward(req, resp);
+        }
     }
 }
