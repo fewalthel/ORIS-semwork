@@ -68,7 +68,7 @@ input:focus {
     margin: 10px;
     background: none;
     border: none;
-    color:#3333339e
+    color:#3333339e;
 } 
 
 .toggle-password span {
@@ -80,11 +80,16 @@ input:focus {
     text-decoration: underline 2px solid #c6eee0;
     background: none;
     border: none;
-    
 } 
 
 #container-for-buttons {
     justify-content: space-around;
     display: flex;
     margin-top: 10px;
+}
+
+#rule-for-password {
+    word-break: keep-all;
+    display: none;
+    color:#3333339e;
 }

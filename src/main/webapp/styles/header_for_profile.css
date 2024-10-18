@@ -128,7 +128,6 @@ label {
 #author {
     display: flex;
     justify-content: flex-end;
-    /*text-decoration: #c6eee0 underline;*/
     opacity: 0.75;
 }
 

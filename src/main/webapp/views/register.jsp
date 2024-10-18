@@ -12,19 +12,26 @@
   <%@include file="/styles/register.css"%>
 </style>
 <body>
+<div class="error-message">
+  <p>${error}</p>
+</div>
+
 <div class="register-form">
-  <div class="error-message">
-    <p>${error}</p>
-  </div>
   <h2>Tell us about yourself</h2>
   <form action="<c:url value="register"/>" method="POST">
     <input type="text" id="username" name="username" placeholder="username" required>
     <input type="email" id="email" name="email" placeholder="example@email.com" required>
     <input type="password" id="password" name="password" placeholder="password" required>
+    <div id="rule-for-password">
+      <p>Your password must contain: at least one lowercase letter, at least one uppercase letter,
+        at least one number, at least one special character. The password must be at least 8 characters long.</p>
+      <br>
+    </div>
     <input type="password" id="confirm-password" name="confirm_password" placeholder="confirm password" required>
     <button type="button" class="toggle-password"><span>show password</span></button>
     <div id="container-for-buttons"><button type="submit" id="register">Register</button></div>
   </form>
 </div>
-<script><%@include file="/js/hide_password_func.js"%></script>
+<script><%@include file="/js/hide_password_func.js"%>
+<%@include file="/js/show_rules_for_password.js"%></script>
 <%@include file="/views/footers/_footer.jsp"%>
