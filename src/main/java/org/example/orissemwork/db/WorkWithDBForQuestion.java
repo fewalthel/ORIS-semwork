@@ -3,6 +3,7 @@ package org.example.orissemwork.db;
 import org.example.orissemwork.model.Question;
 import org.example.orissemwork.model.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -77,7 +78,7 @@ public class WorkWithDBForQuestion {
         return question;
     }
 
-    public static void saveQuestionToDB(Question question) {
+    public static void saveQuestionToDB(Question question, HttpServletRequest req) {
         String query = "INSERT INTO questions (title, description, author) VALUES (?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -85,8 +86,7 @@ public class WorkWithDBForQuestion {
 
             preparedStatement.setString(1, question.getTitle());
             preparedStatement.setString(2, question.getDescription());
-            preparedStatement.setString(3, "example");
-            /*preparedStatement.setString(3, question.getAuthor().getUsername());*/
+            preparedStatement.setString(3, (String) req.getSession().getAttribute("email"));
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
@@ -105,7 +105,6 @@ public class WorkWithDBForQuestion {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -113,7 +112,33 @@ public class WorkWithDBForQuestion {
                 String description = resultSet.getString("description");
                 String author = resultSet.getString("author");
 
-                User authorUser = new User(null, author, null);
+                User authorUser = new User(author, null, null);
+                Question question = new Question(title, description, authorUser);
+                questions.add(question);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return questions;
+    }
+
+    public static List<Question> getQuestionsByAuthor(String email_of_author) {
+        List<Question> questions = new ArrayList<>();
+        String query = "SELECT * FROM questions WHERE author = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, email_of_author);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("description");
+                String author = resultSet.getString("author");
+
+                User authorUser = new User(author, null, null);
                 Question question = new Question(title, description, authorUser);
                 questions.add(question);
             }

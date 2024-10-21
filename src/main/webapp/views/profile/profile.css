@@ -84,7 +84,7 @@ header {
     background-color: #ffffff84;
 }
 
-#description, #title, .question_title, .question_description {
+input, .question_title, .question_description, #description{
     width: calc(100% - 10px);
     box-sizing: border-box;
     margin-top: 15px;
@@ -93,11 +93,11 @@ header {
     border-radius: 30px;
 }
 
-#description:focus, #title:focus,.question_title:focus, .question_description:focus {
+#description:focus,.question_title:focus, .question_description:focus, input:focus {
     outline-color: #c6eee0;
 }
 
-#title, .question_title {
+#title, .question_title{
     max-width: 500px;
 }
 

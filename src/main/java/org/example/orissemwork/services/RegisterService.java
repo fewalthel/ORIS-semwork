@@ -6,9 +6,9 @@ import org.example.orissemwork.model.User;
 import javax.servlet.http.HttpServletRequest;
 
 public class RegisterService {
-    private static final String EMAIL_REG = "[A-z0-9_-]+@[A-z0-9_-]+.[a-z]+";
-    private static final String USERNAME_REG = "^[a-zA-Z0-9]+$";
-    private static final String PWD_REG = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+-{};':|,.<>/?]).{8,}$";
+    public static final String EMAIL_REG = "[A-z0-9_-]+@[A-z0-9_-]+.[a-z]+";
+    public static final String USERNAME_REG = "^[a-zA-Z0-9]+$";
+    public static final String PWD_REG = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+{};':|,.<>/?]).{8,}$";
 
     public static boolean usernameExist( User account ) {
         return WorkWithDBForUser.getUserByUsername(account.getUsername()) != null;
@@ -23,10 +23,10 @@ public class RegisterService {
         if (!check(account, req)) { return false; }
 
         if (usernameExist(account)) {
-            req.setAttribute("error", "A user with this username is already registered");
+            req.setAttribute("error", "User with this username is already registered");
             return false;
         } else if (emailExist(account)) {
-            req.setAttribute("error", "A user with this email is already registered");
+            req.setAttribute("error", "User with this email is already registered");
             return false;
         } else if (!account.getPassword().equals(repeatPassword)) {
             req.setAttribute("error", "Passwords don't match");

@@ -126,4 +126,43 @@ public class WorkWithDBForUser {
         }
     }
 
+    public static void updatePassword(User user, String new_password) {
+        String query = "UPDATE users SET password = ? WHERE email = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, new_password);
+            preparedStatement.setString(2, user.getEmail());
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Пароль успешно обновлен");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Ошибка при обновлении пароля: "+ e.getMessage());
+        }
+    }
+
+    public static void updateUsername(User user, String new_username) {
+        String query = "UPDATE users SET username = ? WHERE email = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, new_username);
+            preparedStatement.setString(2, user.getEmail());
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Username успешно обновлен");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Ошибка при обновлении username: "+ e.getMessage());
+        }
+    }
 }

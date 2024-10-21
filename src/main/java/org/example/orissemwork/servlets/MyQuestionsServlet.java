@@ -1,9 +1,7 @@
 package org.example.orissemwork.servlets;
 
 import org.example.orissemwork.model.Question;
-import org.example.orissemwork.model.User;
 import org.example.orissemwork.services.AskAQuestionService;
-import org.example.orissemwork.services.RegisterService;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

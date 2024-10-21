@@ -1,5 +1,7 @@
 package org.example.orissemwork.servlets;
 
+import org.example.orissemwork.services.SettingsService;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +19,15 @@ public class SettingsServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //TODO: прописать post запросы для смены пароля и юзернейма
+        String new_username = req.getParameter("new_username");
+        String old_password = req.getParameter("old_password");
+        String new_password = req.getParameter("new_password");
+
+        if (SettingsService.changesIsSaved(req, new_username, old_password, new_password)) {
+            resp.sendRedirect(getServletContext().getContextPath() + "/settings");
+        } else {
+            req.getRequestDispatcher("/views/profile/settings.jsp").forward(req, resp);
+        }
     }
 
 }

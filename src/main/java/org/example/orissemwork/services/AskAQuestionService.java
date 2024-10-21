@@ -6,8 +6,6 @@ import org.example.orissemwork.db.WorkWithDBForQuestion;
 import javax.servlet.http.HttpServletRequest;
 
 public class AskAQuestionService {
-    //TODO: прописать методы для проверки title и description отправляемого пользоваетелем вопроса
-
     public static boolean questionIsAsked(Question question, HttpServletRequest req) {
         if (titleExists(question)) {
             req.setAttribute("error", "A question with this title has already been asked");
@@ -16,7 +14,7 @@ public class AskAQuestionService {
             req.setAttribute("error", "A question with this description has already been asked");
             return false;
         } else {
-            save(question);
+            save(question, req);
             return true;
         }
     }
@@ -29,7 +27,7 @@ public class AskAQuestionService {
         return WorkWithDBForQuestion.getQuestionByDescription(question.getDescription()) != null;
     }
 
-    public static void save(Question question) {
-        WorkWithDBForQuestion.saveQuestionToDB(question);
+    public static void save(Question question, HttpServletRequest req) {
+        WorkWithDBForQuestion.saveQuestionToDB(question, req);
     }
 }
