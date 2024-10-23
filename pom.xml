@@ -63,7 +63,7 @@
             <version>8.0.1</version>
             <scope>provided</scope>
         </dependency>
-        <!-- For Tomcat and other not full App Servers. Comment this up if you're using Glassfish. -->
+        <!-- For Tomcat and other not full App Servers. Answer this up if you're using Glassfish. -->
         <!-- See: https://stackoverflow.com/questions/4928271/how-to-install-jstl-the-absolute-uri-http-java-sun-com-jstl-core-cannot-be-r -->
         <dependency>
             <groupId>org.glassfish.web</groupId>

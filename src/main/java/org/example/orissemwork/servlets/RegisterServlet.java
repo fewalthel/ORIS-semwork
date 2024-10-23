@@ -29,7 +29,6 @@ public class RegisterServlet extends HttpServlet{
         User account = new User(email, username, password);
 
         if (RegisterService.register(account, req, confirmPassword)) {
-            //TODO: добавить всплывающее окошко, если вопрос успешно задан
             resp.sendRedirect(getServletContext().getContextPath() + "/signin");
         } else {
             req.getRequestDispatcher("/views/register/register.jsp").forward(req, resp);

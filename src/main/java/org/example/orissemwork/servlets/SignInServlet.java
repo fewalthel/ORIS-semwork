@@ -23,13 +23,11 @@ public class SignInServlet extends HttpServlet{
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        if(email != null && password != null){
-            if(SecurityService.signIn(req, email, password)){
-                resp.sendRedirect(getServletContext().getContextPath() + "/profile");
-                return;
-            }
+        if(SecurityService.signIn(req, email, password)){
+            req.setAttribute("username", WorkWithDBForUser.getUserByEmail(email).getUsername());
+            resp.sendRedirect(getServletContext().getContextPath() + "/profile");
+        } else {
+            req.getRequestDispatcher("/views/signin/signin.jsp").forward(req, resp);
         }
-        req.setAttribute("username", WorkWithDBForUser.getUserByEmail(email).getUsername());
-        getServletContext().getRequestDispatcher("/views/signin/signin.jsp").forward(req, resp);
     }
 }

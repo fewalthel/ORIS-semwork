@@ -13,6 +13,7 @@ public class WorkWithDBForUser {
     private static final String USER = "postgres";
     private static final String PASSWORD = "postgres";
 
+
     public static boolean findUserByEmailAndPassword(String email, String password) {
         String query = "SELECT email, password FROM users WHERE email = ? AND password = ?";
         User user = null;
@@ -165,4 +166,5 @@ public class WorkWithDBForUser {
             System.err.println("Ошибка при обновлении username: "+ e.getMessage());
         }
     }
+
 }

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/my_questions")
-public class MyQuestionsServlet extends HttpServlet{
+public class AskAQuestion extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class MyQuestionsServlet extends HttpServlet{
         String title = req.getParameter("title");
         String description = req.getParameter("description");
 
-        Question question = new Question(title, description, null);
+        Question question = new Question(null, title, description, null);
 
         if (AskAQuestionService.questionIsAsked(question, req)) {
             resp.sendRedirect(getServletContext().getContextPath() + "/my_questions");

@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class WorkWithDBForQuestion {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
@@ -35,12 +36,13 @@ public class WorkWithDBForQuestion {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                Integer serialValue = resultSet.getInt("id");
                 String titleResult = resultSet.getString("title");
                 String description = resultSet.getString("description");
                 String usernameOfAuthor = resultSet.getString("author");
 
                 User author = new User(null, usernameOfAuthor, null);
-                question = new Question(titleResult, description, author);
+                question = new Question(serialValue, titleResult, description, author);
             }
         } catch (SQLException e) {
             System.err.println("Ошибка при попытке выгрузить данные о загаловке вопроса: " + e.getMessage());
@@ -65,12 +67,13 @@ public class WorkWithDBForQuestion {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                Integer serialValue = resultSet.getInt("id");
                 String title = resultSet.getString("title");
                 String descriptionResult = resultSet.getString("description");
                 String usernameOfAuthor = resultSet.getString("author");
 
                 User author = new User(null, usernameOfAuthor, null);
-                question = new Question(title, descriptionResult, author);
+                question = new Question(serialValue, title, descriptionResult, author);
             }
         } catch (SQLException e) {
             System.err.println("Ошибка при попытке выгрузить данные об описании вопроса: " + e.getMessage());
@@ -108,12 +111,13 @@ public class WorkWithDBForQuestion {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
+                int serialValue = resultSet.getInt("id");
                 String title = resultSet.getString("title");
                 String description = resultSet.getString("description");
                 String author = resultSet.getString("author");
 
                 User authorUser = new User(author, null, null);
-                Question question = new Question(title, description, authorUser);
+                Question question = new Question(serialValue, title, description, authorUser);
                 questions.add(question);
             }
         } catch (SQLException e) {
@@ -134,12 +138,13 @@ public class WorkWithDBForQuestion {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
+                int serialValue = resultSet.getInt("id");
                 String title = resultSet.getString("title");
                 String description = resultSet.getString("description");
                 String author = resultSet.getString("author");
 
                 User authorUser = new User(author, null, null);
-                Question question = new Question(title, description, authorUser);
+                Question question = new Question(serialValue, title, description, authorUser);
                 questions.add(question);
             }
         } catch (SQLException e) {
@@ -147,5 +152,29 @@ public class WorkWithDBForQuestion {
         }
 
         return questions;
+    }
+
+    public static Question getQuestionById(Integer id) {
+        String query = "SELECT * FROM questions WHERE id = ?";
+        Question question = null;
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Integer serialValue = resultSet.getInt("id");
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("description");
+                String author = resultSet.getString("author");
+                User authorUser = WorkWithDBForUser.getUserByEmail(author);
+                question = new Question(serialValue, title, description, authorUser);
+            }
+        } catch (SQLException e) {
+            System.err.println("Database access error: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return question;
     }
 }

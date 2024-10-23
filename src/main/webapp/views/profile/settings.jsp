@@ -10,10 +10,11 @@
         </div>
         <form action="<c:url value="settings"/>" method="POST">
             <div class="form-group"><br>
-                <label for="change_password">Change password</label>
-                <input type="text" name="old_password" id="change_password" placeholder="old password">
+                <label for="password">Change password</label>
+                <input type="password" name="old_password" id="password" placeholder="old password">
                 <br>
-                <input type="text" name="new_password" id="repeat_password" placeholder="new password">
+                <input type="password" name="new_password" id="confirm-password" placeholder="new password">
+                <button type="button" class="toggle-password"><span>show password</span></button>
             </div><br>
             <div class="form-group"><br>
                 <label for="change_username">Change username</label>
@@ -24,4 +25,5 @@
         </form>
     </section>
 </div>
+<script><%@include file="/js/hide_password_func.js"%></script>
 <%@include file="/views/_footer.jsp" %>

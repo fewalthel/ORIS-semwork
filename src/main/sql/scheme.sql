@@ -19,4 +19,7 @@ create table users_questions ( user_id integer,
                                foreign key (user_id) references users(id),
                                foreign key (question_id) references questions(id));
 
+create table comments ( );
+
 */
+

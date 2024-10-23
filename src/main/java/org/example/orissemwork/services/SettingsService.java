@@ -18,6 +18,10 @@ public class SettingsService {
         return newUsername.matches(RegisterService.USERNAME_REG);
     }
 
+    public static boolean newUsernameIsUnique(String newUsername) {
+        return WorkWithDBForUser.getUserByUsername(newUsername) == null;
+    }
+
     public static void changePassword(HttpServletRequest req, String newPassword) {
         String email = (String) req.getSession().getAttribute("email");
         User user = WorkWithDBForUser.getUserByEmail(email);
@@ -30,8 +34,16 @@ public class SettingsService {
         WorkWithDBForUser.updateUsername(user, newUsername);
     }
 
-    public static boolean changesIsSaved(HttpServletRequest req, String new_username, String old_password, String new_password) {
-        boolean flag = false;
+    public static boolean changesIsSaved(HttpServletRequest req, String new_username, String old_password, String new_password){
+        if (old_password.isEmpty() && new_password.isEmpty() && new_username.isEmpty()) {
+            req.setAttribute("error", "Nobody to update");
+            return false;
+        }
+
+        if ((old_password.isEmpty() && !new_password.isEmpty()) || (!old_password.isEmpty() && new_password.isEmpty())) {
+            req.setAttribute("error", "If you want to change your password, fill all fields");
+            return false;
+        }
 
         if (!old_password.isEmpty() && !new_password.isEmpty()) {
             if (!newPasswordIsValid(new_password)) {
@@ -42,27 +54,22 @@ public class SettingsService {
                 return false;
             } else {
                 changePassword(req, new_password);
-                flag = true;
             }
+        }
 
-        } else if (!new_username.isEmpty()) {
+        if (!new_username.isEmpty()) {
             if (!newUsernameIsValid(new_username)) {
                 req.setAttribute("error", "Invalid new username");
+                return false;
+            } else if (!newUsernameIsUnique(new_username)) {
+                req.setAttribute("error", "User with this username already exists");
                 return false;
             } else {
                 changeUsername(req, new_username);
                 req.getSession().setAttribute("username", new_username);
-                flag = true;
             }
-        } else if ((!new_password.isEmpty() && old_password.isEmpty()) ||(new_password.isEmpty() && !old_password.isEmpty())) {
-            req.setAttribute("error", "If you want to change your password, fill all fields");
-            return false;
-        } else {
-            req.setAttribute("error", "Nobody to update");
-            return false;
         }
 
-        return flag;
+        return true;
     }
-
 }
