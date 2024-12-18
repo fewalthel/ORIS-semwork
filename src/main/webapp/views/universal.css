@@ -1,0 +1,51 @@
+:root {
+    --dark-text-color:  #333;
+    --dark-background-color:  #333;
+    --light-text-color: #fff;
+    --light-background-color: #f6f1eb;
+    --mint-color: #c6eee0;
+    --opacity-light-color: #ffffff84;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', sans-serif;
+}
+
+.error-message {
+    padding: 10px;
+    text-align: center;
+    color: #ff1c42;
+}
+
+.toggle-password {
+    background: none;
+    border: none;
+    margin: 10px;
+    color: var(--dark-text-color);
+}
+
+.toggle-password span {
+    cursor: pointer;
+    opacity: 0.4;
+}
+
+.toggle-password span:hover {
+    opacity: 1;
+}
+
+.toggle-password span:hover {
+    color: var(--dark-text-color);
+    opacity: 1;
+    text-decoration: underline 2px solid #c6eee0;
+    background: none;
+    border: none;
+}
+
+.container-for-marks {
+    display: flex;
+    justify-content: space-between;
+    width: 7vw;
+}
