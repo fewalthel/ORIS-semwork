@@ -16,6 +16,10 @@ CREATE TABLE IF NOT EXISTS categories
     name VARCHAR(100) UNIQUE NOT NULL
 );
 
+INSERT INTO categories (name) VALUES ('math');
+INSERT INTO categories (name) VALUES ('english');
+INSERT INTO categories (name) VALUES ('physics');
+
 CREATE TABLE IF NOT EXISTS questions
 (
     id          SERIAL PRIMARY KEY,

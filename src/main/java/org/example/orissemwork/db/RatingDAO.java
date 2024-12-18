@@ -6,8 +6,8 @@ import java.sql.*;
 
 public class RatingDAO implements DAO {
     private static final String SELECT_BY_ID_USER_QUERY = "SELECT * FROM rating WHERE id_user = ? AND id_answer = ?";
-    private static final String UPDATE_RATING_QUERY = "UPDATE rating SET liked = ? WHERE WHERE id_user = ? AND id_answer = ?";
-    private static final String INSERT_RATING_QUERY = "INSERT INTO rating(id_user, id_answer) VALUES(?, ?)";
+    private static final String UPDATE_RATING_QUERY = "UPDATE rating SET liked = ? WHERE id_user = ? AND id_answer = ?";
+    private static final String INSERT_RATING_QUERY = "INSERT INTO rating(id_user, id_answer, liked) VALUES(?, ?, null)";
 
     public static Rating getByIdOfUser(User user, Answer answer) {
         Rating rating = null;
@@ -55,6 +55,7 @@ public class RatingDAO implements DAO {
 
             preparedStatement.setInt(1, answer.getId());
             preparedStatement.setInt(2, user.getId());
+
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {

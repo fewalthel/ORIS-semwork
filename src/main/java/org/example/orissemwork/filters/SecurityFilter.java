@@ -45,13 +45,13 @@ public class SecurityFilter extends HttpFilter {
                         res.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
                         return;
                     } else {
-
-                        /*for (String[] values : req.getParameterMap().values()) {
-                            if (QuestionDAO.getById(Integer.valueOf(values[0])) == null) {
-                                res.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
-                                return;
-                            }
-                        }*/
+//
+//                        for (String[] values : req.getParameterMap().values()) {
+//                            if (QuestionDAO.getById(Integer.valueOf(values[0])) == null) {
+//                                res.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
+//                                return;
+//                            }
+//                        }
 
                     }
                 }
