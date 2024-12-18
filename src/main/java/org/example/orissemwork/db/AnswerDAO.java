@@ -5,7 +5,7 @@ import org.example.orissemwork.model.Question;
 import org.example.orissemwork.model.User;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class AnswerDAO implements DAO {
@@ -64,8 +64,8 @@ public class AnswerDAO implements DAO {
         }
     }
 
-    public static List<Answer> getAllByQuestion(Question question) {
-        List<Answer> answers = new ArrayList<>();
+    public static LinkedList<Answer> getAllByQuestion(Question question) {
+        LinkedList<Answer> answers = new LinkedList<>();
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL_ANSWERS_BY_QUESTION_QUERY)) {
@@ -89,7 +89,7 @@ public class AnswerDAO implements DAO {
     }
 
     public static List<Answer> getAllByAuthor(User author) {
-        List<Answer> answers = new ArrayList<>();
+        List<Answer> answers = new LinkedList<>();
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL_ANSWERS_BY_AUTHOR_QUERY)) {
@@ -112,7 +112,7 @@ public class AnswerDAO implements DAO {
     }
 
     public static List<Answer> getFavoriteAnswers(User user) {
-        List<Answer> answers = new ArrayList<>();
+        List<Answer> answers = new LinkedList<>();
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT_FAVOURITES_ANSWERS_QUERY)) {

@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS favourites_answers
 );
 
 CREATE TABLE IF NOT EXISTS rating (
-    id_answer INT,
     id_user INT,
+    id_answer INT,
     PRIMARY KEY (id_user, id_answer),
     FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (id_answer) REFERENCES answers (id) ON DELETE CASCADE,

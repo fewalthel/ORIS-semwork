@@ -70,10 +70,6 @@ input {
     border-radius: 30px;
 }
 
-input:focus {
-    outline-color: var(--mint-color);
-}
-
 footer {
     display: none;
 }

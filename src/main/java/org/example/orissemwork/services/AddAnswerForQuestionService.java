@@ -7,7 +7,7 @@ import org.example.orissemwork.model.Answer;
 import org.example.orissemwork.model.User;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.List;
 
 public class AddAnswerForQuestionService {
     public static boolean answerIsGiven (Answer answer, String title_of_question, HttpServletRequest req) {
@@ -26,10 +26,5 @@ public class AddAnswerForQuestionService {
 
     public static void saveAnswer (Answer answer) {
         AnswerDAO.saveToDB(answer);
-
-        ArrayList<User> users = (ArrayList<User>) UserDAO.getAll();
-        for (User user : users) {
-            RatingDAO.saveDefaultToDB(user, answer);
-        }
     }
 }

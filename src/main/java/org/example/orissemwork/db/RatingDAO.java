@@ -3,13 +3,21 @@ package org.example.orissemwork.db;
 import org.example.orissemwork.model.*;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RatingDAO implements DAO {
     private static final String SELECT_BY_ID_USER_QUERY = "SELECT * FROM rating WHERE id_user = ? AND id_answer = ?";
-    private static final String UPDATE_RATING_QUERY = "UPDATE rating SET liked = ? WHERE id_user = ? AND id_answer = ?";
-    private static final String INSERT_RATING_QUERY = "INSERT INTO rating(id_user, id_answer, liked) VALUES(?, ?, null)";
+    private static final String UPDATE_RATING_QUERY = "UPDATE rating SET is_liked = ? WHERE id_user = ? AND id_answer = ?";
+    private static final String INSERT_RATING_QUERY = "INSERT INTO rating(id_user, id_answer) VALUES(?, ?)";
 
     public static Rating getByIdOfUser(User user, Answer answer) {
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         Rating rating = null;
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -21,7 +29,7 @@ public class RatingDAO implements DAO {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                Boolean liked = resultSet.getBoolean("liked");
+                Boolean liked = resultSet.getBoolean("is_liked");
 
                 rating = new Rating(answer, user, liked);
             }
@@ -49,15 +57,24 @@ public class RatingDAO implements DAO {
         }
     }
 
-    public static void saveDefaultToDB(User user, Answer answer) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RATING_QUERY)) {
+    public static void saveDefaultToDB(Answer answer) {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            preparedStatement.setInt(1, answer.getId());
-            preparedStatement.setInt(2, user.getId());
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);) {
+            int rowsAffected = 0;
+            List<User> users = UserDAO.getAll();
 
+            for (User user : users) {
+                PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RATING_QUERY);
 
-            int rowsAffected = preparedStatement.executeUpdate();
+                preparedStatement.setInt(1, user.getId());
+                preparedStatement.setInt(2, answer.getId());
+                rowsAffected = preparedStatement.executeUpdate();
+            }
             if (rowsAffected > 0) {
                 System.out.println("Рейтинг успешно добавлен!");
             }

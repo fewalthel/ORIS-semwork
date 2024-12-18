@@ -35,10 +35,6 @@ input {
     border-radius: 30px;
 }
 
-input:focus {
-    outline-color: var(--mint-color);
-}
-
 #register {
     border: solid 1px;
     border-radius: 30px;

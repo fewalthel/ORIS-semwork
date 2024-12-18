@@ -88,11 +88,6 @@ input, .question_title, .question_description, .question_category,
     color: #3333339e;
 }
 
-textarea:focus, input:focus {
-    outline-color: #c6eee0;
-    box-shadow: 0 4px 10px #abffdf;
-}
-
 #title, .question_title {
     max-width: 500px;
 }
