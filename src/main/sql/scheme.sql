@@ -56,5 +56,5 @@ CREATE TABLE IF NOT EXISTS rating (
     PRIMARY KEY (id_user, id_answer),
     FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (id_answer) REFERENCES answers (id) ON DELETE CASCADE,
-    is_liked BOOLEAN DEFAULT NULL
+    is_liked BOOLEAN NOT NULL
 );

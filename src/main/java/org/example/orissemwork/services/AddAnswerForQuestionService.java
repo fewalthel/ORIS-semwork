@@ -1,13 +1,9 @@
 package org.example.orissemwork.services;
 
-import org.example.orissemwork.db.AnswerDAO;
-import org.example.orissemwork.db.RatingDAO;
-import org.example.orissemwork.db.UserDAO;
-import org.example.orissemwork.model.Answer;
-import org.example.orissemwork.model.User;
+import org.example.orissemwork.db.*;
+import org.example.orissemwork.model.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 public class AddAnswerForQuestionService {
     public static boolean answerIsGiven (Answer answer, String title_of_question, HttpServletRequest req) {

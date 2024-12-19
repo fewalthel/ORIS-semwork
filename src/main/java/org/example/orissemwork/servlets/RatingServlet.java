@@ -16,10 +16,25 @@ public class RatingServlet extends HttpServlet {
 
         Answer answer = AnswerDAO.getById(Integer.parseInt(req.getParameter("idOfAnswer")));
         User author = UserDAO.getByEmail((String) req.getSession().getAttribute("email"));
-        Boolean rating = Boolean.valueOf(req.getParameter("rating"));
-
+        String rating = (req.getParameter("rating"));
         System.out.println(rating);
-        RatingDAO.updateRating(author, answer, rating);
+
+        //если переданнрое значение null, убираем поставленную пользователем оценку
+        if (rating.equals("null")) {
+            RatingDAO.deleteFromDB(author, answer);
+        } else {
+            //если изначальное значение в базе null, сохраяем новую оценку
+            if (RatingDAO.getByIdOfUser(author, answer) == null) {
+                RatingDAO.saveToDB(author, answer, Boolean.valueOf(rating));
+
+            //если изначальное значение в базе НЕ null, обновляем оценку
+            } else  {
+                RatingDAO.updateRating(author, answer, Boolean.valueOf(rating));
+            }
+        }
+
+        /*System.out.println(rating);*/
+        /*RatingDAO.updateRating(author, answer, rating);*/
 
         resp.sendRedirect(getServletContext().getContextPath() + "/question?id="+ Integer.toString(answer.getQuestion().getId()));
     }

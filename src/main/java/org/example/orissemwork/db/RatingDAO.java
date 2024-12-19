@@ -9,7 +9,8 @@ import java.util.List;
 public class RatingDAO implements DAO {
     private static final String SELECT_BY_ID_USER_QUERY = "SELECT * FROM rating WHERE id_user = ? AND id_answer = ?";
     private static final String UPDATE_RATING_QUERY = "UPDATE rating SET is_liked = ? WHERE id_user = ? AND id_answer = ?";
-    private static final String INSERT_RATING_QUERY = "INSERT INTO rating(id_user, id_answer) VALUES(?, ?)";
+    private static final String INSERT_RATING_QUERY = "INSERT INTO rating(id_user, id_answer, is_liked) VALUES(?, ?, ?)";
+    private static final String DELETE_RATING_QUERY = "DELETE FROM rating WHERE id_user = ? AND id_answer = ?";
 
     public static Rating getByIdOfUser(User user, Answer answer) {
 
@@ -57,26 +58,44 @@ public class RatingDAO implements DAO {
         }
     }
 
-    public static void saveDefaultToDB(Answer answer) {
+    public static void saveToDB(User user, Answer answer, Boolean liked) {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);) {
-            int rowsAffected = 0;
-            List<User> users = UserDAO.getAll();
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RATING_QUERY)) {
 
-            for (User user : users) {
-                PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RATING_QUERY);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(2, answer.getId());
+            preparedStatement.setBoolean(3, liked);
 
-                preparedStatement.setInt(1, user.getId());
-                preparedStatement.setInt(2, answer.getId());
-                rowsAffected = preparedStatement.executeUpdate();
-            }
+            int rowsAffected = preparedStatement.executeUpdate();
+
             if (rowsAffected > 0) {
-                System.out.println("Рейтинг успешно добавлен!");
+                System.out.println("Лайк или дизлайк успешно сохранен в бд!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteFromDB(User user, Answer answer) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_RATING_QUERY)) {
+
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(2, answer.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Запись успешно удалена.");
+            } else {
+                System.out.println("Запись с указанным id не найдена.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
