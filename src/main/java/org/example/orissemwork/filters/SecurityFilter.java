@@ -1,6 +1,7 @@
 package org.example.orissemwork.filters;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -13,8 +14,8 @@ import org.example.orissemwork.services.SecurityService;
 
 @WebFilter("/*")
 public class SecurityFilter extends HttpFilter {
-    protected final String[] protectedPaths = {"/profile", "/settings", "/my_questions","/all_questions",
-                                                "/question", "/all_users", "/favorites_answers"};
+    protected final String[] protectedPaths = {"/profile", "/settings", "/my_questions", "/all_questions",
+            "/question", "/all_users", "/favorites_answers"};
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -40,20 +41,19 @@ public class SecurityFilter extends HttpFilter {
                     }
                 }
 
-                if ("/question".equals( req.getRequestURI() )) {
+                if ("/question".equals(req.getRequestURI())) {
                     if (req.getParameterMap().isEmpty()) {
                         res.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
                         return;
                     } else {
-//
-//                        for (String[] values : req.getParameterMap().values()) {
-//                            if (QuestionDAO.getById(Integer.valueOf(values[0])) == null) {
-//                                res.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
-//                                return;
-//                            }
-//                        }
+                        Integer potencialId = Integer.valueOf(req.getParameterMap().get("id")[0]);
 
+                        if (QuestionDAO.getById(potencialId) == null) {
+                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
+                            return;
+                        }
                     }
+
                 }
 
             }

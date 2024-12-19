@@ -20,7 +20,8 @@ public class AnswerDAO implements DAO {
     private static final String INSERT_INTO_FAVOURITES_QUERY = "INSERT INTO favourites_answers (id_user, id_answer) VALUES (?, ?)";
     private static final String DELETE_FAVOURITES_QUERY = "DELETE FROM favourites_answers WHERE id_user = ? AND id_answer = ?";
     private static final String SELECT_FROM_FAVS_BY_USER_AND_ANSWER_QUERY = "SELECT * FROM favourites_answers WHERE id_user = ? AND id_answer = ?";
-    private static final String DELETE_ANSWERS_BY_USER_QUERY = " DELETE FROM answers WHERE id_user = ?";
+    private static final String DELETE_FROM_DB_QUERY = " DELETE FROM answers WHERE id = ?";
+    private static final String DELETE_ANSWER_BY_USER_QUERY = "DELETE FROM answers WHERE id_user = ? AND id_answer = ?";
 
     public static Answer getForThisQuestion(Answer answer, String title_of_question) {
         Answer ans = null;
@@ -217,15 +218,33 @@ public class AnswerDAO implements DAO {
         return (result != null && !result.equals(""));
     }
 
-    public static void deleteFromDBByAuthor(User user) {
+    public static void deleteFromDBB (Answer ans) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ANSWERS_BY_USER_QUERY)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FROM_DB_QUERY)) {
 
-            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(1, ans.getId());
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("Все ответы под авторством пользователя удалены.");
+                System.out.println("Ответ удален из базы данных");
+            } else {
+                System.out.println("Записи с указанным id не найдены.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteFromDBByAuthor(Answer ans, User user) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ANSWER_BY_USER_QUERY)) {
+
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(2, ans.getId());
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Ответ к вопросу удален.");
             } else {
                 System.out.println("Записи с указанным id не найдены.");
             }

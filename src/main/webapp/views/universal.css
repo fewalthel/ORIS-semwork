@@ -1,6 +1,6 @@
 :root {
-    --dark-text-color:  #333;
-    --dark-background-color:  #333;
+    --dark-text-color: #333;
+    --dark-background-color: #333;
     --light-text-color: #fff;
     --light-background-color: #f6f1eb;
     --mint-color: #c6eee0;
@@ -47,9 +47,18 @@
 .container-for-marks {
     display: flex;
     justify-content: space-between;
-    width: 7vw;
+    width: 8vw;
 }
 
 textarea:focus, input:focus {
     outline-color: var(--mint-color);
+}
+
+button {
+    background-color: rgba(255, 255, 255, 0.23);
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
 }

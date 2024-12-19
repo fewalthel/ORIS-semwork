@@ -15,7 +15,9 @@
             <button style="background-color: var(--mint-color); margin-top: 25px; margin-bottom: 25px;" type="submit"
                     class="button fav-button">Add to favorites
             </button>
-            <%} %>
+            <%--<%} if (answer.getAuthor().equals(user)) { %>
+                <button type="submit" class="button">Delete</button>
+            <%}%>--%>
         </form>
     </div>
 

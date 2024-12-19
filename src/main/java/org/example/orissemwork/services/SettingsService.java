@@ -37,8 +37,6 @@ public class SettingsService {
     }
 
     public static void deleteAccount(User user) {
-        AnswerDAO.deleteFromDBByAuthor(user);
-        QuestionDAO.deleteFromDBByAuthor(user);
         UserDAO.deleteFromDB(user);
     }
 

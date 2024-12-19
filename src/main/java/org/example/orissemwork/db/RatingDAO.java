@@ -11,6 +11,7 @@ public class RatingDAO implements DAO {
     private static final String UPDATE_RATING_QUERY = "UPDATE rating SET is_liked = ? WHERE id_user = ? AND id_answer = ?";
     private static final String INSERT_RATING_QUERY = "INSERT INTO rating(id_user, id_answer, is_liked) VALUES(?, ?, ?)";
     private static final String DELETE_RATING_QUERY = "DELETE FROM rating WHERE id_user = ? AND id_answer = ?";
+    private static final String SELECT_ALL_BY_ANSWER_QUERY = "SELECT * FROM rating WHERE id_answer = ? AND is_liked = ?";
 
     public static Rating getByIdOfUser(User user, Answer answer) {
 
@@ -100,5 +101,35 @@ public class RatingDAO implements DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<Rating> getAllByAnswer(Answer answer, Boolean is_liked) {
+        List<Rating> marks = new ArrayList<>();
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_BY_ANSWER_QUERY)) {
+
+            statement.setInt(1, answer.getId());
+            statement.setBoolean(2, is_liked);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Integer id_user = resultSet.getInt("id_user");
+                Integer id_answer = resultSet.getInt("id_answer");
+
+                Rating rating = new Rating(AnswerDAO.getById(id_answer), UserDAO.getById(id_user), is_liked);
+
+                marks.add(rating);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return marks;
     }
 }
