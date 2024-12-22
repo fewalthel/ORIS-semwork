@@ -16,9 +16,9 @@ public class FavoritesAnswersServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String emailOfUser = req.getSession().getAttribute("email").toString();
-        Integer idOfAnswer = Integer.parseInt(req.getParameter("idOfAnswer"));
+        Integer idOfAnswer = Integer.parseInt(req.getParameter("id_of_answer"));
 
         User user = UserDAO.getByEmail(emailOfUser);
         Answer ans = AnswerDAO.getById(idOfAnswer);

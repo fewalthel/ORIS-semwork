@@ -6,7 +6,7 @@
         <h2><%= question.getTitle() %></h2>
         </a>
         <form action="favorites_answers" method="POST" class="favourite-form">
-            <input type="hidden" value="<%= answer.getId() %>" name="idOfAnswer">
+            <input type="hidden" value="<%= answer.getId() %>" name="id_of_answer">
             <%if (AnswerDAO.ansInFavForUser(answer, user)) { %>
             <button style="background-color: var(--dark-text-color); color: white; margin-top: 25px; margin-bottom: 25px;"
                     type="submit" class="button fav-button">In your favorites
@@ -15,9 +15,6 @@
             <button style="background-color: var(--mint-color); margin-top: 25px; margin-bottom: 25px;" type="submit"
                     class="button fav-button">Add to favorites
             </button>
-            <%--<%} if (answer.getAuthor().equals(user)) { %>
-                <button type="submit" class="button">Delete</button>
-            <%}%>--%>
         </form>
     </div>
 

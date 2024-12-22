@@ -1,8 +1,7 @@
 package org.example.orissemwork.servlets;
 
 import org.example.orissemwork.db.*;
-import org.example.orissemwork.model.Answer;
-import org.example.orissemwork.model.User;
+import org.example.orissemwork.model.*;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -26,16 +25,12 @@ public class RatingServlet extends HttpServlet {
             //если изначальное значение в базе null, сохраяем новую оценку
             if (RatingDAO.getByIdOfUser(author, answer) == null) {
                 RatingDAO.saveToDB(author, answer, Boolean.valueOf(rating));
-
             //если изначальное значение в базе НЕ null, обновляем оценку
             } else  {
                 RatingDAO.updateRating(author, answer, Boolean.valueOf(rating));
             }
         }
 
-        /*System.out.println(rating);*/
-        /*RatingDAO.updateRating(author, answer, rating);*/
-
-        resp.sendRedirect(getServletContext().getContextPath() + "/question?id="+ Integer.toString(answer.getQuestion().getId()));
+        resp.sendRedirect(getServletContext().getContextPath() + "/question?id=" + answer.getQuestion().getId());
     }
 }

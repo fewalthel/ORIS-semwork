@@ -2,7 +2,6 @@ package org.example.orissemwork.servlets;
 
 import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.services.SecurityService;
-import org.example.orissemwork.services.ConfirmService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +20,10 @@ public class SignInServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
+        String email = req.getParameter("email").toLowerCase();
         String password = req.getParameter("password");
+
+        String hashedPassword = SecurityService.hashPassword(password);
 
         if(SecurityService.signIn(req, email, password)){
             req.setAttribute("username", UserDAO.getByEmail(email).getUsername());
@@ -31,7 +32,6 @@ public class SignInServlet extends HttpServlet{
         } else {
             req.getRequestDispatcher("/views/signin/signin.jsp").forward(req, resp);
         }
-
     }
 
 }

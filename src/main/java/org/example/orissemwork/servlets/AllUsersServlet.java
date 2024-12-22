@@ -1,14 +1,12 @@
 package org.example.orissemwork.servlets;
 
-import org.example.orissemwork.db.UserDAO;
-import org.example.orissemwork.model.User;
-import org.example.orissemwork.services.SettingsService;
+import org.example.orissemwork.db.*;
+import org.example.orissemwork.model.*;
+import org.example.orissemwork.services.*;
 
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/all_users")
@@ -19,7 +17,7 @@ public class AllUsersServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         if (req.getParameter("deleted_username") != null) {
             User user = UserDAO.getByUsername(req.getParameter("deleted_username") );

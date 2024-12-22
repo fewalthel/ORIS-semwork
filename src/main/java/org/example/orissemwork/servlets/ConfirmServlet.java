@@ -1,14 +1,12 @@
 package org.example.orissemwork.servlets;
-import org.example.orissemwork.model.User;
 
-import javax.servlet.ServletException;
+import org.example.orissemwork.model.*;
+
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-
-import static org.example.orissemwork.services.RegisterService.save;
-
 import java.io.IOException;
-
+import static org.example.orissemwork.services.RegisterService.save;
 
 @WebServlet ("/confirm")
 public class ConfirmServlet extends HttpServlet {

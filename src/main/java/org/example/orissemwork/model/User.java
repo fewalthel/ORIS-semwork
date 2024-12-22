@@ -24,4 +24,6 @@ public class User {
     public String getRole() { return role; }
 
     public Integer getId() { return id; }
+
+    public void setPassword(String password) { this.password = password; }
 }

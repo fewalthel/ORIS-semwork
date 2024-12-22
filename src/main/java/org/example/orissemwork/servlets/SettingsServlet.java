@@ -1,11 +1,8 @@
 package org.example.orissemwork.servlets;
 
-import org.example.orissemwork.db.AnswerDAO;
-import org.example.orissemwork.db.QuestionDAO;
-import org.example.orissemwork.db.UserDAO;
-import org.example.orissemwork.model.Answer;
-import org.example.orissemwork.model.User;
-import org.example.orissemwork.services.SettingsService;
+import org.example.orissemwork.db.*;
+import org.example.orissemwork.model.*;
+import org.example.orissemwork.services.*;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -15,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/settings")
-public class SettingsServlet extends HttpServlet{
+public class SettingsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,11 +32,8 @@ public class SettingsServlet extends HttpServlet{
         if (current_password != null && current_username != null) {
             User current_user = UserDAO.getByEmail((String) req.getSession().getAttribute("email"));
             if (current_user.getUsername().equals(current_username) && current_user.getPassword().equals(current_password)) {
-                req.getSession().removeAttribute("username");
-                req.getSession().removeAttribute("email");
-
+                SecurityService.signOut(req);
                 SettingsService.deleteAccount(current_user);
-
                 resp.sendRedirect(getServletContext().getContextPath() + "/main");
             } else {
                 req.setAttribute("error", "Incorrect username or password");

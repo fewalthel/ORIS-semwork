@@ -3,27 +3,23 @@ package org.example.orissemwork.services;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
 
 public class ConfirmService {
 
-    public void confirm(HttpServletRequest req, HttpServletResponse resp, String email) throws IOException {
-
+    public static void confirm(HttpServletRequest req, HttpServletResponse resp, String email) throws IOException {
         String code = generateConfirmationCode();
-        HttpSession session = req.getSession();
-        session.setAttribute("confirmationCode", code);
+        req.getSession().setAttribute("confirmationCode", code);
 
         sendEmailConfirmation(email, code);
 
         resp.sendRedirect(req.getServletContext().getContextPath() + "/confirm");
     }
 
-    private void sendEmailConfirmation(String email, String code) {
+    private static void sendEmailConfirmation(String email, String code) {
         try {
             Properties props = new Properties();
             String emailSender = "notify.00@mail.ru";
@@ -49,14 +45,13 @@ public class ConfirmService {
             message.setSubject("Подтверждение почты");
             message.setText("Ваш код подтверждения: " + code);
             Transport.send(message);
+
         } catch (MessagingException e) {
-
             System.err.println("Ошибка отправки письма: " + e.getMessage());
-
         }
     }
 
-    private String generateConfirmationCode() {
+    private static String generateConfirmationCode() {
         Random random = new Random();
         return String.format("%06d", random.nextInt(1000000));
     }

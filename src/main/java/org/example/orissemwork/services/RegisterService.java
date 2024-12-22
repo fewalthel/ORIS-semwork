@@ -2,6 +2,7 @@ package org.example.orissemwork.services;
 
 import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.model.User;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -32,7 +33,11 @@ public class RegisterService {
         }
     }
 
-    public static void save(User account) { UserDAO.saveToDB(account); }
+    public static void save(User account) {/*
+        String password = account.getPassword();
+        account.setPassword(SecurityService.hashPassword(password));*/
+        UserDAO.saveToDB(account);
+    }
 
     public static boolean check(User account, HttpServletRequest req) {
         if (!account.getEmail().matches(EMAIL_REG)) {
@@ -48,4 +53,8 @@ public class RegisterService {
             return true;
         }
     }
+
+   /* public static boolean checkPassword(String password, String hashedPassword) {
+        return BCrypt.checkpw(password, hashedPassword);
+    }*/
 }

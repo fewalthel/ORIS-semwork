@@ -1,12 +1,13 @@
 package org.example.orissemwork.services;
 
 import org.example.orissemwork.db.UserDAO;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-public class SecurityService {
+public class  SecurityService {
     public static Map<String, Object> getUser(HttpServletRequest req) {
         if (isSigned(req)) {
             Map<String, Object> user = new HashMap<>();
@@ -35,5 +36,9 @@ public class SecurityService {
     public static void signOut(HttpServletRequest req) {
         req.getSession().removeAttribute("username");
         req.getSession().removeAttribute("email");
+    }
+
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }

@@ -1,14 +1,11 @@
 package org.example.orissemwork.servlets;
 
-import org.example.orissemwork.model.User;
-import org.example.orissemwork.services.ConfirmService;
-import org.example.orissemwork.services.RegisterService;
+import org.example.orissemwork.model.*;
+import org.example.orissemwork.services.*;
 
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/register")
@@ -21,7 +18,7 @@ public class RegisterServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
+        String email = req.getParameter("email").toLowerCase();
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String confirmPassword = req.getParameter("confirm_password");
@@ -33,8 +30,7 @@ public class RegisterServlet extends HttpServlet{
         req.getSession().setAttribute("password", password);
 
         if (RegisterService.valuesIsValid(account, req, confirmPassword)) {
-            ConfirmService confirmService = new ConfirmService();
-            confirmService.confirm(req, resp, email);
+            ConfirmService.confirm(req, resp, email);
             System.out.println("код подтверждения отправлен");
         } else {
             req.getRequestDispatcher("/views/register/register.jsp").forward(req, resp);

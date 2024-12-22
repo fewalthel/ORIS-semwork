@@ -1,9 +1,9 @@
 package org.example.orissemwork.servlets;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.IOException;
 
 @WebServlet("/all_questions")
 public class AllQuestionsServlet extends HttpServlet{
