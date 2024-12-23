@@ -3,6 +3,8 @@ package org.example.orissemwork.services;
 import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.model.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -16,7 +18,7 @@ public class RegisterService {
 
     public static boolean emailExist( User account ) { return UserDAO.getByEmail(account.getEmail()) != null; }
 
-    public static boolean valuesIsValid(User account, HttpServletRequest req, String repeatPassword) throws IOException {
+    public static boolean valuesIsValid(User account, HttpServletRequest req, String repeatPassword) {
         if (!check(account, req)) { return false; }
 
         if (usernameExist(account)) {
@@ -33,9 +35,11 @@ public class RegisterService {
         }
     }
 
-    public static void save(User account) {/*
-        String password = account.getPassword();
-        account.setPassword(SecurityService.hashPassword(password));*/
+    public static void save(User account) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String password = passwordEncoder.encode(account.getPassword());
+        account.setPassword(password);
+
         UserDAO.saveToDB(account);
     }
 
@@ -53,8 +57,4 @@ public class RegisterService {
             return true;
         }
     }
-
-   /* public static boolean checkPassword(String password, String hashedPassword) {
-        return BCrypt.checkpw(password, hashedPassword);
-    }*/
 }

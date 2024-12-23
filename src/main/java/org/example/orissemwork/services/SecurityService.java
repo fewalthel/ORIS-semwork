@@ -2,6 +2,8 @@ package org.example.orissemwork.services;
 
 import org.example.orissemwork.db.UserDAO;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +25,9 @@ public class  SecurityService {
     }
 
     public static boolean signIn(HttpServletRequest req, String email, String password) {
-        if (UserDAO.findByEmailAndPassword(email, password)) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if (passwordEncoder.matches(password, UserDAO.getByEmail(email).getPassword())) {
             req.getSession().setAttribute("username", UserDAO.getByEmail(email).getUsername());
             req.getSession().setAttribute("email", email);
             return true;
@@ -38,7 +42,4 @@ public class  SecurityService {
         req.getSession().removeAttribute("email");
     }
 
-    public static String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt());
-    }
 }

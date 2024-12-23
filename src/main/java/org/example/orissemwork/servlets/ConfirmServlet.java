@@ -1,12 +1,12 @@
 package org.example.orissemwork.servlets;
 
 import org.example.orissemwork.model.*;
+import org.example.orissemwork.services.RegisterService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import static org.example.orissemwork.services.RegisterService.save;
 
 @WebServlet ("/confirm")
 public class ConfirmServlet extends HttpServlet {
@@ -27,7 +27,7 @@ public class ConfirmServlet extends HttpServlet {
             String password = (String) req.getSession().getAttribute("password");
 
             User account = new User(null, email, username, password, "default");
-            save(account);
+            RegisterService.save(account);
 
             session.removeAttribute("password");
             session.removeAttribute("confirmationCode");

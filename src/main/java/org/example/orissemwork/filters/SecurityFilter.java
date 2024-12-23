@@ -53,7 +53,6 @@ public class SecurityFilter extends HttpFilter {
                             return;
                         }
                     }
-
                 }
 
             }

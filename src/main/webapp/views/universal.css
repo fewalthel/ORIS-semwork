@@ -44,12 +44,6 @@
     border: none;
 }
 
-.container-for-marks {
-    display: flex;
-    justify-content: space-between;
-    width: 8vw;
-}
-
 textarea:focus, input:focus {
     outline-color: var(--mint-color);
 }

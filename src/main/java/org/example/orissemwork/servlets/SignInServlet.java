@@ -2,6 +2,8 @@ package org.example.orissemwork.servlets;
 
 import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.services.SecurityService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +24,6 @@ public class SignInServlet extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email").toLowerCase();
         String password = req.getParameter("password");
-
-        String hashedPassword = SecurityService.hashPassword(password);
 
         if(SecurityService.signIn(req, email, password)){
             req.setAttribute("username", UserDAO.getByEmail(email).getUsername());

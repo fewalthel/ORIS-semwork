@@ -1,15 +1,17 @@
 package org.example.orissemwork.services;
 
-import org.example.orissemwork.db.AnswerDAO;
-import org.example.orissemwork.db.QuestionDAO;
 import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.model.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class SettingsService {
     public static boolean oldPasswordIsRight(String oldPassword, String username) {
-        return UserDAO.getByUsername(username).getPassword().equals(oldPassword);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(oldPassword, UserDAO.getByUsername(username).getPassword());
+
     }
 
     public static boolean newPasswordIsValid(String newPassword) {
@@ -27,7 +29,10 @@ public class SettingsService {
     public static void changePassword(HttpServletRequest req, String newPassword) {
         String email = (String) req.getSession().getAttribute("email");
         User user = UserDAO.getByEmail(email);
-        UserDAO.updatePassword(user, newPassword);
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String password = passwordEncoder.encode(newPassword);
+        UserDAO.updatePassword(user, password);
     }
 
     public static void changeUsername(HttpServletRequest req, String newUsername) {
