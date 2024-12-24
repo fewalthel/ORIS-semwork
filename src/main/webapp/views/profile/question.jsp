@@ -5,6 +5,61 @@
 <%@ page import="org.example.orissemwork.model.*" %>
 <%@ page import="java.util.List" %>
 
+
+<script>
+
+    function updateRating(json_document, id_of_button) {
+        let btn = document.getElementById(id_of_button);
+        let mark = json_document[1]; //второй параметр это строка с true, false или null
+
+        //удаляем дочерние элементы нашего button
+        btn.innerHTML = '';
+
+        const newImg = document.createElement('img');
+
+        if (id_of_button.includes('thumbs-up')) {
+            if (mark === 'null') {
+                newImg.src = 'pics/thumbs-up.svg';
+            }
+            if (mark === 'true') {
+                newImg.src = 'pics/thumbs-up-fill.svg';
+            }
+        }
+        if (id_of_button.includes('thumbs-down')) {
+            if (mark === 'null') {
+                newImg.src = 'pics/thumbs-down.svg';
+            }
+            if (mark === 'false') {
+                newImg.src = 'pics/thumbs-down-fill.svg';
+            }
+        }
+
+        btn.appendChild(newImg);
+
+    }
+
+    function sendLikes(id_of_answer, rating, id_of_button) {
+
+        let data = {
+            "id_of_answer": id_of_answer, //number of id answer
+            "rating": rating //'true', 'false' or 'null'
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/rating",
+            data: JSON.stringify(data),
+            success: function (response) {
+                //запсукаем функцию перерисовки картинки
+                updateRating(response, id_of_button)
+            },
+            dataType: "json",
+            contentType: "application/json"
+        });
+
+    }
+</script>
+
 <div id="container-for-content">
     <ul>
         <li>
@@ -48,4 +103,5 @@
     </ul>
 </div>
 </main>
+
 <%@include file="/views/_footer.jsp" %>

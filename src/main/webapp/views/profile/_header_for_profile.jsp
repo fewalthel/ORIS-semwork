@@ -7,6 +7,12 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <title>Account</title>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous">
+    </script>
+
 </head>
 <link rel="stylesheet" type="text/css" href="views/universal.css">
 <link rel="stylesheet" type="text/css" href="views/profile/profile.css">
