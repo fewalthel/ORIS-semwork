@@ -13,18 +13,17 @@ public class RatingService {
         this.ratingDAO = ratingDAO;
     }
 
-
-    public static void updateRatingOnDB(String rating, User author, Answer answer) throws SQLException {
+    public void updateRatingOnDB(String rating, User author, Answer answer) throws SQLException {
         //если переданнрое значение null, убираем поставленную пользователем оценку
         if (rating.equals("null")) {
-            RatingDAO.deleteFromDB(author, answer);
+            ratingDAO.deleteFromDB(author, answer);
         } else {
             //если изначальное значение в базе null, сохраяем новую оценку
-            if (RatingDAO.getByIdOfUser(author, answer) == null) {
-                RatingDAO.saveToDB(author, answer, Boolean.valueOf(rating));
+            if (ratingDAO.getByIdOfUser(author, answer) == null) {
+                ratingDAO.saveToDB(author, answer, Boolean.valueOf(rating));
                 //если изначальное значение в базе НЕ null, обновляем оценку
             } else  {
-                RatingDAO.updateRating(author, answer, Boolean.valueOf(rating));
+                ratingDAO.updateRating(author, answer, Boolean.valueOf(rating));
             }
         }
     }

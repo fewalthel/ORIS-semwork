@@ -1,5 +1,6 @@
 package org.example.orissemwork.servlets;
 
+import lombok.SneakyThrows;
 import org.example.orissemwork.model.*;
 import org.example.orissemwork.services.*;
 
@@ -11,11 +12,19 @@ import java.io.IOException;
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet{
 
+    private RegisterService registerService;
+
+    @Override
+    public void init(ServletConfig config) {
+        registerService = (RegisterService) config.getServletContext().getAttribute("registerService");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/views/register/register.jsp").forward(req, resp);
     }
 
+    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email").toLowerCase();
@@ -27,10 +36,9 @@ public class RegisterServlet extends HttpServlet{
 
         req.getSession().setAttribute("email", email);
         req.getSession().setAttribute("username", username);
-        req.getSession().setAttribute("password", password);
 
-        if (RegisterService.valuesIsValid(account, req, confirmPassword)) {
-            ConfirmService.confirm(req, resp, email);
+        if (registerService.valuesIsValid(account, req, confirmPassword)) {
+            registerService.confirm(req, resp, email);
             System.out.println("код подтверждения отправлен");
         } else {
             req.getRequestDispatcher("/views/register/register.jsp").forward(req, resp);

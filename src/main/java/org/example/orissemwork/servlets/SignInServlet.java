@@ -1,34 +1,38 @@
 package org.example.orissemwork.servlets;
 
-import org.example.orissemwork.db.UserDAO;
-import org.example.orissemwork.services.SecurityService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.SneakyThrows;
+import org.example.orissemwork.services.UserService;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import java.io.IOException;
 
-
 @WebServlet("/signin")
 public class SignInServlet extends HttpServlet{
+
+    private UserService userService;
+
+    @Override
+    public void init(ServletConfig config) {
+        userService= (UserService) config.getServletContext().getAttribute("userService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/views/signin/signin.jsp").forward(req, resp);
     }
 
+    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email").toLowerCase();
         String password = req.getParameter("password");
 
-        if(SecurityService.signIn(req, email, password)){
-            req.setAttribute("username", UserDAO.getByEmail(email).getUsername());
+        if(userService.signIn(req, email, password)){
             resp.sendRedirect(getServletContext().getContextPath() + "/profile");
-
         } else {
             req.getRequestDispatcher("/views/signin/signin.jsp").forward(req, resp);
         }

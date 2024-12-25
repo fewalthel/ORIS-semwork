@@ -1,13 +1,10 @@
 package org.example.orissemwork.listeners;
 
-
-import org.example.orissemwork.services.RatingService;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.example.orissemwork.db.*;
+import org.example.orissemwork.services.*;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import javax.servlet.*;
 import javax.servlet.annotation.WebListener;
 
 
@@ -32,7 +29,21 @@ public class WebServletListener implements ServletContextListener {
         RatingDAO ratingDAO = new RatingDAO(dataSource);
         RatingService ratingService = new RatingService(ratingDAO);
 
+        UserDAO userDAO = new UserDAO(dataSource);
+        UserService userService = new UserService(userDAO);
+
+        QuestionDAO questionDAO = new QuestionDAO(dataSource);
+        QuestionService questionService = new QuestionService(questionDAO);
+
+        AnswerDAO answerDAO = new AnswerDAO(dataSource);
+        AnswerService answerService = new AnswerService(answerDAO);
+        RegisterService registerService = new RegisterService(userDAO);
+
         servletContext.setAttribute("ratingService", ratingService);
+        servletContext.setAttribute("userService", userService);
+        servletContext.setAttribute("questionService", questionService);
+        servletContext.setAttribute("answerService", answerService);
+        servletContext.setAttribute("registerService", registerService);
     }
 
     @Override

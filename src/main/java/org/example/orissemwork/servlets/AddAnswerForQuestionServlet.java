@@ -27,7 +27,7 @@ public class AddAnswerForQuestionServlet extends HttpServlet {
         Answer ans = new Answer(null, QuestionDAO.getById(id), content, author);
         String title_of_question = QuestionDAO.getById(id).getTitle();
 
-        if (AddAnswerForQuestionService.answerIsGiven(ans, title_of_question, req)) {
+        if (AnswerService.answerIsGiven(ans, title_of_question, req)) {
             resp.sendRedirect(getServletContext().getContextPath() +"/question"+"?id="+id);
         } else {
             req.getRequestDispatcher("/views/profile/question.jsp").forward(req, resp);

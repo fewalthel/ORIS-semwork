@@ -7,9 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RatingDAO implements DAO {
+public class RatingDAO {
 
-    private static DataSource dataSource;
+    private DataSource dataSource;
 
     public RatingDAO(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -21,7 +21,7 @@ public class RatingDAO implements DAO {
     private static final String DELETE_RATING_QUERY = "DELETE FROM rating WHERE id_user = ? AND id_answer = ?";
     private static final String SELECT_ALL_BY_ANSWER_QUERY = "SELECT * FROM rating WHERE id_answer = ? AND is_liked = ?";
 
-    public static Rating getByIdOfUser(User user, Answer answer) throws SQLException {
+    public Rating getByIdOfUser(User user, Answer answer) throws SQLException {
         Rating rating = null;
 
         Connection connection = dataSource.getConnection();
@@ -43,7 +43,7 @@ public class RatingDAO implements DAO {
         return rating;
     }
 
-    public static void updateRating(User user, Answer answer, Boolean liked) throws SQLException {
+    public void updateRating(User user, Answer answer, Boolean liked) throws SQLException {
 
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_RATING_QUERY);
@@ -63,7 +63,7 @@ public class RatingDAO implements DAO {
         }
     }
 
-    public static void saveToDB(User user, Answer answer, Boolean liked) throws SQLException {
+    public void saveToDB(User user, Answer answer, Boolean liked) throws SQLException {
 
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RATING_QUERY);
@@ -83,7 +83,7 @@ public class RatingDAO implements DAO {
         }
     }
 
-    public static void deleteFromDB(User user, Answer answer) throws SQLException {
+    public void deleteFromDB(User user, Answer answer) throws SQLException {
 
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_RATING_QUERY);
@@ -104,7 +104,7 @@ public class RatingDAO implements DAO {
         }
     }
 
-    public static List<Rating> getAllByAnswer(Answer answer, Boolean is_liked) throws SQLException {
+    public List<Rating> getAllByAnswer(Answer answer, Boolean is_liked) throws SQLException {
         List<Rating> marks = new ArrayList<>();
 
         Connection connection = dataSource.getConnection();
@@ -119,7 +119,10 @@ public class RatingDAO implements DAO {
                 Integer id_user = resultSet.getInt("id_user");
                 Integer id_answer = resultSet.getInt("id_answer");
 
-                Rating rating = new Rating(AnswerDAO.getById(id_answer), UserDAO.getById(id_user), is_liked);
+                AnswerDAO answerDAO = new AnswerDAO(dataSource);
+                UserDAO userDAO = new UserDAO(dataSource);
+
+                Rating rating = new Rating(answerDAO.getById(id_answer), userDAO.getById(id_user), is_liked);
 
                 marks.add(rating);
             }

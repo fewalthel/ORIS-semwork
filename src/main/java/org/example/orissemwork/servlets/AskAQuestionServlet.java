@@ -25,7 +25,7 @@ public class AskAQuestionServlet extends HttpServlet{
 
         Question question = new Question(null, title, description, null, CategoryDAO.getByName(category));
 
-        if (AskAQuestionService.questionIsAsked(question, req)) {
+        if (QuestionService.questionIsAsked(question, req)) {
             resp.sendRedirect(getServletContext().getContextPath() + "/my_questions");
         } else {
             req.getRequestDispatcher("/views/profile/my_questions.jsp").forward(req, resp);

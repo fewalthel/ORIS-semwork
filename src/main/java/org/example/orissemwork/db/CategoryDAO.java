@@ -2,24 +2,28 @@ package org.example.orissemwork.db;
 
 import org.example.orissemwork.model.*;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
-public class CategoryDAO implements DAO {
+public class CategoryDAO {
+
+    private DataSource dataSource;
+
+    public CategoryDAO(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     private static final String SELECT_BY_NAME_QUERY = "SELECT * FROM categories WHERE name = ?";
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM categories WHERE id = ?";
 
-    public static Category getByName(String name) {
+    public Category getByName(String name) throws SQLException {
+
         Category category = null;
 
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_NAME_QUERY);
+
         try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_NAME_QUERY)) {
-
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -34,18 +38,13 @@ public class CategoryDAO implements DAO {
     }
 
 
-    public static Category getById(Integer id) {
+    public Category getById(Integer id) throws SQLException {
         Category category = null;
 
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY);
+
         try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
-
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 

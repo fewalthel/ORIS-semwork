@@ -4,13 +4,20 @@ import org.example.orissemwork.model.Answer;
 import org.example.orissemwork.model.Question;
 import org.example.orissemwork.model.User;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AnswerDAO implements DAO {
+public class AnswerDAO {
+
+    private DataSource dataSource;
+
+    public AnswerDAO(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     private static final String SELECT_BY_TITLE_OF_QUESTION_QUERY = "SELECT answers.* FROM questions INNER JOIN answers ON answers.id_question = questions.id WHERE questions.title = ? AND answers.content = ?";
-//  OLD QUERY:    "SELECT * FROM answers WHERE id_question = ? AND content = ?";
 
     private static final String INSERT_ANSWER_QUERY = "INSERT INTO answers (id_question, content, id_user) VALUES (?, ?, ?)";
     private static final String SELECT_ALL_ANSWERS_BY_QUESTION_QUERY = "SELECT * FROM answers WHERE id_question = ?";
@@ -23,22 +30,25 @@ public class AnswerDAO implements DAO {
     private static final String DELETE_FROM_DB_QUERY = " DELETE FROM answers WHERE id = ?";
     private static final String DELETE_ANSWER_BY_USER_QUERY = "DELETE FROM answers WHERE id_user = ? AND id_answer = ?";
 
-    public static Answer getForThisQuestion(Answer answer, String title_of_question) {
+    public Answer getForThisQuestion(Answer answer, String title_of_question) throws SQLException {
         Answer ans = null;
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_TITLE_OF_QUESTION_QUERY)) {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_TITLE_OF_QUESTION_QUERY);
 
+        try {
             preparedStatement.setString(1, title_of_question);
             preparedStatement.setString(2, answer.getContent());
 
             ResultSet resultSet = preparedStatement.executeQuery();
+            QuestionDAO questionDAO = new QuestionDAO(dataSource);
+            UserDAO userDAO = new UserDAO(dataSource);
 
             if (resultSet.next()) {
                 Integer serialValue = resultSet.getInt("id");
-                Question question = QuestionDAO.getByTitle(resultSet.getString("question"));
+                Question question = questionDAO.getByTitle(resultSet.getString("question"));
                 String content = resultSet.getString("content");
-                User author = UserDAO.getByEmail(resultSet.getString("author"));
+                User author = userDAO.getByEmail(resultSet.getString("author"));
 
                 ans = new Answer(serialValue, question, content, author);
             }
@@ -48,10 +58,11 @@ public class AnswerDAO implements DAO {
         return ans;
     }
 
-    public static void saveToDB(Answer ans) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ANSWER_QUERY)) {
+    public void saveToDB(Answer ans) throws SQLException {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ANSWER_QUERY);
 
+        try {
             preparedStatement.setInt(1, ans.getQuestion().getId());
             preparedStatement.setString(2, ans.getContent());
             preparedStatement.setInt(3, ans.getAuthor().getId());
@@ -65,14 +76,18 @@ public class AnswerDAO implements DAO {
         }
     }
 
-    public static LinkedList<Answer> getAllByQuestion(Question question) {
+    public LinkedList<Answer> getAllByQuestion(Question question) throws SQLException {
         LinkedList<Answer> answers = new LinkedList<>();
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_ANSWERS_BY_QUESTION_QUERY)) {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_ANSWERS_BY_QUESTION_QUERY);
+        try {
 
-            statement.setInt(1, question.getId());
-            ResultSet resultSet = statement.executeQuery();
+            preparedStatement.setInt(1, question.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            QuestionDAO questionDAO = new QuestionDAO(dataSource);
+            UserDAO userDAO = new UserDAO(dataSource);
 
             while (resultSet.next()) {
                 Integer serialValue = resultSet.getInt("id");
@@ -80,7 +95,7 @@ public class AnswerDAO implements DAO {
                 String content = resultSet.getString("content");
                 Integer authorId = resultSet.getInt("id_user");
 
-                Answer answer = new Answer(serialValue, QuestionDAO.getById(questionId), content, UserDAO.getById(authorId));
+                Answer answer = new Answer(serialValue, questionDAO.getById(questionId), content, userDAO.getById(authorId));
                 answers.add(answer);
             }
         } catch (SQLException e) {
@@ -89,21 +104,25 @@ public class AnswerDAO implements DAO {
         return answers;
     }
 
-    public static List<Answer> getAllByAuthor(User author) {
+    public List<Answer> getAllByAuthor(User author) throws SQLException {
         List<Answer> answers = new LinkedList<>();
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_ANSWERS_BY_AUTHOR_QUERY)) {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_ANSWERS_BY_AUTHOR_QUERY);
 
-            statement.setInt(1, author.getId());
-            ResultSet resultSet = statement.executeQuery();
+        try {
+
+            preparedStatement.setInt(1, author.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            QuestionDAO questionDAO = new QuestionDAO(dataSource);
 
             while (resultSet.next()) {
                 Integer serialValue = resultSet.getInt("id");
                 Integer id_question = resultSet.getInt("id_question");
                 String content = resultSet.getString("content");
 
-                Answer answer = new Answer(serialValue, QuestionDAO.getById(id_question), content, author);
+                Answer answer = new Answer(serialValue, questionDAO.getById(id_question), content, author);
                 answers.add(answer);
             }
         } catch (SQLException e) {
@@ -112,14 +131,15 @@ public class AnswerDAO implements DAO {
         return answers;
     }
 
-    public static List<Answer> getFavoriteAnswers(User user) {
+    public List<Answer> getFavoriteAnswers(User user) throws SQLException {
         List<Answer> answers = new LinkedList<>();
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(SELECT_FAVOURITES_ANSWERS_QUERY)) {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FAVOURITES_ANSWERS_QUERY);
 
-            statement.setInt(1, user.getId());
-            ResultSet resultSet = statement.executeQuery();
+        try {
+            preparedStatement.setInt(1, user.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 Integer idAnswer = resultSet.getInt("id_answer");
@@ -134,21 +154,24 @@ public class AnswerDAO implements DAO {
         return answers;
     }
 
-    public static Answer getById(Integer id) {
+    public Answer getById(Integer id) throws SQLException {
         Answer ans = null;
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY);
 
+        try {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
+            QuestionDAO questionDAO = new QuestionDAO(dataSource);
+            UserDAO userDAO = new UserDAO(dataSource);
 
-                Question question = QuestionDAO.getById(resultSet.getInt("id_question"));
+            if (resultSet.next()) {
+                Question question = questionDAO.getById(resultSet.getInt("id_question"));
                 String content = resultSet.getString("content");
-                User author = UserDAO.getById(resultSet.getInt("id_user"));
+                User author = userDAO.getById(resultSet.getInt("id_user"));
 
                 ans = new Answer(id, question, content, author);
             }
@@ -158,10 +181,12 @@ public class AnswerDAO implements DAO {
         return ans;
     }
 
-    public static void saveToFavorites(Answer ans, User user) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_FAVOURITES_QUERY)) {
+    public void saveToFavorites(Answer ans, User user) throws SQLException {
 
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_FAVOURITES_QUERY);
+
+        try {
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, ans.getId());
 
@@ -176,10 +201,12 @@ public class AnswerDAO implements DAO {
         }
     }
 
-    public static void removeFromFavorites(Answer ans, User user) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FAVOURITES_QUERY)) {
+    public void removeFromFavorites(Answer ans, User user) throws SQLException {
 
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FAVOURITES_QUERY);
+
+        try {
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, ans.getId());
 
@@ -195,15 +222,16 @@ public class AnswerDAO implements DAO {
         }
     }
 
-    public static boolean ansInFavForUser(Answer ans, User user) {
+    public boolean ansInFavForUser(Answer ans, User user) throws SQLException {
         String result = null;
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(SELECT_FROM_FAVS_BY_USER_AND_ANSWER_QUERY)) {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_FAVS_BY_USER_AND_ANSWER_QUERY);
 
-            statement.setInt(1, user.getId());
-            statement.setInt(2, ans.getId());
-            ResultSet resultSet = statement.executeQuery();
+        try {
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(2, ans.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 String foundEmail = resultSet.getString("id_user");
@@ -218,10 +246,12 @@ public class AnswerDAO implements DAO {
         return (result != null && !result.equals(""));
     }
 
-    public static void deleteFromDBB (Answer ans) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FROM_DB_QUERY)) {
+    public void deleteFromDBB(Answer ans) throws SQLException {
 
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FROM_DB_QUERY);
+
+        try {
             preparedStatement.setInt(1, ans.getId());
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -235,10 +265,11 @@ public class AnswerDAO implements DAO {
         }
     }
 
-    public static void deleteFromDBByAuthor(Answer ans, User user) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ANSWER_BY_USER_QUERY)) {
+    public void deleteFromDBByAuthor(Answer ans, User user) throws SQLException {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ANSWER_BY_USER_QUERY);
 
+        try {
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, ans.getId());
             int rowsAffected = preparedStatement.executeUpdate();

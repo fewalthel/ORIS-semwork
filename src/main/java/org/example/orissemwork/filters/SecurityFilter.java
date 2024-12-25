@@ -1,8 +1,6 @@
 package org.example.orissemwork.filters;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.*;
@@ -10,7 +8,7 @@ import javax.servlet.http.*;
 import org.example.orissemwork.db.QuestionDAO;
 import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.model.User;
-import org.example.orissemwork.services.SecurityService;
+import org.example.orissemwork.services.UserService;
 
 @WebFilter("/*")
 public class SecurityFilter extends HttpFilter {
@@ -27,13 +25,14 @@ public class SecurityFilter extends HttpFilter {
             }
         }
 
-        if (prot && !SecurityService.isSigned(req)) {
+        if (prot && !UserService.isSigned(req)) {
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User unauthorized");
         } else {
-            if (SecurityService.isSigned(req)) {
-                req.setAttribute("user", SecurityService.getUser(req));
+            if (UserService.isSigned(req)) {
+                req.setAttribute("user", UserService.getUser(req));
                 if ("/all_users".equals(req.getRequestURI().substring(req.getContextPath().length()))) {
-                    User user = UserDAO.getByEmail((String) SecurityService.getUser(req).get("email"));
+                    UserDAO userDAO = new UserDAO(dataSourse);
+                    User user = userDAO.getByEmail((String) UserService.getUser(req).get("email"));
 
                     if (user == null || !"admin".equals(user.getRole())) {
                         res.sendError(HttpServletResponse.SC_FORBIDDEN, "Admins only");
