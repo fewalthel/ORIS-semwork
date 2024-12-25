@@ -123,6 +123,11 @@ public class UserDAO {
                 String password = resultSet.getString("password");
                 String role = resultSet.getString("role");
 
+                System.out.println("email: " + email);
+                System.out.println("username: " + username);
+                System.out.println("password: " + password);
+                System.out.println("role: " + role);
+
                 user = new User(id, email, username, password, role);
             }
         } catch (SQLException e) {

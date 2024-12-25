@@ -157,3 +157,10 @@ footer {
 section {
     margin: 30px;
 }
+
+.user_email, .user_role, .user_questions, .user_answers {
+    font-size: 1.5vw;
+    height: 3vw;
+    padding-bottom: 1vw;
+    padding-left: 1vw;
+}

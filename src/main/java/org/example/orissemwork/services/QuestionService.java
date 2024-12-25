@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class QuestionService {
 
-    private QuestionDAO questionDAO;
+    public QuestionDAO questionDAO;
 
     public QuestionService(QuestionDAO questionDAO) {
         this.questionDAO = questionDAO;

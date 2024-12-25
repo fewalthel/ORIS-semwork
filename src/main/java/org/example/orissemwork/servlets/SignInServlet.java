@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.example.orissemwork.services.UserService;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -16,8 +17,9 @@ public class SignInServlet extends HttpServlet{
     private UserService userService;
 
     @Override
-    public void init(ServletConfig config) {
-        userService= (UserService) config.getServletContext().getAttribute("userService");
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        userService = (UserService) getServletContext().getAttribute("userService");
     }
 
     @Override
@@ -27,7 +29,7 @@ public class SignInServlet extends HttpServlet{
 
     @SneakyThrows
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String email = req.getParameter("email").toLowerCase();
         String password = req.getParameter("password");
 

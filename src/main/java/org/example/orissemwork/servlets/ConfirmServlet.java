@@ -1,5 +1,6 @@
 package org.example.orissemwork.servlets;
 
+import lombok.SneakyThrows;
 import org.example.orissemwork.model.*;
 import org.example.orissemwork.services.RegisterService;
 
@@ -10,13 +11,22 @@ import java.io.IOException;
 
 @WebServlet ("/confirm")
 public class ConfirmServlet extends HttpServlet {
+
+    private RegisterService registerService;
+
+    @Override
+    public void init(ServletConfig config) {
+        registerService = (RegisterService) config.getServletContext().getAttribute("registerService");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/views/confirm/confirm.jsp").forward(req, resp);
     }
 
+    @SneakyThrows
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String code = req.getParameter("code");
         HttpSession session = req.getSession();
         String confirmationCode = (String) session.getAttribute("confirmationCode");
@@ -27,7 +37,7 @@ public class ConfirmServlet extends HttpServlet {
             String password = (String) req.getSession().getAttribute("password");
 
             User account = new User(null, email, username, password, "default");
-            RegisterService.save(account);
+            registerService.save(account);
 
             session.removeAttribute("password");
             session.removeAttribute("confirmationCode");

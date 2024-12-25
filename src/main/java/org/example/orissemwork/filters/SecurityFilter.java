@@ -1,22 +1,35 @@
 package org.example.orissemwork.filters;
 
-import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.*;
 
+import lombok.SneakyThrows;
 import org.example.orissemwork.db.QuestionDAO;
 import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.model.User;
+import org.example.orissemwork.services.QuestionService;
 import org.example.orissemwork.services.UserService;
 
 @WebFilter("/*")
 public class SecurityFilter extends HttpFilter {
     protected final String[] protectedPaths = {"/profile", "/settings", "/my_questions", "/all_questions",
             "/question", "/all_users", "/favorites_answers"};
+/*
+
+    private UserService userService;
+    private QuestionService questionService;
 
     @Override
-    protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+    public void init(FilterConfig filterConfig) throws ServletException {
+        userService = (UserService) filterConfig.getServletContext().getAttribute("userService");
+        questionService = (QuestionService) filterConfig.getServletContext().getAttribute("questionService");
+
+    }
+
+    @SneakyThrows
+    @Override
+    protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) {
         boolean prot = false;
         for (String path : protectedPaths) {
             if (path.equals(req.getRequestURI().substring(req.getContextPath().length()))) {
@@ -29,12 +42,12 @@ public class SecurityFilter extends HttpFilter {
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User unauthorized");
         } else {
             if (UserService.isSigned(req)) {
-                req.setAttribute("user", UserService.getUser(req));
-                if ("/all_users".equals(req.getRequestURI().substring(req.getContextPath().length()))) {
-                    UserDAO userDAO = new UserDAO(dataSourse);
-                    User user = userDAO.getByEmail((String) UserService.getUser(req).get("email"));
 
-                    if (user == null || !"admin".equals(user.getRole())) {
+                User user = userService.getUser(req);
+                req.setAttribute("user", user);
+
+                if ("/all_users".equals(req.getRequestURI().substring(req.getContextPath().length()))) {
+                                        if (user == null || !"admin".equals(user.getRole())) {
                         res.sendError(HttpServletResponse.SC_FORBIDDEN, "Admins only");
                         return;
                     }
@@ -46,17 +59,18 @@ public class SecurityFilter extends HttpFilter {
                         return;
                     } else {
                         Integer potencialId = Integer.valueOf(req.getParameterMap().get("id")[0]);
+                        QuestionDAO questionDAO = questionService.questionDAO;
 
-                        if (QuestionDAO.getById(potencialId) == null) {
+                        if (questionDAO.getById(potencialId) == null) {
                             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
                             return;
                         }
                     }
                 }
-
             }
             chain.doFilter(req, res);
         }
     }
 
+*/
 }

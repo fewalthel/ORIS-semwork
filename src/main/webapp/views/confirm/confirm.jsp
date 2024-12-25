@@ -15,7 +15,7 @@
     <%String confirmationCode = (String) request.getSession().getAttribute("confirmationCode");
         if (confirmationCode != null) { %>
 
-    <form action="<c:url value="confirm"/>" method="post">
+    <form action="confirm" method="post">
         <input type="text" name="code" placeholder="enter your confirmation code">
         <div>
             <button id="confirm" type="submit">Confirm</button>

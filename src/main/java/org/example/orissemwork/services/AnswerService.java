@@ -6,10 +6,9 @@ import org.example.orissemwork.model.*;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
-
 public class AnswerService {
 
-    private AnswerDAO answerDAO;
+    public AnswerDAO answerDAO;
 
     public AnswerService(AnswerDAO answerDAO) {
         this.answerDAO = answerDAO;
@@ -31,5 +30,13 @@ public class AnswerService {
 
     public void saveAnswer(Answer answer) throws SQLException {
         answerDAO.saveToDB(answer);
+    }
+
+    public void favoritesSettings(Answer ans, User user) throws SQLException {
+        if (answerDAO.ansInFavForUser(ans, user)) {
+            answerDAO.removeFromFavorites(ans, user);
+        } else {
+            answerDAO.saveToFavorites(ans, user);
+        }
     }
 }

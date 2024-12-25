@@ -1,5 +1,6 @@
 <%@ page import="org.example.orissemwork.db.UserDAO" %>
 <%@ page import="org.example.orissemwork.model.User" %>
+<%@ page import="org.example.orissemwork.services.UserService" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -32,10 +33,9 @@
         <li><a href="my_questions">My questions</a></li>
         <li><a href="settings">Settings</a></li>
         <li><a href="favorites_answers">Favorites answers</a></li>
-        <% User user = UserDAO.getByEmail((String) session.getAttribute("email"));
-            if (user.getRole().equals("admin")) { %>
-        <li><a href="all_users">All users</a></li>
-        <%}%>
+        <c:if test="${role.equals('admin')}">
+            <li><a href="all_users">All users</a></li>
+        </c:if>
         <li><a href="main">Go to main</a></li>
     </ul>
 </nav>

@@ -13,8 +13,9 @@ public class AllQuestionsServlet extends HttpServlet {
     private QuestionService questionService;
 
     @Override
-    public void init(ServletConfig config) {
-        questionService = (QuestionService) config.getServletContext().getAttribute("questionService");
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        questionService = (QuestionService) getServletContext().getAttribute("questionService");
     }
 
     @Override

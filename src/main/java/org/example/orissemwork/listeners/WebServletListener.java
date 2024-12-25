@@ -44,10 +44,16 @@ public class WebServletListener implements ServletContextListener {
         servletContext.setAttribute("questionService", questionService);
         servletContext.setAttribute("answerService", answerService);
         servletContext.setAttribute("registerService", registerService);
-    }
+        servletContext.setAttribute("ratingDAO", ratingDAO);
+        servletContext.setAttribute("userDAO", userDAO);
+        servletContext.setAttribute("questionDAO", questionDAO);
+        servletContext.setAttribute("answerDAO", answerDAO);
 
+
+    }
+/*
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-
-    }
+        System.out.println("Приложение завершено.");
+    }*/
 }

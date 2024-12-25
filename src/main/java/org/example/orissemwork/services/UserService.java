@@ -15,31 +15,37 @@ import javax.servlet.http.HttpServletResponse;
 
 public class UserService {
 
-    private UserDAO userDAO;
+    public static UserDAO userDAO;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
-    public static Map<String, Object> getUser(HttpServletRequest req) {
+    public static User getUser(HttpServletRequest req) throws SQLException {
         if (isSigned(req)) {
-            Map<String, Object> user = new HashMap<>();
-            user.put("username", req.getSession().getAttribute("username"));
-            user.put("email", req.getSession().getAttribute("email"));
+            String email = (String) req.getSession().getAttribute("email");
+            System.out.println("Вызывается метод getUser");
+            User user = userDAO.getByEmail(email);
             return user;
         }
         return null;
     }
 
     public static boolean isSigned(HttpServletRequest req) {
+        System.out.println("Вызывается метод isSigned");
         return req.getSession().getAttribute("username") != null && req.getSession().getAttribute("email") != null;
     }
 
     public boolean signIn(HttpServletRequest req, String email, String password) throws SQLException {
+        System.out.println("Вызывается метод signIn");
         if (passwordEncoder.matches(password, userDAO.getByEmail(email).getPassword())) {
-            req.getSession().setAttribute("username", userDAO.getByEmail(email).getUsername());
+            User user = userDAO.getByEmail(email);
+
+            req.getSession().setAttribute("username", user.getUsername());
             req.getSession().setAttribute("email", email);
+            req.getSession().setAttribute("id", user.getId());
+            req.getSession().setAttribute("role", user.getRole());
             return true;
         } else {
             req.setAttribute("error", "Incorrect email or password");
@@ -50,6 +56,8 @@ public class UserService {
     public void signOut(HttpServletRequest req) {
         req.getSession().removeAttribute("username");
         req.getSession().removeAttribute("email");
+        req.getSession().removeAttribute("id");
+        req.getSession().removeAttribute("role");
     }
 
     public void deleteAccount(HttpServletRequest req, HttpServletResponse resp, String current_username, String current_password) throws IOException, SQLException, ServletException {

@@ -7,7 +7,7 @@ import java.sql.*;
 
 public class CategoryDAO {
 
-    private DataSource dataSource;
+    private static DataSource dataSource;
 
     public CategoryDAO(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -16,7 +16,7 @@ public class CategoryDAO {
     private static final String SELECT_BY_NAME_QUERY = "SELECT * FROM categories WHERE name = ?";
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM categories WHERE id = ?";
 
-    public Category getByName(String name) throws SQLException {
+    public static Category getByName(String name) throws SQLException {
 
         Category category = null;
 
