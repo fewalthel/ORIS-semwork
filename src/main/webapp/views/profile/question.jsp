@@ -5,6 +5,7 @@
 <%@ page import="org.example.orissemwork.model.*" %>
 <%@ page import="java.util.List" %>
 
+<%--
 
 <script>
 
@@ -59,20 +60,21 @@
 
     }
 </script>
+--%>
 
 <div id="container-for-content">
     <ul>
         <li>
-            <% Question question = QuestionDAO.getById(Integer.parseInt(request.getParameter("id")));
+            <%--<% Question question = QuestionDAO.getById(Integer.parseInt(request.getParameter("id")));
                 String id = request.getParameter("id");%>
-
+--%>
             <section class="question-card">
                 <div style=" display: flex; justify-content: space-between;">
-                    <h2 class="question_title"><%= question.getTitle() %></h2>
-                    <p style="margin-top: 35px; opacity: 0.75;">category: <%= question.getCategory().getName() %></p>
+                    <h2 class="question_title">${question.getTitle()}</h2>
+                    <p style="margin-top: 35px; opacity: 0.75;">category: ${question.getCategory().getName()}</p>
                 </div>
-                <p class="question_description"><%= question.getDescription() %></p>
-                <p class="question_author"> author: <%= question.getAuthor().getUsername()%></p>
+                <p class="question_description">${question.getDescription()}</p>
+                <p class="question_author"> author: ${question.getAuthor().getUsername()}</p>
             </section>
         </li>
 
@@ -88,18 +90,16 @@
                     <input type="text" id="answer" name="answer" required>
                 </div>
                 <br>
-                <input type="hidden" name="id" value="<%=id%>">
+                <input type="hidden" name="id" value="${question.getId()}">
                 <button type="submit" class="button">Send</button>
             </form>
         </section>
 
-
-        <%  List<Answer> answers = AnswerDAO.getAllByQuestion(question);
-            for (Answer answer : answers) { %>
-        <li>
-            <%@include file="/views/profile/_answer_model.jsp" %>
-        </li>
-        <%}%>
+        <c:forEach items="${all_answers_for_this_question}" var="answer">
+            <li>
+                <%@include file="/views/profile/_answer_model.jsp" %>
+            </li>
+        </c:forEach>
     </ul>
 </div>
 </main>
