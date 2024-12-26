@@ -1,8 +1,6 @@
 package org.example.orissemwork.filters;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.*;
@@ -16,6 +14,10 @@ import org.example.orissemwork.services.SecurityService;
 public class SecurityFilter extends HttpFilter {
     protected final String[] protectedPaths = {"/profile", "/settings", "/my_questions", "/all_questions",
             "/question", "/all_users", "/favorites_answers"};
+
+    protected final String adminPage = "/all_users";
+
+    protected final String onlyParametrizedPath = "/question";
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -32,8 +34,8 @@ public class SecurityFilter extends HttpFilter {
         } else {
             if (SecurityService.isSigned(req)) {
                 req.setAttribute("user", SecurityService.getUser(req));
-                if ("/all_users".equals(req.getRequestURI().substring(req.getContextPath().length()))) {
-                    User user = UserDAO.getByEmail((String) SecurityService.getUser(req).get("email"));
+                if (adminPage.equals(req.getRequestURI().substring(req.getContextPath().length()))) {
+                    User user = SecurityService.getUser(req);
 
                     if (user == null || !"admin".equals(user.getRole())) {
                         res.sendError(HttpServletResponse.SC_FORBIDDEN, "Admins only");
@@ -41,7 +43,7 @@ public class SecurityFilter extends HttpFilter {
                     }
                 }
 
-                if ("/question".equals(req.getRequestURI())) {
+                if (onlyParametrizedPath.equals(req.getRequestURI())) {
                     if (req.getParameterMap().isEmpty()) {
                         res.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
                         return;

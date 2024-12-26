@@ -10,8 +10,6 @@ import java.util.List;
 
 public class AnswerDAO implements DAO {
     private static final String SELECT_BY_TITLE_OF_QUESTION_QUERY = "SELECT answers.* FROM questions INNER JOIN answers ON answers.id_question = questions.id WHERE questions.title = ? AND answers.content = ?";
-//  OLD QUERY:    "SELECT * FROM answers WHERE id_question = ? AND content = ?";
-
     private static final String INSERT_ANSWER_QUERY = "INSERT INTO answers (id_question, content, id_user) VALUES (?, ?, ?)";
     private static final String SELECT_ALL_ANSWERS_BY_QUESTION_QUERY = "SELECT * FROM answers WHERE id_question = ?";
     private static final String SELECT_ALL_ANSWERS_BY_AUTHOR_QUERY = "SELECT * FROM answers WHERE id_user = ?";
@@ -21,7 +19,7 @@ public class AnswerDAO implements DAO {
     private static final String DELETE_FAVOURITES_QUERY = "DELETE FROM favourites_answers WHERE id_user = ? AND id_answer = ?";
     private static final String SELECT_FROM_FAVS_BY_USER_AND_ANSWER_QUERY = "SELECT * FROM favourites_answers WHERE id_user = ? AND id_answer = ?";
     private static final String DELETE_FROM_DB_QUERY = " DELETE FROM answers WHERE id = ?";
-    private static final String DELETE_ANSWER_BY_USER_QUERY = "DELETE FROM answers WHERE id_user = ? AND id_answer = ?";
+    private static final String DELETE_ANSWER_BY_USER_QUERY = "DELETE FROM answers WHERE id_user = ? AND id = ?";
 
     public static Answer getForThisQuestion(Answer answer, String title_of_question) {
         Answer ans = null;

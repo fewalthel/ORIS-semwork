@@ -1,6 +1,8 @@
 package org.example.orissemwork.services;
 
+import org.example.orissemwork.db.AnswerDAO;
 import org.example.orissemwork.db.UserDAO;
+import org.example.orissemwork.model.Answer;
 import org.example.orissemwork.model.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,6 +45,42 @@ public class SettingsService {
 
     public static void deleteAccount(User user) {
         UserDAO.deleteFromDB(user);
+    }
+
+    public static void adminSettings(HttpServletRequest req) {
+        if (req.getParameter("deleted_username") != null) {
+            User user = UserDAO.getByUsername(req.getParameter("deleted_username") );
+            SettingsService.deleteAccount(user);
+        }
+        if (req.getParameter("upgraded_username") != null) {
+            User user = UserDAO.getByUsername(req.getParameter("upgraded_username"));
+            UserDAO.upgradeRole(user);
+        }
+    }
+
+    public static boolean accountDeleted(HttpServletRequest req, User current_user, String current_username, String current_password) {
+        if (current_user.getUsername().equals(current_username) && current_user.getPassword().equals(current_password)) {
+            SecurityService.signOut(req);
+            SettingsService.deleteAccount(current_user);
+            return true;
+        } else {
+            req.setAttribute("error", "Incorrect username or password");
+            return false;
+        }
+    }
+
+    public static void favotiresSettings(HttpServletRequest req) {
+        String email_of_user = req.getSession().getAttribute("email").toString();
+        Integer id_of_answer = Integer.parseInt(req.getParameter("id_of_answer"));
+
+        User user = UserDAO.getByEmail(email_of_user);
+        Answer ans = AnswerDAO.getById(id_of_answer);
+
+        if (AnswerDAO.ansInFavForUser(ans, user)) {
+            AnswerDAO.removeFromFavorites(ans, user);
+        } else {
+            AnswerDAO.saveToFavorites(ans, user);
+        }
     }
 
     public static boolean changesIsSaved(HttpServletRequest req, String new_username, String old_password, String new_password){

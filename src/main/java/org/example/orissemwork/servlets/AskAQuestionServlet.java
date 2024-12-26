@@ -22,10 +22,13 @@ public class AskAQuestionServlet extends HttpServlet{
         String title = req.getParameter("title");
         String description = req.getParameter("description");
         String category = req.getParameter("category");
+        String email_of_author = (String) req.getSession().getAttribute("email");
 
-        Question question = new Question(null, title, description, null, CategoryDAO.getByName(category));
+        User author = UserDAO.getByEmail(email_of_author);
 
-        if (AskAQuestionService.questionIsAsked(question, req)) {
+        Question question = new Question(null, title, description, author, CategoryDAO.getByName(category));
+
+        if (AskAQuestionService.questionIsAsked(question, author, req)) {
             resp.sendRedirect(getServletContext().getContextPath() + "/my_questions");
         } else {
             req.getRequestDispatcher("/views/profile/my_questions.jsp").forward(req, resp);

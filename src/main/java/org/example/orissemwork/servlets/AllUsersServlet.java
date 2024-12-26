@@ -1,7 +1,5 @@
 package org.example.orissemwork.servlets;
 
-import org.example.orissemwork.db.*;
-import org.example.orissemwork.model.*;
 import org.example.orissemwork.services.*;
 
 import javax.servlet.*;
@@ -18,16 +16,7 @@ public class AllUsersServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-        if (req.getParameter("deleted_username") != null) {
-            User user = UserDAO.getByUsername(req.getParameter("deleted_username") );
-            SettingsService.deleteAccount(user);
-        }
-        if (req.getParameter("upgraded_username") != null) {
-            User user = UserDAO.getByUsername(req.getParameter("upgraded_username"));
-            UserDAO.upgradeRole(user);
-        }
-
+        SettingsService.adminSettings(req);
         resp.sendRedirect(getServletContext().getContextPath() + "/all_users");
     }
 

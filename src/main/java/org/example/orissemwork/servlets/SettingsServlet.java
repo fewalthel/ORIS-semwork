@@ -31,14 +31,13 @@ public class SettingsServlet extends HttpServlet {
         //случай когд пользователь пытается удалить аккаунт
         if (current_password != null && current_username != null) {
             User current_user = UserDAO.getByEmail((String) req.getSession().getAttribute("email"));
-            if (current_user.getUsername().equals(current_username) && current_user.getPassword().equals(current_password)) {
-                SecurityService.signOut(req);
-                SettingsService.deleteAccount(current_user);
-                resp.sendRedirect(getServletContext().getContextPath() + "/main");
+
+            if (SettingsService.accountDeleted(req, current_user, current_username,current_password)) {
+                resp.sendRedirect(getServletContext().getContextPath() + "/");
             } else {
-                req.setAttribute("error", "Incorrect username or password");
                 req.getRequestDispatcher("/views/profile/settings.jsp").forward(req, resp);
             }
+
         } else {
             //случай когда пользоваетль пытается поменять пароль или юзернейм
             if (SettingsService.changesIsSaved(req, new_username, old_password, new_password)) {

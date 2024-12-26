@@ -2,6 +2,7 @@ package org.example.orissemwork.servlets;
 
 import org.example.orissemwork.db.*;
 import org.example.orissemwork.model.*;
+import org.example.orissemwork.services.SettingsService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -17,18 +18,7 @@ public class FavoritesAnswersServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String emailOfUser = req.getSession().getAttribute("email").toString();
-        Integer idOfAnswer = Integer.parseInt(req.getParameter("id_of_answer"));
-
-        User user = UserDAO.getByEmail(emailOfUser);
-        Answer ans = AnswerDAO.getById(idOfAnswer);
-
-        if (AnswerDAO.ansInFavForUser(ans, user)) {
-            AnswerDAO.removeFromFavorites(ans, user);
-        } else {
-            AnswerDAO.saveToFavorites(ans, user);
-        }
-
+        SettingsService.favotiresSettings(req);
         resp.sendRedirect(getServletContext().getContextPath() + "/favorites_answers");
     }
 }

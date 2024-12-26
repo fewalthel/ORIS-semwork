@@ -1,6 +1,7 @@
 package org.example.orissemwork.services;
 
 import org.example.orissemwork.db.UserDAO;
+import org.example.orissemwork.model.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,12 +11,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 public class  SecurityService {
-    public static Map<String, Object> getUser(HttpServletRequest req) {
+    public static User getUser(HttpServletRequest req) {
         if (isSigned(req)) {
-            Map<String, Object> user = new HashMap<>();
-            user.put("username", req.getSession().getAttribute("username"));
-            user.put("email", req.getSession().getAttribute("email"));
-            return user;
+            String username = (String) req.getSession().getAttribute("username");
+            String email = (String) req.getSession().getAttribute("email");
+            String role = (String) req.getSession().getAttribute("role");
+            Integer id = (Integer) req.getSession().getAttribute("id");
+            return new User (id, email, username, null, role);
         }
         return null;
     }
@@ -28,8 +30,11 @@ public class  SecurityService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if (passwordEncoder.matches(password, UserDAO.getByEmail(email).getPassword())) {
-            req.getSession().setAttribute("username", UserDAO.getByEmail(email).getUsername());
+            User user = UserDAO.getByEmail(email);
+            req.getSession().setAttribute("username", user.getUsername());
             req.getSession().setAttribute("email", email);
+            req.getSession().setAttribute("role", user.getRole());
+            req.getSession().setAttribute("id", user.getId());
             return true;
         } else {
             req.setAttribute("error", "Incorrect email or password");

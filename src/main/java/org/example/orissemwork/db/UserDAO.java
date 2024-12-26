@@ -1,6 +1,5 @@
 package org.example.orissemwork.db;
 
-import org.example.orissemwork.model.Question;
 import org.example.orissemwork.model.User;
 
 import java.sql.*;
@@ -9,7 +8,6 @@ import java.util.List;
 
 public class UserDAO implements DAO {
 
-    private static final String SELECT_BY_EMAIL_PASSWORD_QUERY = "SELECT * FROM users WHERE email = ? AND password = ?";
     private static final String SELECT_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email = ?";
     private static final String SELECT_BY_USERNAME_QUERY = "SELECT * FROM users WHERE username = ?";
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
@@ -19,34 +17,6 @@ public class UserDAO implements DAO {
     private static final String UPDATE_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE email = ?";
     private static final String UPDATE_USERNAME_QUERY = "UPDATE users SET username = ? WHERE email = ?";
     private static final String UPDATE_ROLE_QUERY = "UPDATE users SET role = ? WHERE email = ?";
-
-    public static boolean findByEmailAndPassword(String email, String password) {
-        User user = null;
-
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_EMAIL_PASSWORD_QUERY)) {
-
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                String foundEmail = resultSet.getString("email");
-                String username = resultSet.getString("username");
-                String foundPassword = resultSet.getString("password");
-                String role = resultSet.getString("role");
-
-                user = new User(id, foundEmail, username, foundPassword, role);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return user != null;
-    }
 
     public static User getByEmail(String email) {
         User user = null;
@@ -101,12 +71,6 @@ public class UserDAO implements DAO {
     public static User getById(Integer id) {
         User user = null;
 
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
 
@@ -129,12 +93,6 @@ public class UserDAO implements DAO {
 
     public static List<User> getAll() {
         List<User> users = new ArrayList<>();
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL_QUERY)) {

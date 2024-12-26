@@ -1,6 +1,5 @@
 package org.example.orissemwork.services;
 
-import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.model.Question;
 import org.example.orissemwork.db.QuestionDAO;
 import org.example.orissemwork.model.User;
@@ -8,7 +7,7 @@ import org.example.orissemwork.model.User;
 import javax.servlet.http.HttpServletRequest;
 
 public class AskAQuestionService {
-    public static boolean questionIsAsked(Question question, HttpServletRequest req) {
+    public static boolean questionIsAsked(Question question, User author, HttpServletRequest req) {
         if (titleExists(question)) {
             req.setAttribute("error", "A question with this title has already been asked");
             return false;
@@ -16,7 +15,6 @@ public class AskAQuestionService {
             req.setAttribute("error", "A question with this description has already been asked");
             return false;
         } else {
-            User author = UserDAO.getByEmail((String) req.getSession().getAttribute("email"));
             save(question, author);
             return true;
         }

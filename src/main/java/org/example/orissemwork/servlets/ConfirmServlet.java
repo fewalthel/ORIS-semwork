@@ -18,8 +18,7 @@ public class ConfirmServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String code = req.getParameter("code");
-        HttpSession session = req.getSession();
-        String confirmationCode = (String) session.getAttribute("confirmationCode");
+        String confirmationCode = (String) req.getSession().getAttribute("confirmationCode");
 
         if (code.equals(confirmationCode)) {
             String email = (String) req.getSession().getAttribute("email");
@@ -29,9 +28,9 @@ public class ConfirmServlet extends HttpServlet {
             User account = new User(null, email, username, password, "default");
             RegisterService.save(account);
 
-            session.removeAttribute("password");
-            session.removeAttribute("confirmationCode");
-            session.removeAttribute("username");
+            req.getSession().removeAttribute("password");
+            req.getSession().removeAttribute("confirmationCode");
+            req.getSession().removeAttribute("username");
 
             resp.sendRedirect(getServletContext().getContextPath() + "/signin");
 

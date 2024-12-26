@@ -16,7 +16,6 @@ public class RatingServlet extends HttpServlet {
         Answer answer = AnswerDAO.getById(Integer.parseInt(req.getParameter("idOfAnswer")));
         User author = UserDAO.getByEmail((String) req.getSession().getAttribute("email"));
         String rating = (req.getParameter("rating"));
-        System.out.println(rating);
 
         //если переданнрое значение null, убираем поставленную пользователем оценку
         if (rating.equals("null")) {
