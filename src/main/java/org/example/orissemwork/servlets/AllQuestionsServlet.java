@@ -1,6 +1,7 @@
 package org.example.orissemwork.servlets;
 
-import org.example.orissemwork.services.QuestionService;
+import lombok.SneakyThrows;
+import org.example.orissemwork.db.QuestionDAO;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -10,16 +11,18 @@ import java.io.IOException;
 @WebServlet("/all_questions")
 public class AllQuestionsServlet extends HttpServlet {
 
-    private QuestionService questionService;
+    private QuestionDAO questionDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        questionService = (QuestionService) getServletContext().getAttribute("questionService");
+        questionDAO = (QuestionDAO) getServletContext().getAttribute("questionDAO");
     }
 
+    @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("all_questions", questionDAO.getAll());
         getServletContext().getRequestDispatcher("/views/profile/all_questions.jsp").forward(req, resp);
     }
 

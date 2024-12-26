@@ -20,7 +20,8 @@ public class RatingServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        ratingService = (RatingService) config.getServletContext().getAttribute("ratingService");
+        super.init(config);
+        ratingService = (RatingService) getServletContext().getAttribute("ratingService");
     }
 
     @Override

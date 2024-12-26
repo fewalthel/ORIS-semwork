@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 @WebServlet("/main")
-public class MainServlet extends HttpServlet{
+public class MainServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

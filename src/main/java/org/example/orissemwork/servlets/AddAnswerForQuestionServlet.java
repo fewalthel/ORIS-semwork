@@ -14,19 +14,24 @@ import java.io.IOException;
 public class AddAnswerForQuestionServlet extends HttpServlet {
 
     private AnswerService answerService;
-    private UserService userService;
-    private QuestionService questionService;
+    private AnswerDAO answerDAO;
+    private QuestionDAO questionDAO;
+    private UserDAO userDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        answerService = (AnswerService) getServletContext().getAttribute("answerService");
-        userService = (UserService) getServletContext().getAttribute("userService");
-        questionService = (QuestionService) getServletContext().getAttribute("questionService");
+        answerDAO = (AnswerDAO) getServletContext().getAttribute("answerDAO");
+        questionDAO = (QuestionDAO) getServletContext().getAttribute("questionDAO");
+        userDAO = (UserDAO) getServletContext().getAttribute("userDAO");
     }
 
+    @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer id_of_question = Integer.valueOf(req.getParameter("id"));
+        Question question = questionDAO.getById(id_of_question);
+        req.setAttribute("all_answers", answerDAO.getAllByQuestion(question));
         getServletContext().getRequestDispatcher("/views/profile/question.jsp").forward(req, resp);
     }
 
@@ -35,9 +40,6 @@ public class AddAnswerForQuestionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String content = req.getParameter("answer");
         Integer id_of_question = Integer.valueOf(req.getParameter("id"));
-
-        UserDAO userDAO = userService.userDAO;
-        QuestionDAO questionDAO = questionService.questionDAO;
         
         User author = userDAO.getByEmail((String) req.getSession().getAttribute("email"));
 

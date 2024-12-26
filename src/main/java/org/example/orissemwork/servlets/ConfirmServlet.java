@@ -15,8 +15,9 @@ public class ConfirmServlet extends HttpServlet {
     private RegisterService registerService;
 
     @Override
-    public void init(ServletConfig config) {
-        registerService = (RegisterService) config.getServletContext().getAttribute("registerService");
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        registerService = (RegisterService) getServletContext().getAttribute("registerService");
     }
 
     @Override

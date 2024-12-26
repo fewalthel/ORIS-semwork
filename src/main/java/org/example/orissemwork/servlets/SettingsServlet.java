@@ -17,7 +17,8 @@ public class SettingsServlet extends HttpServlet {
     private UserService userService;
 
     @Override
-    public void init(ServletConfig config) {
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         userService = (UserService) getServletContext().getAttribute("userService");
     }
 

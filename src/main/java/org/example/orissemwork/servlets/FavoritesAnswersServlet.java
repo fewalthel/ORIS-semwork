@@ -15,12 +15,15 @@ import java.io.IOException;
 public class FavoritesAnswersServlet extends HttpServlet {
 
     private AnswerService answerService;
-    private UserService userService;
+    private UserDAO userDAO;
+    private AnswerDAO answerDAO;
 
     @Override
-    public void init(ServletConfig config) {
-        answerService = (AnswerService) config.getServletContext().getAttribute("answerService");
-        userService = (UserService) config.getServletContext().getAttribute("userService");
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        answerService = (AnswerService) getServletContext().getAttribute("answerService");
+        userDAO = (UserDAO) getServletContext().getAttribute("userDAO");
+        answerDAO = (AnswerDAO) getServletContext().getAttribute("answerDAO");
     }
 
     @Override
@@ -34,10 +37,7 @@ public class FavoritesAnswersServlet extends HttpServlet {
         String emailOfUser = req.getSession().getAttribute("email").toString();
         Integer id_of_answer = Integer.parseInt(req.getParameter("id_of_answer"));
 
-        UserDAO userDAO = userService.userDAO;
         User user = userDAO.getByEmail(emailOfUser);
-
-        AnswerDAO answerDAO = answerService.answerDAO;
         Answer ans = answerDAO.getById(id_of_answer);
 
         answerService.favoritesSettings(ans, user);

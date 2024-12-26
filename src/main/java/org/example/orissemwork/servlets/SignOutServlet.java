@@ -4,6 +4,7 @@ import org.example.orissemwork.services.UserService;
 
 import java.io.IOException;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
@@ -13,8 +14,9 @@ public class SignOutServlet extends HttpServlet{
     private UserService userService;
 
     @Override
-    public void init(ServletConfig config) {
-        userService = (UserService) config.getServletContext().getAttribute("usersService");
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        userService = (UserService) getServletContext().getAttribute("usersService");
     }
 
     @Override

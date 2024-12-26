@@ -15,8 +15,9 @@ public class RegisterServlet extends HttpServlet{
     private RegisterService registerService;
 
     @Override
-    public void init(ServletConfig config) {
-        registerService = (RegisterService) config.getServletContext().getAttribute("registerService");
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        registerService = (RegisterService) getServletContext().getAttribute("registerService");
     }
 
     @Override
@@ -26,7 +27,7 @@ public class RegisterServlet extends HttpServlet{
 
     @SneakyThrows
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String email = req.getParameter("email").toLowerCase();
         String username = req.getParameter("username");
         String password = req.getParameter("password");

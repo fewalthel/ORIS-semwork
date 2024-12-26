@@ -13,15 +13,21 @@ import java.io.IOException;
 @WebServlet("/my_questions")
 public class AskAQuestionServlet extends HttpServlet {
 
+    private QuestionDAO questionDAO;
     private QuestionService questionService;
 
     @Override
-    public void init(ServletConfig config) {
-        questionService = (QuestionService) config.getServletContext().getAttribute("questionService");
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        questionDAO = (QuestionDAO) getServletContext().getAttribute("questionDAO");
+        questionService = (QuestionService) getServletContext().getAttribute("questionService");
     }
 
+    @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User author = UserService.getUser(req);
+        req.setAttribute("my_questions", questionDAO.getAllByAuthor(author));
         getServletContext().getRequestDispatcher("/views/profile/my_questions.jsp").forward(req, resp);
     }
 
