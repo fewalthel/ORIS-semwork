@@ -1,20 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/views/profile/_header_for_profile.jsp" %>
 
-<%@page import="org.example.orissemwork.model.Question" %>
-<%@page import="org.example.orissemwork.db.QuestionDAO" %>
-<%@page import="java.util.List" %>
-
 <div id="container-for-content">
     <ul>
-        <%List<Question> questions = QuestionDAO.getAll();
-            for (Question question : questions) { %>
+        <c:forEach items="${all_questions}" var="question">
+            <c:set var="url" value="${pageContext.request.contextPath}/question?id=${question.getId()}" />
 
-        <%String url = "question?id="+question.getId();%>
-        <li>
-            <%@include file="/views/profile/_question_model.jsp" %>
-        </li>
-        <%}%>
+            <li>
+                <%@include file="/views/profile/_question_model.jsp" %>
+            </li>
+        </c:forEach>
     </ul>
 </div>
 
