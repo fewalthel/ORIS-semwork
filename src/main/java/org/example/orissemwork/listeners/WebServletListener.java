@@ -48,12 +48,6 @@ public class WebServletListener implements ServletContextListener {
         servletContext.setAttribute("userDAO", userDAO);
         servletContext.setAttribute("questionDAO", questionDAO);
         servletContext.setAttribute("answerDAO", answerDAO);
-
-
     }
-/*
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        System.out.println("Приложение завершено.");
-    }*/
+
 }

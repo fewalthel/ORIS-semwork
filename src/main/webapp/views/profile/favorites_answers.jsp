@@ -1,23 +1,17 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@include file="/views/profile/_header_for_profile.jsp" %>
 
-<%@page import="java.util.List" %>
-<%@ page import="org.example.orissemwork.model.*" %>
-<%@page import="org.example.orissemwork.db.*" %>
-
 <div id="container-for-content">
-  <ul>
-    <%List<Answer> favorite_answers = AnswerDAO.getFavoriteAnswers(user);
+    <ul>
 
-      for (Answer answer : favorite_answers) {
-      Question question = answer.getQuestion();%>
+        <c:forEach items="${favorites_answers}" var="answer">
+            <c:set var="question" value="${answer.getQuestion()}"/>
+            <li>
+                <%@include file="/views/profile/_answer_model.jsp" %>
+            </li>
+        </c:forEach>
 
-      <li>
-        <%@include file="/views/profile/_answer_model.jsp" %>
-      </li>
-    <%}%>
-
-  </ul>
+    </ul>
 </div>
 </main>
 <%@include file="/views/_footer.jsp" %>

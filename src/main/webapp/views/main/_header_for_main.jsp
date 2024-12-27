@@ -22,11 +22,11 @@
             </ul>
         </li>
 
-        <c:if test="${empty user}">
+        <c:if test="${empty email}">
             <li><a class="button" href="signin">Sign In</a></li>
         </c:if>
 
-        <c:if test="${not empty user}">
+        <c:if test="${not empty email}">
             <li><a class="button" href="profile">Profile</a></li>
             <li><a class="button" href="signout">Sign Out</a></li>
         </c:if>

@@ -16,7 +16,7 @@ public class SignOutServlet extends HttpServlet{
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("usersService");
+        userService = (UserService) getServletContext().getAttribute("userService");
     }
 
     @Override

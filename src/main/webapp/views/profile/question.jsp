@@ -1,10 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ include file="/views/profile/_header_for_profile.jsp" %>
 
-<%@ page import="org.example.orissemwork.db.*" %>
-<%@ page import="org.example.orissemwork.model.*" %>
-<%@ page import="java.util.List" %>
-
 <%--
 
 <script>
@@ -65,9 +61,6 @@
 <div id="container-for-content">
     <ul>
         <li>
-            <%--<% Question question = QuestionDAO.getById(Integer.parseInt(request.getParameter("id")));
-                String id = request.getParameter("id");%>
---%>
             <section class="question-card">
                 <div style=" display: flex; justify-content: space-between;">
                     <h2 class="question_title">${question.getTitle()}</h2>
@@ -94,6 +87,9 @@
                 <button type="submit" class="button">Send</button>
             </form>
         </section>
+
+
+        <c:set var="favorites_answers" value="${favorites_answers_for_user}" />
 
         <c:forEach items="${all_answers_for_this_question}" var="answer">
             <li>

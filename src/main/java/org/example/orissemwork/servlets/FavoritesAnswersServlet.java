@@ -17,6 +17,7 @@ public class FavoritesAnswersServlet extends HttpServlet {
     private AnswerService answerService;
     private UserDAO userDAO;
     private AnswerDAO answerDAO;
+    private UserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -24,10 +25,14 @@ public class FavoritesAnswersServlet extends HttpServlet {
         answerService = (AnswerService) getServletContext().getAttribute("answerService");
         userDAO = (UserDAO) getServletContext().getAttribute("userDAO");
         answerDAO = (AnswerDAO) getServletContext().getAttribute("answerDAO");
+        userService = (UserService) getServletContext().getAttribute("userService");
     }
 
+    @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = userService.getUser(req);
+        req.setAttribute("favorites_answers", answerDAO.getFavoriteAnswers(user));
         getServletContext().getRequestDispatcher("/views/profile/favorites_answers.jsp").forward(req, resp);
     }
 
