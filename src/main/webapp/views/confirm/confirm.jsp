@@ -12,9 +12,6 @@
 <div class="confirm-form">
     <h2>Confirm your email</h2>
 
-    <%String confirmationCode = (String) request.getSession().getAttribute("confirmationCode");
-        if (confirmationCode != null) { %>
-
     <form action="confirm" method="post">
         <input type="text" name="code" placeholder="enter your confirmation code">
         <div>
@@ -22,9 +19,6 @@
         </div>
     </form>
 
-    <% } else { %>
-    <p>Ошибка: код подтверждения не найден.</p>
-    <% } %>
 </div>
 </body>
 </html>

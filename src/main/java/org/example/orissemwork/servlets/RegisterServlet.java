@@ -37,6 +37,7 @@ public class RegisterServlet extends HttpServlet{
 
         req.getSession().setAttribute("email", email);
         req.getSession().setAttribute("username", username);
+        req.getSession().setAttribute("password", password);
 
         if (registerService.valuesIsValid(account, req, confirmPassword)) {
             registerService.confirm(req, resp, email);

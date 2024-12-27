@@ -63,7 +63,7 @@ public class UserService {
     public void deleteAccount(HttpServletRequest req, HttpServletResponse resp, String current_username, String current_password) throws IOException, SQLException, ServletException {
         User current_user = userDAO.getByEmail((String) req.getSession().getAttribute("email"));
 
-        if (current_user.getUsername().equals(current_username) && current_user.getPassword().equals(current_password)) {
+        if (oldPasswordIsRight(current_password, current_username) && current_user.getUsername().equals(current_username)) {
             signOut(req);
             userDAO.deleteFromDB(current_user);
             resp.sendRedirect(req.getServletContext().getContextPath() + "/main");

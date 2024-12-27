@@ -1,5 +1,5 @@
 <section class="user-card" style="height: 24vw;">
-    <h2 class="user_username" style="display: flex; justify-content: space-between; padding-bottom: 2vw;">username: ${userlist.username}
+    <h2 class="user_username" style="display: flex; justify-content: space-between; padding-bottom: 2vw;">username: ${userlist.getUsername()}
         <c:if test="${userList.getEmail().equals(user.getEmail())}">
             <p>your account</p>
         </c:if>

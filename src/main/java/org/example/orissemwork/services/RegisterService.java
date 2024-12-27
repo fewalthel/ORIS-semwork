@@ -78,7 +78,7 @@ public class RegisterService {
 
     public void confirm(HttpServletRequest req, HttpServletResponse resp, String email) throws IOException {
         String code = generateConfirmationCode();
-        req.getSession().setAttribute("confirmationCode", code);
+        req.getSession().setAttribute("confirmation_code", code);
 
         sendEmailConfirmation(email, code);
 

@@ -29,8 +29,7 @@ public class ConfirmServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String code = req.getParameter("code");
-        HttpSession session = req.getSession();
-        String confirmationCode = (String) session.getAttribute("confirmationCode");
+        String confirmationCode = (String) req.getSession().getAttribute("confirmation_code");
 
         if (code.equals(confirmationCode)) {
             String email = (String) req.getSession().getAttribute("email");
@@ -40,12 +39,11 @@ public class ConfirmServlet extends HttpServlet {
             User account = new User(null, email, username, password, "default");
             registerService.save(account);
 
-            session.removeAttribute("password");
-            session.removeAttribute("confirmationCode");
-            session.removeAttribute("username");
+            req.getSession().removeAttribute("password");
+            req.getSession().removeAttribute("confirmationCode");
+            req.getSession().removeAttribute("username");
 
             resp.sendRedirect(getServletContext().getContextPath() + "/signin");
-
         } else {
             req.setAttribute("error", "Invalid confirmation code");
             req.getRequestDispatcher("/views/register/register.jsp").forward(req, resp);
