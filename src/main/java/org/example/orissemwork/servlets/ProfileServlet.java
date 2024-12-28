@@ -5,6 +5,7 @@ import org.example.orissemwork.db.AnswerDAO;
 import org.example.orissemwork.db.QuestionDAO;
 import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.model.User;
+import org.example.orissemwork.services.FileService;
 
 import java.io.IOException;
 import javax.servlet.ServletConfig;
@@ -18,6 +19,7 @@ public class ProfileServlet extends HttpServlet{
     private QuestionDAO questionDAO;
     private AnswerDAO answerDAO;
     private UserDAO userDAO;
+    private FileService fileService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -25,6 +27,7 @@ public class ProfileServlet extends HttpServlet{
         questionDAO = (QuestionDAO) getServletContext().getAttribute("questionDAO");
         answerDAO = (AnswerDAO) getServletContext().getAttribute("answerDAO");
         userDAO = (UserDAO) getServletContext().getAttribute("userDAO");
+        fileService = (FileService) getServletContext().getAttribute("fileService");
     }
 
     @SneakyThrows
@@ -33,6 +36,8 @@ public class ProfileServlet extends HttpServlet{
         User user = userDAO.getByEmail((String) req.getSession().getAttribute("email"));
         req.setAttribute("total_questions", questionDAO.getAllByAuthor(user).size());
         req.setAttribute("total_answers", answerDAO.getAllByAuthor(user).size());
+
+        req.setAttribute("path_to_avatar", fileService.getPathToAvatarForUser(user));
 
         getServletContext().getRequestDispatcher("/views/profile/profile.jsp").forward(req, resp);
     }

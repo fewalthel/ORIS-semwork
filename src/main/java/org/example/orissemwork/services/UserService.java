@@ -25,7 +25,6 @@ public class UserService {
     public static User getUser(HttpServletRequest req) throws SQLException {
         if (isSigned(req)) {
             String email = (String) req.getSession().getAttribute("email");
-            System.out.println("Вызывается метод getUser");
             User user = userDAO.getByEmail(email);
             return user;
         }
@@ -33,22 +32,27 @@ public class UserService {
     }
 
     public static boolean isSigned(HttpServletRequest req) {
-        System.out.println("Вызывается метод isSigned");
         return req.getSession().getAttribute("username") != null && req.getSession().getAttribute("email") != null;
     }
 
     public boolean signIn(HttpServletRequest req, String email, String password) throws SQLException {
-        System.out.println("Вызывается метод signIn");
-        if (passwordEncoder.matches(password, userDAO.getByEmail(email).getPassword())) {
-            User user = userDAO.getByEmail(email);
+        User user = userDAO.getByEmail(email);
 
-            req.getSession().setAttribute("username", user.getUsername());
-            req.getSession().setAttribute("email", email);
-            req.getSession().setAttribute("id", user.getId());
-            req.getSession().setAttribute("role", user.getRole());
-            return true;
+        if (user != null) {
+            String password_in_db = user.getPassword();
+
+            if (passwordEncoder.matches(password, password_in_db)) {
+                req.getSession().setAttribute("username", user.getUsername());
+                req.getSession().setAttribute("email", email);
+                req.getSession().setAttribute("id", user.getId());
+                req.getSession().setAttribute("role", user.getRole());
+                return true;
+            } else {
+                req.setAttribute("error", "Incorrect email or password");
+                return false;
+            }
         } else {
-            req.setAttribute("error", "Incorrect email or password");
+            req.setAttribute("error", "User with this email doesn't exist");
             return false;
         }
     }

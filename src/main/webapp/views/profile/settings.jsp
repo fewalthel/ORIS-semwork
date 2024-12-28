@@ -41,6 +41,21 @@
             <button type="submit" class="button">Confirm and delete</button>
         </form>
     </section>
+
+    <section class="form-to-settings">
+        <h4>Here you can add or update avatar to your account</h4>
+        <div class="error-message">
+            <p>${error}</p>
+        </div>
+        <form action="files" method="POST" enctype="multipart/form-data">
+            <div class="form-group"><br>
+                <label for="avatar">Upload avatar</label>
+                <input type="file" name="avatar" id="avatar" accept="image/*" required style="cursor: pointer;">
+            </div>
+            <br>
+            <button type="submit" class="button">Upload</button>
+        </form>
+    </section>
 </div>
 </main>
 <script src="js/hide_password_func.js"></script>

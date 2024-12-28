@@ -2,9 +2,12 @@
 <%@include file="/views/profile/_header_for_profile.jsp" %>
 
 <div id="container-for-content">
-    <section id="about-user" class="statistics-card">
-        <h2>My username: ${username}</h2>
-        <h2>My email: ${email}</h2>
+    <section id="about-user" class="statistics-card" style="display: flex; justify-content: space-between">
+        <img src="${path_to_avatar}" alt="avatar" style="width: 15vw; border-radius: 50%; /*box-shadow: 0 0 #7dffd3; */filter: drop-shadow(0 0 15px #7dffd3); margin-left: 2vw;">
+        <div style="margin-right: 2vw; margin-top: 2vw;">
+            <h2>My username: ${username}</h2>
+            <h2>My email: ${email}</h2>
+        </div>
     </section>
 
     <section id="questions" class="statistics-card">

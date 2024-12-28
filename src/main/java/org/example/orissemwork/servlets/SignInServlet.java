@@ -33,7 +33,7 @@ public class SignInServlet extends HttpServlet{
         String password = req.getParameter("password");
 
         if(userService.signIn(req, email, password)){
-            resp.sendRedirect(getServletContext().getContextPath() + "/profile");
+            resp.sendRedirect(getServletContext().getContextPath() + "/all_questions");
         } else {
             req.getRequestDispatcher("/views/signin/signin.jsp").forward(req, resp);
         }

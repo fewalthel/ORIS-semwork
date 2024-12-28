@@ -1,8 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ include file="/views/profile/_header_for_profile.jsp" %>
 
-<%--
-
 <script>
 
     function updateRating(json_document, id_of_button) {
@@ -56,7 +54,6 @@
 
     }
 </script>
---%>
 
 <div id="container-for-content">
     <ul>

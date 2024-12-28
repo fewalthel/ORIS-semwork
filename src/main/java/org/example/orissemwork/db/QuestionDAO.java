@@ -32,25 +32,23 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_TITLE_QUERY);
 
-        try {
-            preparedStatement.setString(1, title);
-            ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                Integer serialValue = resultSet.getInt("id");
-                String titleResult = resultSet.getString("title");
-                String description = resultSet.getString("description");
+        preparedStatement.setString(1, title);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-                CategoryDAO categoryDAO = new CategoryDAO(dataSource);
-                UserDAO userDAO = new UserDAO(dataSource);
+        if (resultSet.next()) {
+            Integer serialValue = resultSet.getInt("id");
+            String titleResult = resultSet.getString("title");
+            String description = resultSet.getString("description");
 
-                Category category = categoryDAO.getById(resultSet.getInt("id_category"));
-                User author = userDAO.getById(resultSet.getInt("id_user"));
-                question = new Question(serialValue, titleResult, description, author, category);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            CategoryDAO categoryDAO = new CategoryDAO(dataSource);
+            UserDAO userDAO = new UserDAO(dataSource);
+
+            Category category = categoryDAO.getById(resultSet.getInt("id_category"));
+            User author = userDAO.getById(resultSet.getInt("id_user"));
+            question = new Question(serialValue, titleResult, description, author, category);
         }
+
         return question;
     }
 
@@ -60,26 +58,24 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_DESCRIPTION_QUERY);
 
-        try {
-            preparedStatement.setString(1, description);
-            ResultSet resultSet = preparedStatement.executeQuery();
+
+        preparedStatement.setString(1, description);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
 
-            if (resultSet.next()) {
-                Integer serialValue = resultSet.getInt("id");
-                String title = resultSet.getString("title");
-                String descriptionResult = resultSet.getString("description");
+        if (resultSet.next()) {
+            Integer serialValue = resultSet.getInt("id");
+            String title = resultSet.getString("title");
+            String descriptionResult = resultSet.getString("description");
 
-                CategoryDAO categoryDAO = new CategoryDAO(dataSource);
-                UserDAO userDAO = new UserDAO(dataSource);
+            CategoryDAO categoryDAO = new CategoryDAO(dataSource);
+            UserDAO userDAO = new UserDAO(dataSource);
 
-                Category category = categoryDAO.getById(resultSet.getInt("id_category"));
-                User author = userDAO.getById(resultSet.getInt("id_user"));
-                question = new Question(serialValue, title, descriptionResult, author, category);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Category category = categoryDAO.getById(resultSet.getInt("id_category"));
+            User author = userDAO.getById(resultSet.getInt("id_user"));
+            question = new Question(serialValue, title, descriptionResult, author, category);
         }
+
         return question;
     }
 
@@ -87,20 +83,17 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUESTION_QUERY);
 
-        try {
-            preparedStatement.setString(1, question.getTitle());
-            preparedStatement.setString(2, question.getDescription());
-            preparedStatement.setInt(3, user.getId());
-            preparedStatement.setInt(4, question.getCategory().getId());
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Вопрос успешно добавлен!");
-            }
+        preparedStatement.setString(1, question.getTitle());
+        preparedStatement.setString(2, question.getDescription());
+        preparedStatement.setInt(3, user.getId());
+        preparedStatement.setInt(4, question.getCategory().getId());
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        int rowsAffected = preparedStatement.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("Вопрос успешно добавлен!");
         }
+
     }
 
     public List<Question> getAll() throws SQLException {
@@ -109,25 +102,21 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_QUERY);
 
-        try {
-            ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                Integer serialValue = resultSet.getInt("id");
-                String title = resultSet.getString("title");
-                String description = resultSet.getString("description");
+        while (resultSet.next()) {
+            Integer serialValue = resultSet.getInt("id");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
 
-                CategoryDAO categoryDAO = new CategoryDAO(dataSource);
-                UserDAO userDAO = new UserDAO(dataSource);
+            CategoryDAO categoryDAO = new CategoryDAO(dataSource);
+            UserDAO userDAO = new UserDAO(dataSource);
 
-                Category category = categoryDAO.getById(resultSet.getInt("id_category"));
-                User author = userDAO.getById(resultSet.getInt("id_user"));
+            Category category = categoryDAO.getById(resultSet.getInt("id_category"));
+            User author = userDAO.getById(resultSet.getInt("id_user"));
 
-                Question question = new Question(serialValue, title, description, author, category);
-                questions.add(question);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Question question = new Question(serialValue, title, description, author, category);
+            questions.add(question);
         }
 
         return questions;
@@ -138,23 +127,19 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_BY_AUTHOR_QUERY);
 
-        try {
-            preparedStatement.setInt(1, author.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
+        preparedStatement.setInt(1, author.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                int serialValue = resultSet.getInt("id");
-                String title = resultSet.getString("title");
-                String description = resultSet.getString("description");
+        while (resultSet.next()) {
+            int serialValue = resultSet.getInt("id");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
 
-                CategoryDAO categoryDAO = new CategoryDAO(dataSource);
+            CategoryDAO categoryDAO = new CategoryDAO(dataSource);
 
-                Category category = categoryDAO.getById(resultSet.getInt("id_category"));
-                Question question = new Question(serialValue, title, description, author, category);
-                questions.add(question);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Category category = categoryDAO.getById(resultSet.getInt("id_category"));
+            Question question = new Question(serialValue, title, description, author, category);
+            questions.add(question);
         }
 
         return questions;
@@ -166,24 +151,21 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_BY_CATEGORY_QUERY);
 
-        try {
-            preparedStatement.setInt(1, category.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
+        preparedStatement.setInt(1, category.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            UserDAO userDAO = new UserDAO(dataSource);
+        UserDAO userDAO = new UserDAO(dataSource);
 
-            while (resultSet.next()) {
-                int serialValue = resultSet.getInt("id");
-                String title = resultSet.getString("title");
-                String description = resultSet.getString("description");
-                User author = userDAO.getById(resultSet.getInt("id_user"));
+        while (resultSet.next()) {
+            int serialValue = resultSet.getInt("id");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
+            User author = userDAO.getById(resultSet.getInt("id_user"));
 
-                Question question = new Question(serialValue, title, description, author, category);
-                questions.add(question);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Question question = new Question(serialValue, title, description, author, category);
+            questions.add(question);
         }
+
 
         return questions;
     }
@@ -194,26 +176,23 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY);
 
-        try {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                Integer serialValue = resultSet.getInt("id");
-                String title = resultSet.getString("title");
-                String description = resultSet.getString("description");
+        if (resultSet.next()) {
+            Integer serialValue = resultSet.getInt("id");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
 
-                CategoryDAO categoryDAO = new CategoryDAO(dataSource);
-                UserDAO userDAO = new UserDAO(dataSource);
+            CategoryDAO categoryDAO = new CategoryDAO(dataSource);
+            UserDAO userDAO = new UserDAO(dataSource);
 
-                Category category = categoryDAO.getById(resultSet.getInt("id_category"));
-                User author = userDAO.getById(resultSet.getInt("id_user"));
+            Category category = categoryDAO.getById(resultSet.getInt("id_category"));
+            User author = userDAO.getById(resultSet.getInt("id_user"));
 
-                question = new Question(serialValue, title, description, author, category);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            question = new Question(serialValue, title, description, author, category);
         }
+
         return question;
     }
 
@@ -221,17 +200,14 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUESTIONS_BY_USER_QUERY);
 
-        try {
-            preparedStatement.setInt(1, user.getId());
-            int rowsAffected = preparedStatement.executeUpdate();
+        preparedStatement.setInt(1, user.getId());
+        int rowsAffected = preparedStatement.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("Все вопросы под авторством пользователя удалены.");
-            } else {
-                System.out.println("Записи с указанным id не найдены.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (rowsAffected > 0) {
+            System.out.println("Все вопросы под авторством пользователя удалены.");
+        } else {
+            System.out.println("Записи с указанным id не найдены.");
         }
+
     }
 }

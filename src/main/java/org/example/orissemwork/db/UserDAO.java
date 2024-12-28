@@ -26,35 +26,6 @@ public class UserDAO {
     private static final String UPDATE_USERNAME_QUERY = "UPDATE users SET username = ? WHERE email = ?";
     private static final String UPDATE_ROLE_QUERY = "UPDATE users SET role = ? WHERE email = ?";
 
-    public boolean findByEmailAndPassword(String email, String password) throws SQLException {
-        User user = null;
-
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_EMAIL_PASSWORD_QUERY);
-
-        try {
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                String foundEmail = resultSet.getString("email");
-                String username = resultSet.getString("username");
-                String foundPassword = resultSet.getString("password");
-                String role = resultSet.getString("role");
-
-                user = new User(id, foundEmail, username, foundPassword, role);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return user != null;
-    }
-
     public User getByEmail(String email) throws SQLException {
         User user = null;
 

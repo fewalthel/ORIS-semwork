@@ -48,11 +48,23 @@ CREATE TABLE IF NOT EXISTS favourites_answers
     FOREIGN KEY (id_answer) REFERENCES answers (id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS rating (
+CREATE TABLE IF NOT EXISTS rating
+(
     id_user INT,
     id_answer INT,
     PRIMARY KEY (id_user, id_answer),
     FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (id_answer) REFERENCES answers (id) ON DELETE CASCADE,
     is_liked BOOLEAN NOT NULL
+);
+
+CREATE TABLE avatars
+(
+    id SERIAL PRIMARY KEY,
+    storage_file_name VARCHAR(100),
+    original_file_name VARCHAR(100),
+    type VARCHAR(20),
+    size INT,
+    id_user INT,
+    FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE
 );

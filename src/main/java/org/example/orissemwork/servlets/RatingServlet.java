@@ -1,8 +1,6 @@
 package org.example.orissemwork.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.orissemwork.db.*;
-import org.example.orissemwork.model.*;
 import org.example.orissemwork.services.RatingService;
 
 import javax.servlet.ServletConfig;
