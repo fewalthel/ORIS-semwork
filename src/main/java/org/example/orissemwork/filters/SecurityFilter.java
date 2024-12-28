@@ -6,7 +6,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.*;
 
 import org.example.orissemwork.db.QuestionDAO;
-import org.example.orissemwork.db.UserDAO;
 import org.example.orissemwork.model.User;
 import org.example.orissemwork.services.SecurityService;
 

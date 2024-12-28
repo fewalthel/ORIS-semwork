@@ -15,11 +15,6 @@ public class RatingDAO implements DAO {
 
     public static Rating getByIdOfUser(User user, Answer answer) {
 
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         Rating rating = null;
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -60,11 +55,6 @@ public class RatingDAO implements DAO {
     }
 
     public static void saveToDB(User user, Answer answer, Boolean liked) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RATING_QUERY)) {
@@ -106,11 +96,6 @@ public class RatingDAO implements DAO {
     public static List<Rating> getAllByAnswer(Answer answer, Boolean is_liked) {
         List<Rating> marks = new ArrayList<>();
 
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL_BY_ANSWER_QUERY)) {
