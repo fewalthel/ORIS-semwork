@@ -36,6 +36,7 @@ public class UploadAvatarServlet extends HttpServlet {
 
         User user = UserService.getUser(req);
 
+        fileService.deleteAvatarFromStorage(user);
         fileService.saveFileToStorage(stream, type, size, name, user);
 
         resp.sendRedirect(req.getContextPath() + "/settings");

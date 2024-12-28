@@ -38,4 +38,8 @@ public class FileService {
             return "files/" + fileInfo.getStorageFileName() + "." + fileInfo.getType().split("/")[1];
         }
     }
+
+    public void deleteAvatarFromStorage(User user) throws SQLException {
+        fileInfoDAO.deleteFromDB(user);
+    }
 }

@@ -17,8 +17,8 @@ public class FileInfoDAO {
     private DataSource dataSource;
 
     private static final String INSERT_FILEINFO_QUERY = "INSERT INTO avatars (storage_file_name, original_file_name, type, size, id_user) VALUES (?, ?, ?, ?, ?)";
-
     private static final String SELECT_BY_ID_USER_QUERY = " SELECT * FROM avatars WHERE id_user = ?";
+    private static final String DELETE_AVATAR_QUERY = "DELETE FROM avatars WHERE id_user = ?";
 
     public FileInfoDAO(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -61,5 +61,24 @@ public class FileInfoDAO {
             fileInfo = new FileInfo(id, originalFileName, storageFileName, size, type);
         }
         return fileInfo;
+    }
+
+
+    public void deleteFromDB(User user) throws SQLException {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_AVATAR_QUERY);
+
+        try {
+            preparedStatement.setInt(1, user.getId());
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Запись успешно удалена.");
+            } else {
+                System.out.println("Запись с указанным id не найдена.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
