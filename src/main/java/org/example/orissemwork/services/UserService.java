@@ -1,14 +1,12 @@
 package org.example.orissemwork.services;
 
-import org.example.orissemwork.db.UserDAO;
+import org.example.orissemwork.dao.UserDAO;
 import org.example.orissemwork.model.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +20,7 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public static User getUser(HttpServletRequest req) throws SQLException {
+    public User getUser(HttpServletRequest req) throws SQLException {
         if (isSigned(req)) {
             String email = (String) req.getSession().getAttribute("email");
             User user = userDAO.getByEmail(email);

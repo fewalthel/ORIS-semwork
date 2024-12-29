@@ -1,6 +1,6 @@
 package org.example.orissemwork.services;
 
-import org.example.orissemwork.db.UserDAO;
+import org.example.orissemwork.dao.UserDAO;
 import org.example.orissemwork.model.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

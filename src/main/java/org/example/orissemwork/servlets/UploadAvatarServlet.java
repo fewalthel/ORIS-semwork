@@ -16,11 +16,13 @@ import java.io.InputStream;
 public class UploadAvatarServlet extends HttpServlet {
 
     private FileService fileService;
+    private UserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         fileService = (FileService) getServletContext().getAttribute("fileService");
+        userService = (UserService) getServletContext().getAttribute("userService");
     }
 
 
@@ -34,10 +36,8 @@ public class UploadAvatarServlet extends HttpServlet {
         String type = part.getContentType();
         String name  = part.getSubmittedFileName();
 
-        User user = UserService.getUser(req);
-
-        fileService.deleteAvatarFromStorage(user);
-        fileService.saveFileToStorage(stream, type, size, name, user);
+        User user = userService.getUser(req);
+        fileService.setAvatar(stream, type, size, name, user);
 
         resp.sendRedirect(req.getContextPath() + "/settings");
     }

@@ -1,15 +1,7 @@
 package org.example.orissemwork.filters;
 
-import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.*;
-
-import lombok.SneakyThrows;
-import org.example.orissemwork.db.QuestionDAO;
-import org.example.orissemwork.db.UserDAO;
-import org.example.orissemwork.model.User;
-import org.example.orissemwork.services.QuestionService;
-import org.example.orissemwork.services.UserService;
 
 @WebFilter("/*")
 public class SecurityFilter extends HttpFilter {

@@ -1,8 +1,7 @@
 package org.example.orissemwork.servlets;
 
 import lombok.SneakyThrows;
-import org.example.orissemwork.db.QuestionDAO;
-
+import org.example.orissemwork.dao.*;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;

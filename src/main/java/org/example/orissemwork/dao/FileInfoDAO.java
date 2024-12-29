@@ -1,10 +1,6 @@
-package org.example.orissemwork.db;
+package org.example.orissemwork.dao;
 
-import org.example.orissemwork.model.Category;
-import org.example.orissemwork.model.FileInfo;
-import org.example.orissemwork.model.Question;
-import org.example.orissemwork.model.User;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.example.orissemwork.model.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -47,7 +43,6 @@ public class FileInfoDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_USER_QUERY);
 
-
         preparedStatement.setInt(1, id_user);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -68,17 +63,14 @@ public class FileInfoDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_AVATAR_QUERY);
 
-        try {
-            preparedStatement.setInt(1, user.getId());
-            int rowsAffected = preparedStatement.executeUpdate();
+        preparedStatement.setInt(1, user.getId());
+        int rowsAffected = preparedStatement.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("Запись успешно удалена.");
-            } else {
-                System.out.println("Запись с указанным id не найдена.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (rowsAffected > 0) {
+            System.out.println("Запись успешно удалена.");
+        } else {
+            System.out.println("Запись с указанным id не найдена.");
         }
+
     }
 }

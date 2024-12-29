@@ -1,7 +1,7 @@
 package org.example.orissemwork.servlets;
 
 import lombok.SneakyThrows;
-import org.example.orissemwork.db.*;
+import org.example.orissemwork.dao.*;
 import org.example.orissemwork.model.*;
 import org.example.orissemwork.services.*;
 

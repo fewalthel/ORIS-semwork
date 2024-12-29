@@ -25,9 +25,8 @@
     </div>
 
     <p class="answer_description">${answer.getContent()}</p>
-<%--
     <div style=" display: flex; justify-content: space-between;">
         <p class="answer_author">author: ${answer.getAuthor().getUsername()}</p>
         <%@include file="/views/profile/_rating_model.jsp" %>
-    </div>--%>
+    </div>
 </section>

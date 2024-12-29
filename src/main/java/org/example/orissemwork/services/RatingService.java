@@ -1,6 +1,6 @@
 package org.example.orissemwork.services;
 
-import org.example.orissemwork.db.*;
+import org.example.orissemwork.dao.*;
 import org.example.orissemwork.model.*;
 
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ public class RatingService {
             ratingDAO.deleteFromDB(author, answer);
         } else {
             //если изначальное значение в базе null, сохраяем новую оценку
-            if (ratingDAO.getByIdOfUser(author, answer) == null) {
+            if (ratingDAO.getByUserAndAnswer(author, answer) == null) {
                 ratingDAO.saveToDB(author, answer, Boolean.valueOf(rating));
                 //если изначальное значение в базе НЕ null, обновляем оценку
             } else  {

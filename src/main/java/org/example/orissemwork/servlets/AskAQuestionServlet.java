@@ -1,7 +1,7 @@
 package org.example.orissemwork.servlets;
 
 import lombok.SneakyThrows;
-import org.example.orissemwork.db.*;
+import org.example.orissemwork.dao.*;
 import org.example.orissemwork.model.*;
 import org.example.orissemwork.services.*;
 
@@ -15,18 +15,23 @@ public class AskAQuestionServlet extends HttpServlet {
 
     private QuestionDAO questionDAO;
     private QuestionService questionService;
+    private UserService userService;
+    private RatingDAO ratingDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         questionDAO = (QuestionDAO) getServletContext().getAttribute("questionDAO");
         questionService = (QuestionService) getServletContext().getAttribute("questionService");
+        userService = (UserService) getServletContext().getAttribute("userService");
+        ratingDAO = (RatingDAO) getServletContext().getAttribute("ratingDAO");
     }
 
     @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User author = UserService.getUser(req);
+        User author = userService.getUser(req);
+        req.setAttribute("ratings_for_user", ratingDAO.getAllByUser(author));
         req.setAttribute("my_questions", questionDAO.getAllByAuthor(author));
         getServletContext().getRequestDispatcher("/views/profile/my_questions.jsp").forward(req, resp);
     }

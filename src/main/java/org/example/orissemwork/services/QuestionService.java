@@ -1,8 +1,8 @@
 package org.example.orissemwork.services;
 
-import org.example.orissemwork.db.UserDAO;
+import org.example.orissemwork.dao.UserDAO;
 import org.example.orissemwork.model.Question;
-import org.example.orissemwork.db.QuestionDAO;
+import org.example.orissemwork.dao.QuestionDAO;
 import org.example.orissemwork.model.User;
 
 import javax.servlet.http.HttpServletRequest;

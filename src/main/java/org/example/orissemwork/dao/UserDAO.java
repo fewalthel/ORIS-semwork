@@ -1,4 +1,4 @@
-package org.example.orissemwork.db;
+package org.example.orissemwork.dao;
 
 import org.example.orissemwork.model.User;
 
