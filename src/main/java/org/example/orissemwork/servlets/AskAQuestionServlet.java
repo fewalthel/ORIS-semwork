@@ -31,7 +31,6 @@ public class AskAQuestionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User author = userService.getUser(req);
-        req.setAttribute("ratings_for_user", ratingDAO.getAllByUser(author));
         req.setAttribute("my_questions", questionDAO.getAllByAuthor(author));
         getServletContext().getRequestDispatcher("/views/profile/my_questions.jsp").forward(req, resp);
     }

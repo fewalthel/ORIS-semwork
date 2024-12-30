@@ -30,11 +30,7 @@ public class FileInfoDAO {
         preparedStatement.setLong(4, file.getSize());
         preparedStatement.setInt(5, user.getId());
 
-        int rowsAffected = preparedStatement.executeUpdate();
-        if (rowsAffected > 0) {
-            System.out.println("Информация о файле успешно сохранена!");
-        }
-
+        preparedStatement.executeUpdate();
     }
 
     public FileInfo findByIdUser(Integer id_user) throws SQLException {
@@ -64,13 +60,6 @@ public class FileInfoDAO {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_AVATAR_QUERY);
 
         preparedStatement.setInt(1, user.getId());
-        int rowsAffected = preparedStatement.executeUpdate();
-
-        if (rowsAffected > 0) {
-            System.out.println("Запись успешно удалена.");
-        } else {
-            System.out.println("Запись с указанным id не найдена.");
-        }
-
+        preparedStatement.executeUpdate();
     }
 }

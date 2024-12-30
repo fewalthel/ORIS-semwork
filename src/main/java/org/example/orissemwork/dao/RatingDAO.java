@@ -17,33 +17,24 @@ public class RatingDAO {
         this.answerDAO = new AnswerDAO(dataSource);
     }
 
-    private static final String SELECT_BY_USER_QUERY = "SELECT * FROM rating WHERE id_user = ?";
     private static final String SELECT_BY_USER_AND_ANSWER_QUERY = "SELECT * FROM rating WHERE id_user = ? AND id_answer = ?";
     private static final String UPDATE_RATING_QUERY = "UPDATE rating SET is_liked = ? WHERE id_user = ? AND id_answer = ?";
     private static final String INSERT_RATING_QUERY = "INSERT INTO rating(id_user, id_answer, is_liked) VALUES(?, ?, ?)";
     private static final String DELETE_RATING_QUERY = "DELETE FROM rating WHERE id_user = ? AND id_answer = ?";
     private static final String SELECT_ALL_BY_ANSWER_QUERY = "SELECT * FROM rating WHERE id_answer = ? AND is_liked = ?";
 
-    public List<Rating> getAllByUser(User user) throws SQLException {
-        List<Rating> ratings = null;
+    public List<Rating> getAllByUser(User user, Question question) throws SQLException {
+        List<Rating> ratings = new ArrayList<>();
+        List<Answer> all_answers = answerDAO.getAllByQuestion(question);
 
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER_QUERY);
-
-        preparedStatement.setInt(1, user.getId());
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        if (resultSet.next()) {
-            Boolean liked = resultSet.getBoolean("is_liked");
-            Answer answer = answerDAO.getById(resultSet.getInt("id_answer"));
-            ratings.add(new Rating(answer, user, liked));
+        for (Answer answer : all_answers) {
+            ratings.add(getByUserAndAnswer(user, answer));
         }
+
         return ratings;
     }
 
     public Rating getByUserAndAnswer(User user, Answer answer) throws SQLException {
-
         Rating rating = null;
 
         Connection connection = dataSource.getConnection();
@@ -56,15 +47,12 @@ public class RatingDAO {
 
         if (resultSet.next()) {
             Boolean liked = resultSet.getBoolean("is_liked");
-
             rating = new Rating(answer, user, liked);
         }
-
         return rating;
     }
 
     public void updateRating(User user, Answer answer, Boolean liked) throws SQLException {
-
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_RATING_QUERY);
 
@@ -72,49 +60,28 @@ public class RatingDAO {
         preparedStatement.setInt(2, user.getId());
         preparedStatement.setInt(3, answer.getId());
 
-        int rowsUpdated = preparedStatement.executeUpdate();
-
-        if (rowsUpdated > 0) {
-            System.out.println("Рейтинг успешно обновлен");
-        }
+        preparedStatement.executeUpdate();
     }
 
     public void saveToDB(User user, Answer answer, Boolean liked) throws SQLException {
-
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RATING_QUERY);
-        try {
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setInt(2, answer.getId());
-            preparedStatement.setBoolean(3, liked);
 
-            int rowsAffected = preparedStatement.executeUpdate();
+        preparedStatement.setInt(1, user.getId());
+        preparedStatement.setInt(2, answer.getId());
+        preparedStatement.setBoolean(3, liked);
 
-            if (rowsAffected > 0) {
-                System.out.println("Лайк или дизлайк успешно сохранен в бд!");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        preparedStatement.executeUpdate();
     }
 
     public void deleteFromDB(User user, Answer answer) throws SQLException {
-
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_RATING_QUERY);
 
         preparedStatement.setInt(1, user.getId());
         preparedStatement.setInt(2, answer.getId());
 
-        int rowsAffected = preparedStatement.executeUpdate();
-
-        if (rowsAffected > 0) {
-            System.out.println("Запись успешно удалена.");
-        } else {
-            System.out.println("Запись с указанным id не найдена.");
-        }
-
+        preparedStatement.executeUpdate();
     }
 
     public List<Rating> getAllByAnswer(Answer answer, Boolean is_liked) throws SQLException {

@@ -32,7 +32,6 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_TITLE_QUERY);
 
-
         preparedStatement.setString(1, title);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -58,10 +57,8 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_DESCRIPTION_QUERY);
 
-
         preparedStatement.setString(1, description);
         ResultSet resultSet = preparedStatement.executeQuery();
-
 
         if (resultSet.next()) {
             Integer serialValue = resultSet.getInt("id");
@@ -75,7 +72,6 @@ public class QuestionDAO {
             User author = userDAO.getById(resultSet.getInt("id_user"));
             question = new Question(serialValue, title, descriptionResult, author, category);
         }
-
         return question;
     }
 
@@ -83,17 +79,12 @@ public class QuestionDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUESTION_QUERY);
 
-
         preparedStatement.setString(1, question.getTitle());
         preparedStatement.setString(2, question.getDescription());
         preparedStatement.setInt(3, user.getId());
         preparedStatement.setInt(4, question.getCategory().getId());
 
-        int rowsAffected = preparedStatement.executeUpdate();
-        if (rowsAffected > 0) {
-            System.out.println("Вопрос успешно добавлен!");
-        }
-
+        preparedStatement.executeUpdate();
     }
 
     public List<Question> getAll() throws SQLException {
@@ -118,12 +109,12 @@ public class QuestionDAO {
             Question question = new Question(serialValue, title, description, author, category);
             questions.add(question);
         }
-
         return questions;
     }
 
     public List<Question> getAllByAuthor(User author) throws SQLException {
         List<Question> questions = new ArrayList<>();
+
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_BY_AUTHOR_QUERY);
 
@@ -141,7 +132,6 @@ public class QuestionDAO {
             Question question = new Question(serialValue, title, description, author, category);
             questions.add(question);
         }
-
         return questions;
     }
 
@@ -165,8 +155,6 @@ public class QuestionDAO {
             Question question = new Question(serialValue, title, description, author, category);
             questions.add(question);
         }
-
-
         return questions;
     }
 
@@ -192,22 +180,6 @@ public class QuestionDAO {
 
             question = new Question(serialValue, title, description, author, category);
         }
-
         return question;
-    }
-
-    public void deleteFromDBByAuthor(User user) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUESTIONS_BY_USER_QUERY);
-
-        preparedStatement.setInt(1, user.getId());
-        int rowsAffected = preparedStatement.executeUpdate();
-
-        if (rowsAffected > 0) {
-            System.out.println("Все вопросы под авторством пользователя удалены.");
-        } else {
-            System.out.println("Записи с указанным id не найдены.");
-        }
-
     }
 }

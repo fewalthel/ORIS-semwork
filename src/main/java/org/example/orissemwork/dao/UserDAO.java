@@ -15,7 +15,6 @@ public class UserDAO {
         this.dataSource = dataSource;
     }
 
-    private static final String SELECT_BY_EMAIL_PASSWORD_QUERY = "SELECT * FROM users WHERE email = ? AND password = ?";
     private static final String SELECT_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email = ?";
     private static final String SELECT_BY_USERNAME_QUERY = "SELECT * FROM users WHERE username = ?";
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
@@ -32,22 +31,17 @@ public class UserDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_EMAIL_QUERY);
 
-        try {
-            preparedStatement.setString(1, email);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                String emailResult = resultSet.getString("email");
-                String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                String role = resultSet.getString("role");
+        if (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            String emailResult = resultSet.getString("email");
+            String username = resultSet.getString("username");
+            String password = resultSet.getString("password");
+            String role = resultSet.getString("role");
 
-                user = new User(id, emailResult, username, password, role);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            user = new User(id, emailResult, username, password, role);
         }
         return user;
     }
@@ -58,22 +52,17 @@ public class UserDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USERNAME_QUERY);
 
-        try {
-            preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                String email = resultSet.getString("email");
-                String usernameResult = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                String role = resultSet.getString("role");
+        if (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            String email = resultSet.getString("email");
+            String usernameResult = resultSet.getString("username");
+            String password = resultSet.getString("password");
+            String role = resultSet.getString("role");
 
-                user = new User(id, email, usernameResult, password, role);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            user = new User(id, email, usernameResult, password, role);
         }
         return user;
     }
@@ -84,25 +73,21 @@ public class UserDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY);
 
-        try {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                String email = resultSet.getString("email");
-                String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                String role = resultSet.getString("role");
+        if (resultSet.next()) {
+            String email = resultSet.getString("email");
+            String username = resultSet.getString("username");
+            String password = resultSet.getString("password");
+            String role = resultSet.getString("role");
 
-                System.out.println("email: " + email);
-                System.out.println("username: " + username);
-                System.out.println("password: " + password);
-                System.out.println("role: " + role);
+            System.out.println("email: " + email);
+            System.out.println("username: " + username);
+            System.out.println("password: " + password);
+            System.out.println("role: " + role);
 
-                user = new User(id, email, username, password, role);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            user = new User(id, email, username, password, role);
         }
         return user;
     }
@@ -113,21 +98,19 @@ public class UserDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_QUERY);
 
-        try {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Integer serialValue = resultSet.getInt("id");
-                String email = resultSet.getString("email");
-                String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                String role = resultSet.getString("role");
 
-                User user = new User(serialValue, email, username, password, role);
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            Integer serialValue = resultSet.getInt("id");
+            String email = resultSet.getString("email");
+            String username = resultSet.getString("username");
+            String password = resultSet.getString("password");
+            String role = resultSet.getString("role");
+
+            User user = new User(serialValue, email, username, password, role);
+            users.add(user);
         }
+
         return users;
     }
 
@@ -135,92 +118,51 @@ public class UserDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_QUERY);
 
-        try {
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getUsername());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setString(4, user.getRole());
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Пользователь успешно добавлен!");
-            }
+        preparedStatement.setString(1, user.getEmail());
+        preparedStatement.setString(2, user.getUsername());
+        preparedStatement.setString(3, user.getPassword());
+        preparedStatement.setString(4, user.getRole());
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        preparedStatement.executeUpdate();
     }
 
     public void deleteFromDB(User user) throws SQLException {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_QUERY);
 
-        try {
-            preparedStatement.setInt(1, user.getId());
-            int rowsAffected = preparedStatement.executeUpdate();
-
-            if (rowsAffected > 0) {
-                System.out.println("Запись успешно удалена.");
-            } else {
-                System.out.println("Запись с указанным id не найдена.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        preparedStatement.setInt(1, user.getId());
+        preparedStatement.executeUpdate();
     }
 
     public void upgradeRole(User user) throws SQLException {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ROLE_QUERY);
 
-        try {
-            preparedStatement.setString(1, "admin");
-            preparedStatement.setString(2, user.getEmail());
 
-            int rowsUpdated = preparedStatement.executeUpdate();
+        preparedStatement.setString(1, "admin");
+        preparedStatement.setString(2, user.getEmail());
 
-            if (rowsUpdated > 0) {
-                System.out.println("Роль юзера успешно обновлена");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        preparedStatement.executeUpdate();
     }
 
     public void updatePassword(User user, String new_password) throws SQLException {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PASSWORD_QUERY);
 
-        try {
-            preparedStatement.setString(1, new_password);
-            preparedStatement.setString(2, user.getEmail());
+        preparedStatement.setString(1, new_password);
+        preparedStatement.setString(2, user.getEmail());
 
-            int rowsUpdated = preparedStatement.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                System.out.println("Пароль успешно обновлен");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        preparedStatement.executeUpdate();
     }
 
     public void updateUsername(User user, String new_username) throws SQLException {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USERNAME_QUERY);
 
-        try {
-            preparedStatement.setString(1, new_username);
-            preparedStatement.setString(2, user.getEmail());
+        preparedStatement.setString(1, new_username);
+        preparedStatement.setString(2, user.getEmail());
 
-            int rowsUpdated = preparedStatement.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                System.out.println("Username успешно обновлен");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        preparedStatement.executeUpdate();
     }
 }

@@ -17,22 +17,17 @@ public class CategoryDAO {
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM categories WHERE id = ?";
 
     public static Category getByName(String name) throws SQLException {
-
         Category category = null;
 
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_NAME_QUERY);
 
-        try {
-            preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                Integer serialValue = resultSet.getInt("id");
-                category = new Category(serialValue, name);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (resultSet.next()) {
+            Integer serialValue = resultSet.getInt("id");
+            category = new Category(serialValue, name);
         }
         return category;
     }
@@ -44,16 +39,12 @@ public class CategoryDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY);
 
-        try {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                String name = resultSet.getString("name");
-                category = new Category(id, name);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (resultSet.next()) {
+            String name = resultSet.getString("name");
+            category = new Category(id, name);
         }
         return category;
     }

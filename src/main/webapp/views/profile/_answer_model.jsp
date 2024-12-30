@@ -9,7 +9,6 @@
         <form action="favorites_answers" method="POST" class="favourite-form">
             <input type="hidden" value="${answer.getId()}" name="id_of_answer">
 
-
             <c:set var="inFavorites" value="false" />
 
             <c:forEach items="${favorites_answers}" var="fav_answer">

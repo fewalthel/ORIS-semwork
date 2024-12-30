@@ -17,17 +17,17 @@ public class AddAnswerForQuestionServlet extends HttpServlet {
     private AnswerService answerService;
     private AnswerDAO answerDAO;
     private QuestionDAO questionDAO;
-    private UserDAO userDAO;
     private UserService userService;
+    private RatingDAO ratingDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         answerDAO = (AnswerDAO) getServletContext().getAttribute("answerDAO");
         questionDAO = (QuestionDAO) getServletContext().getAttribute("questionDAO");
-        userDAO = (UserDAO) getServletContext().getAttribute("userDAO");
         userService = (UserService) getServletContext().getAttribute("userService");
         answerService = (AnswerService) getServletContext().getAttribute("answerService");
+        ratingDAO = (RatingDAO) getServletContext().getAttribute("ratingDAO");
     }
 
     @SneakyThrows
@@ -35,13 +35,12 @@ public class AddAnswerForQuestionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer id_of_question = Integer.valueOf(req.getParameter("id"));
         Question question = questionDAO.getById(id_of_question);
-
         User user = userService.getUser(req);
-        List<Answer> favorites_answers = answerDAO.getFavoriteAnswers(user);
 
+        req.setAttribute("ratings_for_user", ratingDAO.getAllByUser(user, question));
         req.setAttribute("all_answers_for_this_question", answerDAO.getAllByQuestion(question));
         req.setAttribute("question", question);
-        req.setAttribute("favorites_answers_for_user", favorites_answers);
+        req.setAttribute("favorites_answers_for_user", answerDAO.getFavoriteAnswers(user));
 
         getServletContext().getRequestDispatcher("/views/profile/question.jsp").forward(req, resp);
     }
