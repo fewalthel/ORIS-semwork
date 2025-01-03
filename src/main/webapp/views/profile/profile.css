@@ -73,7 +73,7 @@ header {
 }
 
 input, .question_title, .question_description, .question_category,
-.answer_description, #description, .user_username {
+.answer_description, #description {
     width: calc(100% - 10px);
     box-sizing: border-box;
     margin-top: 15px;
@@ -163,4 +163,23 @@ section {
     height: 3vw;
     padding-bottom: 1vw;
     padding-left: 1vw;
+}
+
+.user-card {
+    height: 24vw;
+}
+
+.container-for-user-info {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2vw;
+}
+
+.user_username {
+    margin-left: 1vw;
+    width: 15vw;
+}
+
+.your-account {
+    white-space: nowrap;
 }

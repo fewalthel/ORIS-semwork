@@ -1,9 +1,9 @@
 <section class="user-card">
-    <h2>
-        <p class="user_username" style="margin-left: 0.25vw;"> username: ${userList.getUsername()} </p>
+    <h2 class="container-for-user-info">
+        <p class="user_username"> username: ${userList.getUsername()} </p>
 
         <c:if test="${userList.getEmail().equals(user.getEmail())}">
-            <p style="white-space: nowrap;">your account</p>
+            <p class="your-account">your account</p>
         </c:if>
 
         <c:if test="${userList.getRole().equals('default')}">
@@ -13,7 +13,7 @@
             </form>
             <form action="admin_menu" method="post">
                 <input type="hidden" name="upgraded_username" value="${userList.getUsername()}">
-                <button type="submit" class="button" style="margin-left: 2vw;">Upgrade to admin</button>
+                <button type="submit" class="button">Upgrade to admin</button>
             </form>
         </c:if>
     </h2>
