@@ -29,10 +29,10 @@
         <li><a href="profile">About me</a></li>
         <li><a href="all_questions">All questions</a></li>
         <li><a href="my_questions">My questions</a></li>
-        <li><a href="settings">Settings</a></li>
         <li><a href="favorites_answers">Favorites answers</a></li>
+        <li><a href="settings">Settings</a></li>
         <c:if test="${role.equals('admin')}">
-            <li><a href="all_users">All users</a></li>
+            <li><a href="admin_settings">Admin settings</a></li>
         </c:if>
         <li><a href="main">Go to main</a></li>
     </ul>

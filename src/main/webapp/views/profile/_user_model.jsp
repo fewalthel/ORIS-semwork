@@ -1,19 +1,19 @@
 <section class="user-card" style="height: 24vw;">
-    <h2 class="user_username" style="display: flex; justify-content: space-between; padding-bottom: 2vw;">
-        username: ${userlist.getUsername()}
+    <h2 style="display: flex; justify-content: space-between; padding-bottom: 2vw;">
+        <p class="user_username" style="margin-left: 0.25vw;"> username: ${userList.getUsername()} </p>
 
         <c:if test="${userList.getEmail().equals(user.getEmail())}">
-            <p>your account</p>
+            <p style="white-space: nowrap;">your account</p>
         </c:if>
 
         <c:if test="${userList.getRole().equals('default')}">
-            <form action="all_users" method="post">
+            <form action="admin_settings" method="post">
                 <input type="hidden" name="deleted_username" value="${userList.getUsername()}">
-                <button type="submit" class="button" style="margin-left: 20vw;">Delete user</button>
+                <button type="submit" class="button">Delete user</button>
             </form>
-            <form action="all_users" method="post">
+            <form action="admin_settings" method="post">
                 <input type="hidden" name="upgraded_username" value="${userList.getUsername()}">
-                <button type="submit" class="button">Upgrade to admin</button>
+                <button type="submit" class="button" style="margin-left: 2vw;">Upgrade to admin</button>
             </form>
         </c:if>
     </h2>

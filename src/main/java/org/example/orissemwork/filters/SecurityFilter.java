@@ -42,7 +42,7 @@ public class SecurityFilter extends HttpFilter {
                 User user = userService.getUser(req);
                 req.setAttribute("user", user);
 
-                if ("/all_users".equals(req.getRequestURI().substring(req.getContextPath().length()))) {
+                if ("/admin_settings".equals(req.getRequestURI().substring(req.getContextPath().length()))) {
                                         if (user == null || !"admin".equals(user.getRole())) {
                         res.sendError(HttpServletResponse.SC_FORBIDDEN, "Admins only");
                         return;

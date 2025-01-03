@@ -39,6 +39,7 @@ public class WebServletListener implements ServletContextListener {
         AnswerService answerService = new AnswerService(answerDAO);
 
         RegisterService registerService = new RegisterService(userDAO);
+        CategoryDAO categoryDAO = new CategoryDAO(dataSource);
 
         FileInfoDAO fileInfoDAO = new FileInfoDAO(dataSource);
         FileService fileService = new FileService(fileInfoDAO);
@@ -55,6 +56,7 @@ public class WebServletListener implements ServletContextListener {
         servletContext.setAttribute("answerDAO", answerDAO);
         servletContext.setAttribute("fileInfoDAO", fileInfoDAO);
         servletContext.setAttribute("fileService", fileService);
+        servletContext.setAttribute("categoryDAO", categoryDAO);
     }
 
 }

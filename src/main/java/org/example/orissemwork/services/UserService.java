@@ -71,7 +71,7 @@ public class UserService {
             resp.sendRedirect(req.getServletContext().getContextPath() + "/main");
         } else {
             req.setAttribute("error", "Incorrect username or password");
-            req.getRequestDispatcher("/views/profile/settings.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/profile/admin_settings.jsp").forward(req, resp);
         }
     }
 
@@ -79,20 +79,25 @@ public class UserService {
         if (changesIsSaved(req, new_username, old_password, new_password)) {
             resp.sendRedirect(req.getServletContext().getContextPath() + "/settings");
         } else {
-            req.getRequestDispatcher("/views/profile/settings.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/profile/admin_settings.jsp").forward(req, resp);
         }
     }
 
-    public void adminSettings(HttpServletRequest req, HttpServletResponse resp, String deleted_username, String updated_username) throws SQLException, IOException {
-        if (deleted_username != null) {
-            User user = userDAO.getByUsername(req.getParameter("deleted_username"));
-            userDAO.deleteFromDB(user);
+    public void adminSettings(HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
+        String deleted_username = req.getParameter("deleted_username");
+        String upgraded_username = req.getParameter("upgraded_username");
+
+        if (deleted_username != null || upgraded_username != null) {
+            if (deleted_username != null) {
+                User user = userDAO.getByUsername(req.getParameter("deleted_username"));
+                userDAO.deleteFromDB(user);
+            }
+            if (upgraded_username != null) {
+                User user = userDAO.getByUsername(req.getParameter("upgraded_username"));
+                userDAO.upgradeRole(user);
+            }
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/admin_settings/all_users");
         }
-        if (updated_username != null) {
-            User user = userDAO.getByUsername(req.getParameter("upgraded_username"));
-            userDAO.upgradeRole(user);
-        }
-        resp.sendRedirect(req.getServletContext().getContextPath() + "/all_users");
     }
 
 
