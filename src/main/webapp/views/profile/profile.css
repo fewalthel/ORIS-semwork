@@ -177,9 +177,27 @@ section {
 
 .user_username {
     margin-left: 1vw;
-    width: 15vw;
+    width: 42vw;
 }
 
-.your-account {
+.your-account, .user_username {
     white-space: nowrap;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-left: 2vw;
+    margin-top: 3vw;
+    border-radius: 30px;
+}
+
+th, td {
+    border: 1px solid var(--dark-text-color);
+    padding: 13px;
+    text-align: left;
+}
+
+th {
+    background-color: var(--mint-color);
 }
