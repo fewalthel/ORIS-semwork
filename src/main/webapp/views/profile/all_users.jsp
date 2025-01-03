@@ -5,8 +5,7 @@
 
 <div id="container-for-content">
 
-    <h1>Admin settings page</h1>
-    <%@include file="/views/profile/_header_for_admin_settings.jsp" %>
+    <%@include file="/views/profile/_header_for_admin_menu.jsp" %>
 
     <ul>
         <c:forEach items="${all_users}" var="userList">

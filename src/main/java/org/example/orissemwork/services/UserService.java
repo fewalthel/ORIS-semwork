@@ -71,7 +71,7 @@ public class UserService {
             resp.sendRedirect(req.getServletContext().getContextPath() + "/main");
         } else {
             req.setAttribute("error", "Incorrect username or password");
-            req.getRequestDispatcher("/views/profile/admin_settings.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/profile/settings.jsp").forward(req, resp);
         }
     }
 
@@ -79,7 +79,7 @@ public class UserService {
         if (changesIsSaved(req, new_username, old_password, new_password)) {
             resp.sendRedirect(req.getServletContext().getContextPath() + "/settings");
         } else {
-            req.getRequestDispatcher("/views/profile/admin_settings.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/profile/settings.jsp").forward(req, resp);
         }
     }
 
@@ -96,7 +96,7 @@ public class UserService {
                 User user = userDAO.getByUsername(req.getParameter("upgraded_username"));
                 userDAO.upgradeRole(user);
             }
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/admin_settings/all_users");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/all_users");
         }
     }
 

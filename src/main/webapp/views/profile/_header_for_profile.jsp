@@ -31,9 +31,11 @@
         <li><a href="my_questions">My questions</a></li>
         <li><a href="favorites_answers">Favorites answers</a></li>
         <li><a href="settings">Settings</a></li>
+
         <c:if test="${role.equals('admin')}">
-            <li><a href="admin_settings">Admin settings</a></li>
+            <li><a href="admin_menu">Admin settings</a></li>
         </c:if>
+
         <li><a href="main">Go to main</a></li>
     </ul>
 </nav>

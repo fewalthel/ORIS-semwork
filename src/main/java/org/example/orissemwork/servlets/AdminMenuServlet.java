@@ -9,8 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-@WebServlet("/admin_settings")
-public class AdminSettingsServlet extends HttpServlet {
+@WebServlet("/admin_menu")
+public class AdminMenuServlet extends HttpServlet {
 
     private UserService userService;
 
@@ -23,7 +23,7 @@ public class AdminSettingsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/views/profile/admin_settings.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/views/profile/admin_menu.jsp").forward(req, resp);
     }
 
     @SneakyThrows

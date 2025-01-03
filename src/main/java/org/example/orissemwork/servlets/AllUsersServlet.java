@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-@WebServlet("/admin_settings/all_users")
+@WebServlet("/all_users")
 public class AllUsersServlet extends HttpServlet {
 
     private UserDAO userDAO;
