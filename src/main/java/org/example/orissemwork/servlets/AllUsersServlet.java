@@ -2,6 +2,7 @@ package org.example.orissemwork.servlets;
 
 import lombok.SneakyThrows;
 import org.example.orissemwork.dao.UserDAO;
+import org.example.orissemwork.model.User;
 import org.example.orissemwork.services.*;
 
 import javax.servlet.*;
@@ -27,6 +28,10 @@ public class AllUsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("all_users", userDAO.getAll());
+        System.out.println("usernames:");
+        for (User user : userDAO.getAll()) {
+            System.out.println(user.getUsername());
+        }
         getServletContext().getRequestDispatcher("/views/profile/all_users.jsp").forward(req, resp);
     }
 

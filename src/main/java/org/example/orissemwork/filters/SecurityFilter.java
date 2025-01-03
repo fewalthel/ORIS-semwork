@@ -1,5 +1,11 @@
 package org.example.orissemwork.filters;
 
+import lombok.SneakyThrows;
+import org.example.orissemwork.dao.QuestionDAO;
+import org.example.orissemwork.services.UserService;
+import org.example.orissemwork.model.User;
+
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.*;
 
@@ -7,16 +13,14 @@ import javax.servlet.http.*;
 public class SecurityFilter extends HttpFilter {
     protected final String[] protectedPaths = {"/profile", "/settings", "/my_questions", "/all_questions",
             "/question", "/all_users", "/favorites_answers"};
-/*
 
     private UserService userService;
-    private QuestionService questionService;
+    private QuestionDAO questionDAO;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         userService = (UserService) filterConfig.getServletContext().getAttribute("userService");
-        questionService = (QuestionService) filterConfig.getServletContext().getAttribute("questionService");
-
+        questionDAO = (QuestionDAO) filterConfig.getServletContext().getAttribute("questionDAO");
     }
 
     @SneakyThrows
@@ -51,7 +55,6 @@ public class SecurityFilter extends HttpFilter {
                         return;
                     } else {
                         Integer potencialId = Integer.valueOf(req.getParameterMap().get("id")[0]);
-                        QuestionDAO questionDAO = questionService.questionDAO;
 
                         if (questionDAO.getById(potencialId) == null) {
                             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
@@ -64,5 +67,4 @@ public class SecurityFilter extends HttpFilter {
         }
     }
 
-*/
 }

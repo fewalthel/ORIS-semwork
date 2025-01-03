@@ -98,26 +98,23 @@ public class UserDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_QUERY);
 
-
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            Integer serialValue = resultSet.getInt("id");
+            Integer id = resultSet.getInt("id");
             String email = resultSet.getString("email");
             String username = resultSet.getString("username");
             String password = resultSet.getString("password");
             String role = resultSet.getString("role");
 
-            User user = new User(serialValue, email, username, password, role);
+            User user = new User(id, email, username, password, role);
             users.add(user);
         }
-
         return users;
     }
 
     public void saveToDB(User user) throws SQLException {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_QUERY);
-
 
         preparedStatement.setString(1, user.getEmail());
         preparedStatement.setString(2, user.getUsername());
