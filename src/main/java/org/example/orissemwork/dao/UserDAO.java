@@ -82,11 +82,6 @@ public class UserDAO {
             String password = resultSet.getString("password");
             String role = resultSet.getString("role");
 
-            System.out.println("email: " + email);
-            System.out.println("username: " + username);
-            System.out.println("password: " + password);
-            System.out.println("role: " + role);
-
             user = new User(id, email, username, password, role);
         }
         return user;
@@ -136,10 +131,8 @@ public class UserDAO {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ROLE_QUERY);
 
-
         preparedStatement.setString(1, "admin");
         preparedStatement.setString(2, user.getEmail());
-
         preparedStatement.executeUpdate();
     }
 
@@ -149,7 +142,6 @@ public class UserDAO {
 
         preparedStatement.setString(1, new_password);
         preparedStatement.setString(2, user.getEmail());
-
         preparedStatement.executeUpdate();
     }
 
@@ -159,7 +151,6 @@ public class UserDAO {
 
         preparedStatement.setString(1, new_username);
         preparedStatement.setString(2, user.getEmail());
-
         preparedStatement.executeUpdate();
     }
 }

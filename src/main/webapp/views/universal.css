@@ -56,3 +56,13 @@ button {
     cursor: pointer;
     border: none;
 }
+
+.user-card{
+    height: 24vw;
+}
+
+.user-card>h2{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2vw;
+}

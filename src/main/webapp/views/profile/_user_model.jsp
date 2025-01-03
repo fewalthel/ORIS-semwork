@@ -1,5 +1,5 @@
-<section class="user-card" style="height: 24vw;">
-    <h2 style="display: flex; justify-content: space-between; padding-bottom: 2vw;">
+<section class="user-card">
+    <h2>
         <p class="user_username" style="margin-left: 0.25vw;"> username: ${userList.getUsername()} </p>
 
         <c:if test="${userList.getEmail().equals(user.getEmail())}">
@@ -7,11 +7,11 @@
         </c:if>
 
         <c:if test="${userList.getRole().equals('default')}">
-            <form action="admin_settings" method="post">
+            <form action="admin_menu" method="post">
                 <input type="hidden" name="deleted_username" value="${userList.getUsername()}">
                 <button type="submit" class="button">Delete user</button>
             </form>
-            <form action="admin_settings" method="post">
+            <form action="admin_menu" method="post">
                 <input type="hidden" name="upgraded_username" value="${userList.getUsername()}">
                 <button type="submit" class="button" style="margin-left: 2vw;">Upgrade to admin</button>
             </form>

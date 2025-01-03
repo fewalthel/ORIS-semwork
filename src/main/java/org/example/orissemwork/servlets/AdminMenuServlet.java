@@ -14,7 +14,6 @@ public class AdminMenuServlet extends HttpServlet {
 
     private UserService userService;
 
-
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -31,5 +30,4 @@ public class AdminMenuServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         userService.adminSettings(req, resp);
     }
-
 }

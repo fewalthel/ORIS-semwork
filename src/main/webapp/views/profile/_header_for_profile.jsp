@@ -19,7 +19,7 @@
 <header>
     <div class="user-info">
             <span class="username">
-                <h3>You are loginned as <a>${username}</a></h3>
+                <h3>You are loginned as ${username}</h3>
             </span>
         <a class="button" href="signout">Sign Out</a>
     </div>
